@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProxyGem Premium Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #000000;
+            --bg-card: #111111;
+            --bg-card-hover: #1a1a1a;
+            --accent: #ffffff;
+            --accent-dim: #888888;
+            --success: #ffffff;
+            --success-glow: rgba(255, 255, 255, 0.15);
+            --text-primary: #ffffff;
+            --text-secondary: #999999;
+            --text-muted: #a5a5a5;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-light: rgba(255, 255, 255, 0.15);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Manrope', sans-serif; 
+            background: var(--bg-primary); 
+            color: var(--text-primary); 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden; 
+        }
+        .bg-grid { 
+            position: fixed; 
+            top: 0; left: 0; right: 0; bottom: 0; 
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); 
+            background-size: 60px 60px; 
+            z-index: 0; 
+        }
+        .bg-orb { 
+            position: fixed; 
+            border-radius: 50%; 
+            filter: blur(120px); 
+            z-index: 0; 
+            animation: float 20s ease-in-out infinite; 
+        }
+        .bg-orb-1 { width: 500px; height: 500px; background: rgba(255,255,255,0.03); top: -200px; right: -100px; }
+        .bg-orb-2 { width: 400px; height: 400px; background: rgba(255,255,255,0.02); bottom: -150px; left: -100px; animation-delay: -10s; }
+        @keyframes float { 
+            0%,100%{transform:translate(0,0) scale(1)} 
+            25%{transform:translate(30px,-30px) scale(1.05)} 
+            50%{transform:translate(-20px,20px) scale(0.95)} 
+            75%{transform:translate(10px,40px) scale(1.02)} 
+        }
+        .container { position: relative; z-index: 1; width: 100%; max-width: 480px; padding: 20px; }
+        .card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-light); 
+            border-radius: 24px; 
+            padding: 48px 36px; 
+            text-align: center; 
+            position: relative; 
+            overflow: hidden; 
+            animation: cardEntry 0.8s cubic-bezier(0.16,1,0.3,1); 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+        @keyframes cardEntry { from { opacity: 0; transform: translateY(30px) scale(0.96); } }
+        .card::before { 
+            content:''; 
+            position: absolute; 
+            top: 0; left: 0; right: 0; 
+            height: 2px; 
+            background: linear-gradient(90deg, transparent, var(--accent), transparent); 
+            opacity: 0.4; 
+        }
+        .product-badge { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            background: rgba(255,255,255,0.06); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 100px; 
+            padding: 8px 20px; 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: var(--text-secondary); 
+            margin-bottom: 32px; 
+            letter-spacing: 0.3px;
+        }
+        .product-badge span:first-child { opacity: 0.5; }
+        .success-container { animation: successEntry 0.6s cubic-bezier(0.16,1,0.3,1); }
+        @keyframes successEntry { from { opacity: 0; transform: scale(0.9); } }
+        .success-icon { 
+            width: 80px; height: 80px; 
+            margin: 0 auto 24px; 
+            background: rgba(255,255,255,0.05); 
+            border: 2px solid rgba(255,255,255,0.15); 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 36px; 
+            animation: successPop 0.5s cubic-bezier(0.68,-0.55,0.265,1.55); 
+            color: #ffffff;
+        }
+        @keyframes successPop { from{transform:scale(0)} 50%{transform:scale(1.2)} to{transform:scale(1)} }
+        .success-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; letter-spacing: -0.3px; }
+        .success-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 28px; }
+        .code-box { 
+            background: #0a0a0a; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 16px; 
+            padding: 24px; 
+            margin-bottom: 20px; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .code-box::before { 
+            content:''; 
+            position: absolute; 
+            top: 0; left: 0; right: 0; 
+            height: 2px; 
+            background: linear-gradient(90deg, transparent, #666666, transparent); 
+        }
+        .code-label { 
+            font-size: 11px; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            letter-spacing: 0.2em; 
+            color: var(--text-muted); 
+            margin-bottom: 12px; 
+        }
+        .code-value { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 20px; 
+            font-weight: 700; 
+            color: var(--text-primary); 
+            word-break: break-all; 
+            line-height: 1.4; 
+            user-select: all; 
+            letter-spacing: 0.5px;
+        }
+        .copy-btn { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            background: #ffffff; 
+            color: #000000; 
+            border: none; 
+            border-radius: 12px; 
+            padding: 14px 32px; 
+            font-family: 'Manrope', sans-serif; 
+            font-size: 14px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: all 0.25s ease; 
+            margin-top: 8px; 
+        }
+        .copy-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,255,255,0.1); background: #e8e8e8; }
+        .copy-btn:active { transform: scale(0.97); }
+        .copy-btn.copied { background: #333333; color: #ffffff; }
+        .copy-btn svg { width: 16px; height: 16px; stroke: currentColor; }
+        .bookmark-hint { 
+            margin-top: 20px; 
+            font-size: 12px; 
+            color: var(--text-muted); 
+            line-height: 1.5; 
+            padding: 12px 16px; 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.06); 
+            border-radius: 10px; 
+        }
+        .footer { text-align: center; margin-top: 24px; font-size: 11px; color: var(--text-muted); letter-spacing: 0.3px; }
+        .confetti { position: fixed; top: -10px; z-index: 100; pointer-events: none; }
+        @keyframes confettiFall { to { transform: translateY(105vh) rotate(720deg); opacity: 0; } }
+        @media (max-width: 480px) { .card { padding: 36px 24px; } .code-value { font-size: 17px; } }
+        
+        .loader {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .error-text { color: #ff6b6b; font-size: 14px; margin: 20px 0; }
+        .empty-text { color: var(--text-secondary); font-size: 14px; margin: 20px 0; }
+        .debug-box {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            text-align: left;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #888;
+            max-height: 200px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+
+    <div class="container">
+        <div class="card" id="mainCard">
+            <div class="product-badge">
+                <span>◆</span>
+                <span>Premium</span>
+            </div>
+
+            <!-- Состояние загрузки -->
+            <div id="loadingState">
+                <div class="loader"></div>
+                <div style="color: var(--text-secondary); font-size: 14px; margin-top: 12px;">Загрузка кода...</div>
+            </div>
+
+            <!-- Состояние успеха -->
+            <div id="successState" class="success-container" style="display:none;">
+                <div class="success-icon">✓</div>
+                <div class="success-title">Код готов</div>
+                <div class="success-subtitle">Скопируйте и активируйте ваш код</div>
+                <div class="code-box">
+                    <div class="code-label">Ваш код</div>
+                    <div class="code-value" id="codeDisplay">---</div>
+                </div>
+                <button class="copy-btn" onclick="copyCode()" id="copyBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <span id="copyText">Скопировать код</span>
+                </button>
+                <div class="bookmark-hint">✧ Сохраните эту страницу — вы можете вернуться и посмотреть код в любое время</div>
+            </div>
+
+            <!-- Состояние ошибки -->
+            <div id="errorState" style="display:none;">
+                <div class="error-text" id="errorMessage">Не удалось загрузить код</div>
+                <div class="debug-box" id="debugBox"></div>
+                <button onclick="loadCode()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 24px; border-radius: 10px; cursor: pointer; font-family: inherit; margin-top: 12px;">Повторить</button>
+            </div>
+
+            <!-- Состояние "нет свободных ключей" -->
+            <div id="emptyState" style="display:none;">
+                <div style="font-size: 48px; margin-bottom: 16px;">🔑</div>
+                <div class="success-title">Нет свободных ключей</div>
+                <div class="success-subtitle">Все ключи активированы. Обратитесь к администратору.</div>
+            </div>
+        </div>
+        <div class="footer">Защищённая доставка цифровых товаров</div>
+    </div>
+
+    <script>
+        // =============================================
+        // ССЫЛКА НА JSON С КЛЮЧАМИ
+        // =============================================
+        // Используем правильную raw-ссылку
+        const CODES_URL = 'https://raw.githubusercontent.com/slava20222014-create/Servers_ProxyGemSite777/main/premium_codes.json';
+        
+        // Если файл лежит в том же репозитории, что и страница, используйте:
+        // const CODES_URL = 'https://raw.githubusercontent.com/slava20222014-create/ProxyGemSite/main/premium/premium_codes.json';
+        // =============================================
+
+        let currentCode = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCode();
+        });
+
+        async function loadCode() {
+            // Показываем загрузку
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('successState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'none';
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('debugBox').textContent = '';
+
+            try {
+                console.log('🔍 Загрузка с URL:', CODES_URL);
+                
+                const response = await fetch(CODES_URL);
+                
+                console.log('📡 Статус ответа:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('📦 Получено данных:', data);
+                
+                if (!data.codes || !Array.isArray(data.codes)) {
+                    throw new Error('Неверный формат: отсутствует массив "codes"');
+                }
+                
+                // Ищем НЕактивированные ключи
+                const availableCodes = data.codes.filter(c => c.used === false);
+                console.log('🔑 Найдено свободных ключей:', availableCodes.length);
+                
+                if (availableCodes.length === 0) {
+                    document.getElementById('loadingState').style.display = 'none';
+                    document.getElementById('emptyState').style.display = 'block';
+                    return;
+                }
+
+                // Берём первый свободный ключ
+                const codeData = availableCodes[0];
+                currentCode = codeData.id;
+                
+                console.log('✅ Выбран ключ:', currentCode);
+
+                // Показываем код
+                document.getElementById('codeDisplay').textContent = currentCode;
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('successState').style.display = 'block';
+                
+                createConfetti();
+
+            } catch (error) {
+                console.error('❌ Ошибка:', error);
+                
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('errorState').style.display = 'block';
+                document.getElementById('errorMessage').textContent = `Ошибка: ${error.message}`;
+                
+                // Детали для отладки
+                const debugBox = document.getElementById('debugBox');
+                debugBox.textContent = `URL: ${CODES_URL}
+
+Сообщение: ${error.message}
+
+--- ПРОВЕРЬТЕ ---
+1. Файл premium_codes.json существует по ссылке
+2. В нём есть массив "codes"
+3. Хотя бы один код имеет "used": false
+4. Страница открыта через сервер (не file://)`;
+            }
+        }
+
+        async function copyCode() {
+            const code = document.getElementById("codeDisplay").textContent;
+            if (!code || code === '---') return;
+            
+            try {
+                await navigator.clipboard.writeText(code);
+                document.getElementById("copyBtn").classList.add("copied");
+                document.getElementById("copyText").textContent = "Скопировано ✓";
+                setTimeout(() => { 
+                    document.getElementById("copyBtn").classList.remove("copied"); 
+                    document.getElementById("copyText").textContent = "Скопировать код"; 
+                }, 2000);
+            } catch {
+                const el = document.createElement("textarea");
+                el.value = code;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+                document.getElementById("copyText").textContent = "Скопировано ✓";
+                setTimeout(() => { document.getElementById("copyText").textContent = "Скопировать код"; }, 2000);
+            }
+        }
+
+        function createConfetti() {
+            const shapes = ["■", "●", "▲", "◆", "✦"];
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const d = document.createElement("div");
+                    d.className = "confetti";
+                    d.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                    d.style.left = Math.random() * 100 + "vw";
+                    d.style.fontSize = (Math.random() * 10 + 6) + "px";
+                    d.style.color = Math.random() > 0.5 ? "#ffffff" : "#444444";
+                    d.style.opacity = Math.random() * 0.5 + 0.2;
+                    d.style.animation = `confettiFall ${Math.random() * 2.5 + 1.5}s linear forwards`;
+                    document.body.appendChild(d);
+                    setTimeout(() => d.remove(), 4000);
+                }, i * 60);
+            }
+        }
+    </script>
+</body>
+</html>
