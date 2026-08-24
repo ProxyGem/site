@@ -1945,11 +1945,14 @@
             '1 месяц — 259 ₽': { name:'1 месяц', amount:259, codeKey:'1_month' },
             '3 месяца — 659 ₽': { name:'3 месяца', amount:659, codeKey:'3_months' },
             '6 месяцев — 1190 ₽': { name:'6 месяцев', amount:1190, codeKey:'6_months' },
-            '__test_1_rub__': { name:'Тестовый платёж', amount:1, codeKey:'test_1_rub', isTest:true }
+            '__test_1_rub__': { name:'Тестовый платёж', amount:1, codeKey:'1_month', isTest:true }
         };
         let selectedPaymentPlan = PAYMENT_PLANS['1 месяц — 259 ₽'];
         let selectedPaymentMethod = 2;
         let paymentOrder = '';
+
+        // Загружаем список ключей заранее, чтобы после подтверждения оплаты не ждать GitHub.
+        setTimeout(()=>loadPremiumCodes(),0);
 
         function randomDigits(n=10){
             let s='';
@@ -2070,6 +2073,16 @@
         document.getElementById('cancelPaymentBtn').addEventListener('click',()=>closeModal('paymentModal'));
         document.getElementById('closePaymentModal').addEventListener('click',()=>closeModal('paymentModal'));
 
+        let premiumCodesPromise=null;
+        function loadPremiumCodes(force=false){
+            if(force || !premiumCodesPromise){
+                premiumCodesPromise=fetch(PREMIUM_CODES_URL,{cache:'no-store'})
+                    .then(r=>{ if(!r.ok) throw new Error('premium_codes HTTP '+r.status); return r.json(); })
+                    .then(c=>Array.isArray(c.codes)?c.codes:[]);
+            }
+            return premiumCodesPromise;
+        }
+
         async function checkDirectPayment(transactionId){
             try{
                 const res=await fetch(PLATEGA_API+'/transaction/'+encodeURIComponent(transactionId),{
@@ -2114,20 +2127,17 @@
             }
 
             try{
-                const codesRes=await fetch(PREMIUM_CODES_URL,{cache:'no-store'});
-                const codes=await codesRes.json();
-                const allCodes=Array.isArray(codes.codes)?codes.codes:[];
+                const allCodes=await loadPremiumCodes();
 
-                const keyObj=allCodes.find(x =>
-                    x && x.used===false && x.duration===tx.codeKey
+                // Всегда выдаём только настоящий ключ из premium_codes.json.
+                // used:false = ключ свободен/рабочий; used:true = уже использован.
+                const issuedObj=tx.issuedKey
+                    ? allCodes.find(x => x && x.id===tx.issuedKey && x.used===false && x.duration===tx.codeKey)
+                    : null;
+                const keyObj=issuedObj || allCodes.find(x =>
+                    x && x.used===false && x.duration===tx.codeKey && x.id
                 );
-                let key=tx.issuedKey || (keyObj ? keyObj.id : null);
-
-                // Тестовая оплата тоже выдаёт ключ. Если отдельного тестового ключа
-                // нет в premium_codes.json, создаём локальный тестовый ключ для проверки сценария.
-                if(tx.codeKey === 'test_1_rub' && !key){
-                    key='TEST-'+tx.order+'-'+randomDigits(8);
-                }
+                const key=keyObj ? keyObj.id : null;
 
                 if(!key){
                     const message = tx.codeKey === '6_months'
