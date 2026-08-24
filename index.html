@@ -1945,12 +1945,12 @@
         // ВАЖНО: GitHub token в одном HTML-файле будет виден посетителям сайта.
         // Для production безопаснее вынести его на backend.
         // НЕ вставляй сюда уже опубликованный/отозванный токен.
-        const KEY_SITE = 'https://YOUR-KEY-SITE.workers.dev';
-const GITHUB_OWNER = 'slava20222014-create';
+        const KEY_SITE = 'PASTE_GITHUB_CLASSIC_TOKEN_HERE';
+        const GITHUB_OWNER = 'slava20222014-create';
         const GITHUB_REPO = 'Servers_ProxyGemSite';
         const GITHUB_FILE = 'premium_codes.json';
         const GITHUB_BRANCH = 'main';
-        const KEY_SITE = 'https://YOUR-KEY-SITE.workers.dev';
+        const GITHUB_API = 'https://api.github.com';
 
         const PAYMENT_PLANS = {
             '1 месяц — 259 ₽': { name:'1 месяц', amount:259, codeKey:'1_month' },
@@ -2113,12 +2113,12 @@ const GITHUB_OWNER = 'slava20222014-create';
         }
 
         function githubHeaders(){
-            if(!GITHUB_TOKEN || GITHUB_TOKEN==='PASTE_YOUR_NEW_GITHUB_TOKEN_HERE'){
-                throw new Error('GITHUB_TOKEN не настроен в HTML.');
+            if(!KEY_SITE || KEY_SITE==='PASTE_YOUR_NEW_KEY_SITE_HERE'){
+                throw new Error('KEY_SITE не настроен в HTML.');
             }
             return {
                 'Accept':'application/vnd.github+json',
-                'Authorization':'Bearer '+GITHUB_TOKEN,
+                'Authorization':'Bearer '+KEY_SITE,
                 'X-GitHub-Api-Version':'2022-11-28',
                 'Content-Type':'application/json'
             };
