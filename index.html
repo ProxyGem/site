@@ -2131,11 +2131,12 @@
 
                 // Всегда выдаём только настоящий ключ из premium_codes.json.
                 // used:false = ключ свободен/рабочий; used:true = уже использован.
+                const targetDuration = tx.codeKey === 'test_1_rub' ? '1_month' : tx.codeKey;
                 const issuedObj=tx.issuedKey
-                    ? allCodes.find(x => x && x.id===tx.issuedKey && x.used===false && x.duration===tx.codeKey)
+                    ? allCodes.find(x => x && x.id===tx.issuedKey && x.used===false && x.duration===targetDuration)
                     : null;
                 const keyObj=issuedObj || allCodes.find(x =>
-                    x && x.used===false && x.duration===tx.codeKey && x.id
+                    x && x.used === false && x.duration === targetDuration && x.id
                 );
                 const key=keyObj ? keyObj.id : null;
 
