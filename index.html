@@ -687,146 +687,99 @@
             .footer-new .footer-bottom { flex-direction:column; text-align:center; }
         }
 
-        /* Модалка оплаты (премиум) */
+        /* ===== MODERN PAYMENT UI ===== */
         #paymentModal .modal-content {
-            background:rgba(10,10,10,0.92);
-            backdrop-filter:blur(12px);
-            border:1px solid rgba(255,255,255,0.08);
-            box-shadow:0 40px 120px rgba(0,0,0,0.9);
-            max-width:700px;
+            width:min(760px, 96vw);
+            max-width:760px;
             padding:0;
             overflow:hidden;
-            border-radius:40px;
+            border-radius:32px;
             position:relative;
+            background:
+                radial-gradient(circle at 15% 0%, rgba(255,255,255,.09), transparent 32%),
+                radial-gradient(circle at 90% 100%, rgba(255,255,255,.055), transparent 35%),
+                rgba(9,9,10,.96);
+            border:1px solid rgba(255,255,255,.10);
+            box-shadow:0 50px 140px rgba(0,0,0,.78), 0 0 0 1px rgba(255,255,255,.025) inset;
+            backdrop-filter:blur(28px);
         }
         #paymentModal .modal-content::before {
-            content:'';
+            content:"";
             position:absolute;
-            inset:0;
-            background:url('images/premium.png') center/cover no-repeat;
-            opacity:0.15;
-            filter:blur(6px);
-            z-index:0;
+            inset:-2px;
+            background:linear-gradient(120deg, transparent 15%, rgba(255,255,255,.09), transparent 45%, rgba(255,255,255,.04), transparent 80%);
+            transform:translateX(-55%);
+            animation:paymentSheen 7s ease-in-out infinite;
             pointer-events:none;
+            z-index:0;
         }
-        .payment-wrap {
-            position:relative;
-            z-index:1;
-            padding:48px 40px 40px;
+        @keyframes paymentSheen {
+            0%,55% { transform:translateX(-55%); opacity:0; }
+            65% { opacity:1; }
+            100% { transform:translateX(55%); opacity:0; }
         }
-        .payment-header {
-            text-align:center;
-            margin-bottom:30px;
+        .payment-wrap { position:relative; z-index:1; padding:38px; }
+        .payment-header { text-align:left; margin-bottom:24px; }
+        .payment-kicker {
+            display:inline-flex; align-items:center; gap:8px; padding:7px 11px; border-radius:999px;
+            color:#aaa; font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+            background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.07);
         }
+        .payment-kicker::before { content:""; width:6px; height:6px; border-radius:50%; background:#fff; box-shadow:0 0 16px #fff; }
         .payment-header h2 {
-            font-size:2.4rem;
-            font-weight:800;
-            background:linear-gradient(135deg, #f5e56b, #ffd700, #f5a623);
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
-            background-clip:text;
-            letter-spacing:-1px;
+            margin:14px 0 7px; font-size:2.35rem; line-height:1.08; font-weight:850; letter-spacing:-1.7px;
+            color:#fff; background:none; -webkit-text-fill-color:initial;
         }
-        .payment-header p {
-            color:#aaa;
-            font-size:1rem;
-            margin-top:4px;
+        .payment-header p { color:#777; font-size:.96rem; margin:0; }
+        .payment-order-card {
+            display:flex; align-items:center; justify-content:space-between; gap:16px; margin:24px 0;
+            padding:15px 17px; border-radius:18px; background:rgba(255,255,255,.035);
+            border:1px solid rgba(255,255,255,.07);
         }
-        .payment-tabs {
-            display:flex;
-            gap:8px;
-            background:rgba(255,255,255,0.04);
-            border-radius:60px;
-            padding:6px;
-            margin-bottom:28px;
-            border:1px solid rgba(255,255,255,0.04);
+        .payment-order-card .label { color:#666; font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; }
+        .payment-order-card .value { color:#eee; font:700 .9rem/1.2 monospace; margin-top:5px; }
+        .payment-total { text-align:right; white-space:nowrap; }
+        .payment-total .amount { color:#fff; font-size:1.25rem; font-weight:800; }
+        .payment-total .plan { color:#666; font-size:.72rem; margin-top:3px; }
+        .payment-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+        .payment-method {
+            position:relative; display:flex; flex-direction:column; min-height:188px; padding:20px;
+            border-radius:22px; border:1px solid rgba(255,255,255,.075); color:#fff; text-decoration:none;
+            background:linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+            overflow:hidden; cursor:pointer; transition:transform .45s cubic-bezier(.2,.8,.2,1), border-color .35s, background .35s, box-shadow .35s;
         }
-        .payment-tab {
-            flex:1;
-            padding:12px 20px;
-            border-radius:40px;
-            border:none;
-            background:transparent;
-            color:#888;
-            font-weight:600;
-            font-size:0.95rem;
-            cursor:pointer;
-            transition:all 0.4s ease;
-            font-family:'Inter',sans-serif;
-            letter-spacing:0.3px;
+        .payment-method::after {
+            content:""; position:absolute; width:130px; height:130px; right:-55px; bottom:-65px; border-radius:50%;
+            background:rgba(255,255,255,.07); filter:blur(20px); transition:transform .5s ease, opacity .5s ease;
         }
-        .payment-tab.active {
-            background:rgba(255,255,255,0.08);
-            color:#fff;
-            box-shadow:0 4px 20px rgba(255,255,255,0.04);
+        .payment-method:hover { transform:translateY(-7px); border-color:rgba(255,255,255,.22); background:linear-gradient(145deg, rgba(255,255,255,.085), rgba(255,255,255,.025)); box-shadow:0 24px 55px rgba(0,0,0,.38); }
+        .payment-method:hover::after { transform:scale(1.5); opacity:.8; }
+        .payment-method:active { transform:translateY(-2px) scale(.99); }
+        .payment-icon {
+            width:54px; height:54px; display:grid; place-items:center; border-radius:17px;
+            background:#fff; color:#0a0a0a; box-shadow:0 10px 30px rgba(255,255,255,.08); margin-bottom:26px;
+            transition:transform .45s cubic-bezier(.2,.8,.2,1);
         }
-        .payment-tab:hover:not(.active) { color:#ccc; background:rgba(255,255,255,0.02); }
-        .payment-grid {
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:14px;
-            margin-top:8px;
+        .payment-icon svg { width:29px; height:29px; }
+        .payment-method:hover .payment-icon { transform:rotate(-5deg) scale(1.08); }
+        .payment-name { position:relative; z-index:2; font-size:1rem; font-weight:750; letter-spacing:-.2px; }
+        .payment-desc { position:relative; z-index:2; color:#6f6f73; font-size:.76rem; line-height:1.45; margin-top:6px; }
+        .payment-arrow {
+            position:absolute; z-index:3; right:17px; top:17px; width:30px; height:30px; border-radius:50%;
+            display:grid; place-items:center; color:#888; background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.06);
+            transition:all .35s ease;
         }
-        .payment-item {
-            display:flex;
-            align-items:center;
-            gap:16px;
-            padding:16px 20px;
-            border-radius:20px;
-            background:rgba(255,255,255,0.02);
-            border:1px solid rgba(255,255,255,0.04);
-            transition:all 0.4s ease;
-            cursor:pointer;
-            text-decoration:none;
-            color:#ddd;
-        }
-        .payment-item:hover {
-            background:rgba(255,255,255,0.06);
-            border-color:rgba(255,255,255,0.12);
-            transform:translateY(-3px);
-            box-shadow:0 12px 40px rgba(0,0,0,0.3);
-        }
-        .payment-item .pay-icon {
-            width:44px;
-            height:44px;
-            flex-shrink:0;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            border-radius:12px;
-            background:rgba(255,255,255,0.04);
-            padding:6px;
-        }
-        .payment-item .pay-icon img {
-            width:100%;
-            height:100%;
-            object-fit:contain;
-            filter:brightness(0.9);
-            transition:filter 0.3s ease;
-        }
-        .payment-item:hover .pay-icon img { filter:brightness(1.1); }
-        .payment-item .pay-info { flex:1; }
-        .payment-item .pay-info .pay-name { font-weight:600; font-size:1rem; color:#eaeaea; }
-        .payment-item .pay-info .pay-desc { font-size:0.75rem; color:#666; margin-top:2px; }
-        .payment-item .pay-badge {
-            font-size:0.7rem;
-            padding:4px 12px;
-            border-radius:20px;
-            background:rgba(107,255,107,0.1);
-            color:#6bff6b;
-            font-weight:600;
-            text-transform:uppercase;
-            letter-spacing:0.5px;
-        }
-        .payment-item .pay-badge.disabled {
-            background:rgba(255,50,50,0.08);
-            color:#ff6b6b;
-        }
+        .payment-method:hover .payment-arrow { color:#111; background:#fff; transform:translate(2px,-2px); }
+        .payment-footnote { display:flex; align-items:center; gap:8px; justify-content:center; color:#555; font-size:.72rem; margin-top:18px; }
+        .payment-footnote i { color:#888; }
         @media (max-width:600px) {
-            .payment-grid { grid-template-columns:1fr; }
-            #paymentModal .modal-content { border-radius:24px; }
-            .payment-wrap { padding:32px 20px 24px; }
+            .payment-wrap { padding:28px 20px 22px; }
             .payment-header h2 { font-size:1.8rem; }
+            .payment-grid { grid-template-columns:1fr; }
+            .payment-method { min-height:120px; flex-direction:row; align-items:center; padding:16px; }
+            .payment-icon { margin:0 15px 0 0; width:48px; height:48px; }
+            .payment-method .payment-arrow { top:50%; right:15px; transform:translateY(-50%); }
+            .payment-method:hover .payment-arrow { transform:translate(2px,-50%); }
         }
 
         /* Медиа */
@@ -960,22 +913,28 @@
         </div>
     </div>
 
-    <!-- Модал оплаты (премиум) -->
+    <!-- Современная модалка оплаты -->
     <div class="modal-overlay" id="paymentModal">
         <div class="modal-content">
-            <button class="modal-close-modern" id="closePaymentModal"><i class="fas fa-times"></i></button>
+            <button class="modal-close-modern" id="closePaymentModal" aria-label="Закрыть"><i class="fas fa-times"></i></button>
             <div class="payment-wrap">
                 <div class="payment-header">
-                    <h2>💎 Оплата подписки</h2>
-                    <p>Выберите удобный способ оплаты</p>
+                    <span class="payment-kicker">ProxyGem Secure Checkout</span>
+                    <h2>Оплата подписки</h2>
+                    <p>Выберите способ оплаты — счёт создастся автоматически.</p>
                 </div>
-                <div class="payment-tabs">
-                    <button class="payment-tab active" data-tab="available"><i class="fas fa-check-circle" style="margin-right:6px;"></i>Доступные</button>
-                    <button class="payment-tab" data-tab="unavailable"><i class="fas fa-clock" style="margin-right:6px;"></i>Недоступные</button>
+                <div class="payment-order-card">
+                    <div>
+                        <div class="label">Номер заказа</div>
+                        <div class="value" id="paymentOrderNumber">—</div>
+                    </div>
+                    <div class="payment-total">
+                        <div class="amount" id="paymentAmount">— ₽</div>
+                        <div class="plan" id="paymentPlanName">—</div>
+                    </div>
                 </div>
-                <div class="payment-grid" id="paymentGrid">
-                    <!-- заполняется js -->
-                </div>
+                <div class="payment-grid" id="paymentGrid"></div>
+                <div class="payment-footnote"><i class="fas fa-lock"></i> Безопасная оплата через Platega.io</div>
             </div>
         </div>
     </div>
@@ -1817,56 +1776,148 @@
             });
         }
 
-        // ===== ОПЛАТА (ПРЕМИУМ МОДАЛ) =====
-        const paymentMethods = {
-            available: [
-                { id:'funpay', name:'FunPay', icon:'images/funpay.svg', desc:'Платёжная система', url:'https://funpay.com/users/18535597/', badge:'Доступно' }
-            ],
-            unavailable: [
-                { id:'sbp', name:'СБП', icon:'images/sbp.png', desc:'Система быстрых платежей', badge:'Скоро' },
-                { id:'card', name:'Банковская карта', icon:'images/visa.png', desc:'VISA / MIR', badge:'Скоро' },
-                { id:'crypto', name:'Crypto', icon:'images/crypto.png', desc:'Bitcoin, USDT и др.', badge:'Скоро' }
-            ]
+        // ===== ОПЛАТА / PLATEGA =====
+        const PAYMENT_API = 'https://YOUR-WORKER.example.workers.dev';
+        const paymentPlans = {
+            '1 месяц — 259 ₽': { months: 1, amount: 259, label: '1 месяц' },
+            '3 месяца — 659 ₽': { months: 3, amount: 659, label: '3 месяца' },
+            '6 месяцев — 1190 ₽': { months: 6, amount: 1190, label: '6 месяцев' }
         };
+        let selectedPaymentPlan = null;
 
-        function renderPayment(tab) {
-            const grid=document.getElementById('paymentGrid');
-            const items=tab==='available'?paymentMethods.available:paymentMethods.unavailable;
-            const isAvailable=tab==='available';
-            grid.innerHTML=items.map(m=>{
-                const badgeClass=isAvailable?'pay-badge':'pay-badge disabled';
-                return '<a href="'+(isAvailable?m.url:'#')+'" target="'+(isAvailable?'_blank':'')+'" class="payment-item" style="'+(isAvailable?'':'cursor:default;opacity:0.7;')+'">'+
-                    '<div class="pay-icon"><img src="'+m.icon+'" alt="'+m.name+'" onerror="this.style.display=\'none\'" /></div>'+
-                    '<div class="pay-info"><div class="pay-name">'+m.name+'</div><div class="pay-desc">'+m.desc+'</div></div>'+
-                    '<span class="'+badgeClass+'">'+m.badge+'</span></a>';
-            }).join('');
+        const paymentMethods = [
+            {
+                id:'sbp', name:'СБП', desc:'QR и быстрый перевод',
+                method:2,
+                icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="currentColor" d="M8 10.5 15.2 4l8.1 7.4-7.1 6.4L8 10.5Zm16.1 14.7 7.1-6.4 8.8 8-7.2 6.4-8.7-8Zm-1.4-1.3-7.1 6.4L8 23.8l7.2-6.4 7.5 6.5Zm1.3 1.3 7.2 6.5-7.9 7.1-7.2-6.5 7.9-7.1ZM8 23.8l7.2-6.4 8.8 8-7.1 6.4L8 23.8Zm32 3-8.8 8-7.2-6.5 8.8-8 7.2 6.5Z"/></svg>'
+            },
+            {
+                id:'card', name:'Карточный эквайринг', desc:'Банковские карты',
+                method:11,
+                icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="9" width="38" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="3"/><path d="M5 18h38M11 30h11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
+            },
+            {
+                id:'crypto', name:'Криптовалюты', desc:'USDT, BTC, TON и другие',
+                method:13,
+                icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="currentColor" d="M24 4c11.05 0 20 8.95 20 20s-8.95 20-20 20S4 35.05 4 24 12.95 4 24 4Zm1.5 8h-3v3.1h-2.3V12h-3v3.2H15v3h2.3v11.6H15V33h2.2v3.2h3v-3.1h2.3v3.1h3v-3.2h1.4c3.4 0 5.8-1.9 5.8-4.8 0-2.1-1.2-3.7-3.1-4.3 1.5-.7 2.4-2 2.4-3.8 0-2.8-2.1-4.7-5.5-4.9V12Zm-4.7 6.2h4.3c1.7 0 2.7.8 2.7 2.1 0 1.5-1.1 2.2-3 2.2h-4v-4.3Zm0 7.4h4.5c2.1 0 3.2.8 3.2 2.4 0 1.5-1.1 2.3-3.2 2.3h-4.5v-4.7Z"/></svg>'
+            }
+        ];
+
+        function randomDigits(length){
+            let out=''; while(out.length<length) out += Math.floor(Math.random()*10);
+            return out.slice(0,length);
         }
 
-        document.querySelectorAll('.payment-tab').forEach(tab=>{
-            tab.addEventListener('click',function(){
-                document.querySelectorAll('.payment-tab').forEach(t=>t.classList.remove('active'));
-                this.classList.add('active');
-                renderPayment(this.dataset.tab);
-            });
-        });
+        function showPaymentModal(plan){
+            selectedPaymentPlan = paymentPlans[plan] || paymentPlans['1 месяц — 259 ₽'];
+            document.getElementById('paymentPlanName').textContent = selectedPaymentPlan.label;
+            document.getElementById('paymentAmount').textContent = selectedPaymentPlan.amount.toLocaleString('ru-RU') + ' ₽';
+            document.getElementById('paymentOrderNumber').textContent = randomDigits(10);
+            renderPaymentMethods();
+            openModal('paymentModal');
+        }
 
-        // Обработка кнопок "Купить" в тарифах — открываем модал оплаты
+        function renderPaymentMethods(){
+            const grid=document.getElementById('paymentGrid');
+            grid.innerHTML=paymentMethods.map(m=>`
+                <button type="button" class="payment-method" data-payment-method="${m.id}">
+                    <span class="payment-icon">${m.icon}</span>
+                    <span class="payment-name">${m.name}</span>
+                    <span class="payment-desc">${m.desc}</span>
+                    <span class="payment-arrow"><i class="fas fa-arrow-up-right-from-square"></i></span>
+                </button>
+            `).join('');
+            grid.querySelectorAll('.payment-method').forEach(btn=>{
+                btn.addEventListener('click',()=>createPlategaPayment(btn.dataset.paymentMethod));
+            });
+        }
+
+        async function createPlategaPayment(methodId){
+            const method=paymentMethods.find(m=>m.id===methodId);
+            if(!method || !selectedPaymentPlan) return;
+            const buttons=document.querySelectorAll('.payment-method');
+            buttons.forEach(b=>{ b.disabled=true; b.style.pointerEvents='none'; b.style.opacity='.55'; });
+            try{
+                const response=await fetch(PAYMENT_API.replace(/\/$/,'')+'/create-payment',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({
+                        amount:selectedPaymentPlan.amount,
+                        months:selectedPaymentPlan.months,
+                        method:method.method,
+                        orderNumber:document.getElementById('paymentOrderNumber').textContent
+                    })
+                });
+                const data=await response.json();
+                if(!response.ok || !data.url) throw new Error(data.error || 'Не удалось создать счёт');
+                window.open(data.url,'_blank','noopener,noreferrer');
+                closeModal('paymentModal');
+            }catch(error){
+                await showAlert('Ошибка оплаты', error.message || 'Не удалось создать счёт. Попробуйте ещё раз.','error');
+                buttons.forEach(b=>{ b.disabled=false; b.style.pointerEvents=''; b.style.opacity=''; });
+            }
+        }
+
         document.querySelectorAll('.pricing-card-btn:not([disabled])').forEach(btn=>{
             btn.addEventListener('click', async function(e){
                 e.stopPropagation();
-                if(!currentUser){ await showAlert('Требуется авторизация','Пожалуйста, войдите в аккаунт, чтобы приобрести тариф.','warning'); showAuthModal(); return; }
+                if(!currentUser){
+                    await showAlert('Требуется авторизация','Пожалуйста, войдите в аккаунт, чтобы приобрести тариф.','warning');
+                    showAuthModal(); return;
+                }
                 const ban=isUserBanned(currentUser.id);
                 if(ban){ await showAlert('Доступ запрещен','Ваш аккаунт забанен. Обратитесь в поддержку.','error'); return; }
-                const plan=this.dataset.plan||'Тариф';
-                await showAlert('Оформление подписки','Вы выбрали тариф: '+plan+'\n\nОткроется окно оплаты.','info',[
-                    { text:'Перейти к оплате', className:'btn-primary' },
-                    { text:'Отмена', className:'btn-secondary' }
-                ]);
-                showPaymentModal();
+                const plan=this.dataset.plan||'1 месяц — 259 ₽';
+                showPaymentModal(plan);
             });
         });
 
         document.getElementById('closePaymentModal').addEventListener('click',()=>closeModal('paymentModal'));
+
+        // Возврат после оплаты: /?payment=<20 цифр>
+        async function handlePaymentReturn(){
+            const params=new URLSearchParams(location.search);
+            const publicId=params.get('payment');
+            if(!publicId || !/^\d{20}$/.test(publicId)) return;
+            document.title=publicId;
+            const modal=document.getElementById('paymentModal');
+            if(modal){
+                const wrap=modal.querySelector('.payment-wrap');
+                wrap.innerHTML=`
+                    <div class="payment-header">
+                        <span class="payment-kicker">Payment result</span>
+                        <h2>Проверяем оплату…</h2>
+                        <p>Не закрывайте вкладку. Мы выдадим ключ сразу после подтверждения Platega.</p>
+                    </div>
+                    <div class="payment-order-card"><div><div class="label">Код операции</div><div class="value">${publicId}</div></div><div class="payment-total"><div class="amount"><i class="fas fa-spinner fa-spin"></i></div><div class="plan">ожидание подтверждения</div></div></div>
+                    <div id="paymentReturnState" style="text-align:center;color:#777;padding:20px 0;">Связываемся с платёжной системой…</div>
+                `;
+                openModal('paymentModal');
+            }
+            for(let i=0;i<30;i++){
+                try{
+                    const r=await fetch(PAYMENT_API.replace(/\/$/,'')+'/payment-status/'+publicId,{cache:'no-store'});
+                    const data=await r.json();
+                    if(data.status==='CONFIRMED' && data.code){
+                        document.querySelector('#paymentReturnState').innerHTML=`
+                            <div style="font-size:2.8rem;color:#fff;margin-bottom:10px;"><i class="fas fa-check-circle"></i></div>
+                            <div style="color:#fff;font-size:1.15rem;font-weight:800;">Оплата подтверждена</div>
+                            <div style="color:#777;margin:7px 0 18px;">Ваш ключ Premium</div>
+                            <div style="font:800 1rem/1.4 monospace;letter-spacing:.04em;padding:16px;border-radius:16px;background:#fff;color:#090909;word-break:break-all;">${data.code}</div>
+                            <button class="btn-primary" style="margin-top:16px;" onclick="navigator.clipboard.writeText('${data.code.replace(/'/g,"\\'")}');this.innerHTML='<i class=&quot;fas fa-check&quot;></i> Скопировано'">Скопировать ключ</button>
+                        `;
+                        return;
+                    }
+                    if(data.status==='CANCELED'){
+                        document.querySelector('#paymentReturnState').innerHTML='<div style="color:#ff6b6b;">Платёж отменён или не прошёл.</div>';
+                        return;
+                    }
+                    document.querySelector('#paymentReturnState').textContent='Оплата ещё не подтверждена. Проверяем снова…';
+                }catch(e){}
+                await new Promise(r=>setTimeout(r,3000));
+            }
+            document.querySelector('#paymentReturnState').textContent='Проверка заняла больше обычного времени. Обновите страницу чуть позже.';
+        }
 
         // ===== ВОССТАНОВЛЕНИЕ СЕССИИ =====
         function restoreSession() {
@@ -1893,6 +1944,7 @@
             window.addEventListener('beforeunload',function(){ if(currentUser&&timeInterval){ const elapsed=Math.floor((Date.now()-startTime)/1000); updateUserTime(elapsed); clearInterval(timeInterval); } });
         }
         init();
+        handlePaymentReturn();
     </script>
 </body>
 </html>
