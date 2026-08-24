@@ -9,7 +9,7 @@
  *   PUBLIC_SITE_URL (defaults to https://proxygem.github.io/site)
  *
  * Required binding:
- *   PAYMENT_KV — Cloudflare KV namespace
+ *— Cloudflare KV namespace
  *
  * IMPORTANT:
  * Never put PLATEGA_SECRET in index.html or any browser-side JS.
@@ -112,10 +112,10 @@ async function allocateCode(env, months, publicId) {
   // Prefer an unclaimed code. KV protects against normal repeated polling.
   for (const candidate of candidates) {
     const claimKey = `code-claim:${candidate.id}`;
-    const claimed = await env.PAYMENT_KV.get(claimKey);
+    const claimed = await env..get(claimKey);
     if (claimed) continue;
 
-    await env.PAYMENT_KV.put(
+    await env..put(
       claimKey,
       JSON.stringify({ publicId, claimedAt: new Date().toISOString() }),
       { expirationTtl: 60 * 60 * 24 * 30 }
@@ -128,11 +128,11 @@ async function allocateCode(env, months, publicId) {
 }
 
 async function getOrder(env, publicId) {
-  return env.PAYMENT_KV.get(`order:${publicId}`, "json");
+  return env..get(`order:${publicId}`, "json");
 }
 
 async function saveOrder(env, publicId, order) {
-  await env.PAYMENT_KV.put(`order:${publicId}`, JSON.stringify(order), {
+  await env..put(`order:${publicId}`, JSON.stringify(order), {
     expirationTtl: 60 * 60 * 24 * 3,
   });
 }
@@ -256,7 +256,7 @@ async function handleWebhook(request, env) {
   if (!transactionId) return json({ ok: true });
 
   // Find the order by scanning a small index created below.
-  const publicId = await env.PAYMENT_KV.get(`tx:${transactionId}`);
+  const publicId = await env..get(`tx:${transactionId}`);
   if (!publicId) return json({ ok: true });
 
   const order = await getOrder(env, publicId);
@@ -287,7 +287,7 @@ export default {
         // Index transaction ID for webhook lookups.
         const body = await response.clone().json().catch(() => null);
         if (body?.transactionId && body?.publicId) {
-          await env.PAYMENT_KV.put(`tx:${body.transactionId}`, body.publicId, {
+          await env..put(`tx:${body.transactionId}`, body.publicId, {
             expirationTtl: 60 * 60 * 24 * 3,
           });
         }
