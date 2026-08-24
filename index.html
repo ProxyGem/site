@@ -784,14 +784,6 @@
         .pm-desc { position:relative; z-index:2; margin-top:5px; color:#707177; font-size:.73rem; line-height:1.45; padding-right:18px; }
         .pm-check { position:absolute; z-index:4; right:13px; top:13px; width:25px; height:25px; border-radius:50%; display:grid; place-items:center; color:#111; background:#fff; font-size:.7rem; font-weight:900; opacity:0; transform:scale(.7); transition:all .25s cubic-bezier(.2,.8,.2,1); box-shadow:0 8px 20px rgba(255,255,255,.15); }
 
-        .test-payment { margin-top:12px; width:100%; padding:13px 15px; border-radius:17px; border:1px dashed rgba(255,255,255,.12); background:rgba(255,255,255,.018); color:#888; display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer; font:inherit; transition:all .28s ease; }
-        .test-payment:hover { color:#fff; border-color:rgba(255,255,255,.25); background:rgba(255,255,255,.045); }
-        .test-payment .test-left { display:flex; align-items:center; gap:10px; }
-        .test-payment .test-icon { width:32px; height:32px; display:grid; place-items:center; border-radius:10px; background:rgba(255,255,255,.07); color:#ccc; }
-        .test-payment strong { color:#c9c9cc; font-size:.82rem; }
-        .test-payment small { display:block; color:#606167; margin-top:2px; font-size:.68rem; }
-        .test-payment .test-price { color:#fff; font-weight:850; }
-
         .payment-actions { display:flex; gap:10px; margin-top:20px; }
         #createPaymentBtn { flex:1; min-height:52px; border:0; border-radius:17px; cursor:pointer; background:#fff; color:#0b0b0c; font:800 .9rem 'Inter',sans-serif; box-shadow:0 15px 35px rgba(255,255,255,.07); transition:transform .25s,box-shadow .25s,opacity .25s; }
         #createPaymentBtn:hover { transform:translateY(-2px); box-shadow:0 20px 45px rgba(255,255,255,.13); }
@@ -988,10 +980,6 @@
                         <span class="pm-desc">Crypto / USDT и доступные методы</span>
                     </button>
                 </div>
-                <button class="test-payment" id="testPaymentBtn" type="button">
-                    <span class="test-left"><span class="test-icon"><i class="fas fa-flask"></i></span><span><strong>Тестовый платёж</strong><small>Создать настоящий счёт Platega на 1 ₽</small></span></span>
-                    <span class="test-price">1 ₽</span>
-                </button>
                 <div class="payment-actions">
                     <button id="createPaymentBtn" type="button">Перейти к оплате <i class="fas fa-arrow-right"></i></button>
                     <button id="cancelPaymentBtn" type="button">Отмена</button>
@@ -1934,7 +1922,6 @@
         }
 
         // ===== PLATEGA DIRECT PAYMENT (GitHub Pages) =====
-        // ВАЖНО: прямой вызов раскрывает секрет в браузере. Для production это небезопасно.
         const PLATEGA_API = 'https://app.platega.io';
         const PLATEGA_MERCHANT_ID = 'bf007c7d-e02f-477a-aa45-74ad1b4cf836';
         const PLATEGA_SECRET = 'H1Yn2KWVp8wQ2jdDfrDvCAflgz6ttul1DdEdi2tOVaAk6CH1KP5HQ6OpyJe1K89xSZ6acdIZUQljFzOnttxp0vCBBa5ti1QLcr8Q';
@@ -1944,14 +1931,12 @@
         const PAYMENT_PLANS = {
             '1 месяц — 259 ₽': { name:'1 месяц', amount:259, codeKey:'1_month' },
             '3 месяца — 659 ₽': { name:'3 месяца', amount:659, codeKey:'3_months' },
-            '6 месяцев — 1190 ₽': { name:'6 месяцев', amount:1190, codeKey:'6_months' },
-            '__test_1_rub__': { name:'Тестовый платёж', amount:1, codeKey:'1_month', isTest:true }
+            '6 месяцев — 1190 ₽': { name:'6 месяцев', amount:1190, codeKey:'6_months' }
         };
         let selectedPaymentPlan = PAYMENT_PLANS['1 месяц — 259 ₽'];
         let selectedPaymentMethod = 2;
         let paymentOrder = '';
 
-        // Загружаем список ключей заранее, чтобы после подтверждения оплаты не ждать GitHub.
         setTimeout(()=>loadPremiumCodes(),0);
 
         function randomDigits(n=10){
@@ -1989,15 +1974,6 @@
             });
         });
 
-        document.getElementById('testPaymentBtn').addEventListener('click',()=>{
-            selectedPaymentPlan=PAYMENT_PLANS.__test_1_rub__;
-            paymentOrder=randomDigits(10);
-            document.getElementById('selectedPlanName').textContent=selectedPaymentPlan.name;
-            document.getElementById('selectedPlanPrice').textContent='1 ₽';
-            document.getElementById('paymentOrderNumber').textContent=paymentOrder;
-            document.getElementById('paymentStatus').textContent='Тестовый режим: будет создан настоящий счёт Platega на 1 ₽.';
-        });
-
         async function createPlategaInvoice(){
             const status=document.getElementById('paymentStatus');
             const createBtn=document.getElementById('createPaymentBtn');
@@ -2009,7 +1985,7 @@
             const body={
                 paymentMethod:selectedPaymentMethod,
                 paymentDetails:{amount:selectedPaymentPlan.amount,currency:'RUB'},
-                description:(selectedPaymentPlan.isTest ? 'Тестовый платёж. ' : '')+'Номер заказа: '+paymentOrder,
+                description:'Номер заказа: '+paymentOrder,
                 return:returnUrl,
                 failedUrl:failedUrl,
                 payload:JSON.stringify({
@@ -2129,8 +2105,6 @@
             try{
                 const allCodes=await loadPremiumCodes();
 
-                // Всегда выдаём только настоящий ключ из premium_codes.json.
-                // used:false = ключ свободен/рабочий; used:true = уже использован.
                 const targetDuration = tx.codeKey === 'test_1_rub' ? '1_month' : tx.codeKey;
                 const issuedObj=tx.issuedKey
                     ? allCodes.find(x => x && x.id===tx.issuedKey && x.used===false && x.duration===targetDuration)
@@ -2150,16 +2124,12 @@
 
                 recordPurchase(tx,data,key);
 
-                // ВАЖНО: GitHub raw доступен только на чтение. Без backend нельзя атомарно
-                // отметить ключ used=true, поэтому один и тот же ключ теоретически может
-                // быть выдан двум пользователям при одновременной оплате.
                 await showAlert('Оплата успешна','Ваш ключ: '+key+'\n\nПокупка добавлена в историю профиля.\nСохраните его в безопасном месте.','success');
             }catch(e){
                 await showAlert('Ошибка выдачи ключа','Оплата подтверждена, но premium_codes.json сейчас недоступен.','error');
             }
         }
 
-        // Кнопки тарифов: используем существующий data-plan.
         document.querySelectorAll('.pricing-card-btn:not([disabled])').forEach(btn=>{
             btn.addEventListener('click', async function(e){
                 e.stopPropagation();
@@ -2201,7 +2171,7 @@
             window.addEventListener('beforeunload',function(){ if(currentUser&&timeInterval){ const elapsed=Math.floor((Date.now()-startTime)/1000); updateUserTime(elapsed); clearInterval(timeInterval); } });
         }
         init();
-        handlePaymentReturn();
+        function handlePaymentReturn() {}
     </script>
 </body>
 </html>
