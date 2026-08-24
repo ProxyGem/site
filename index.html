@@ -687,99 +687,118 @@
             .footer-new .footer-bottom { flex-direction:column; text-align:center; }
         }
 
-        /* ===== MODERN PAYMENT UI ===== */
+        /* ===== ULTRA MODERN PAYMENT UI ===== */
+        #paymentModal { padding:24px; align-items:center; }
         #paymentModal .modal-content {
-            width:min(760px, 96vw);
-            max-width:760px;
-            padding:0;
-            overflow:hidden;
-            border-radius:32px;
-            position:relative;
-            background:
-                radial-gradient(circle at 15% 0%, rgba(255,255,255,.09), transparent 32%),
-                radial-gradient(circle at 90% 100%, rgba(255,255,255,.055), transparent 35%),
-                rgba(9,9,10,.96);
-            border:1px solid rgba(255,255,255,.10);
-            box-shadow:0 50px 140px rgba(0,0,0,.78), 0 0 0 1px rgba(255,255,255,.025) inset;
-            backdrop-filter:blur(28px);
+            width:min(900px, 96vw); max-width:900px; padding:0; overflow:hidden;
+            border-radius:34px; position:relative;
+            background:radial-gradient(circle at 0% 0%,rgba(255,255,255,.12),transparent 28%),
+                       radial-gradient(circle at 100% 100%,rgba(255,255,255,.07),transparent 30%),
+                       linear-gradient(145deg,rgba(25,25,27,.98),rgba(8,8,9,.985));
+            border:1px solid rgba(255,255,255,.13);
+            box-shadow:0 60px 180px rgba(0,0,0,.82),inset 0 1px 0 rgba(255,255,255,.07);
+            backdrop-filter:blur(32px); -webkit-backdrop-filter:blur(32px);
         }
         #paymentModal .modal-content::before {
-            content:"";
-            position:absolute;
-            inset:-2px;
-            background:linear-gradient(120deg, transparent 15%, rgba(255,255,255,.09), transparent 45%, rgba(255,255,255,.04), transparent 80%);
-            transform:translateX(-55%);
-            animation:paymentSheen 7s ease-in-out infinite;
-            pointer-events:none;
-            z-index:0;
+            content:""; position:absolute; inset:0; pointer-events:none;
+            background:linear-gradient(115deg,transparent 18%,rgba(255,255,255,.065) 38%,transparent 53%);
+            transform:translateX(-120%); animation:checkoutShine 8s ease-in-out infinite;
         }
-        @keyframes paymentSheen {
-            0%,55% { transform:translateX(-55%); opacity:0; }
-            65% { opacity:1; }
-            100% { transform:translateX(55%); opacity:0; }
+        #paymentModal .modal-content::after {
+            content:""; position:absolute; width:360px; height:360px; right:-180px; top:-190px;
+            border-radius:50%; background:rgba(255,255,255,.055); filter:blur(60px); pointer-events:none;
         }
-        .payment-wrap { position:relative; z-index:1; padding:38px; }
-        .payment-header { text-align:left; margin-bottom:24px; }
+        @keyframes checkoutShine { 0%,55%{transform:translateX(-120%);opacity:0} 65%{opacity:1} 82%,100%{transform:translateX(120%);opacity:0} }
+
+        .payment-wrap { position:relative; z-index:2; padding:38px; }
+        .payment-header { margin-bottom:22px; padding-right:42px; }
         .payment-kicker {
             display:inline-flex; align-items:center; gap:8px; padding:7px 11px; border-radius:999px;
-            color:#aaa; font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
-            background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.07);
+            color:#b8b8bc; font-size:.68rem; font-weight:800; letter-spacing:.14em;
+            background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.08);
         }
-        .payment-kicker::before { content:""; width:6px; height:6px; border-radius:50%; background:#fff; box-shadow:0 0 16px #fff; }
-        .payment-header h2 {
-            margin:14px 0 7px; font-size:2.35rem; line-height:1.08; font-weight:850; letter-spacing:-1.7px;
-            color:#fff; background:none; -webkit-text-fill-color:initial;
+        .payment-kicker::before {
+            content:""; width:6px; height:6px; border-radius:50%; background:#fff;
+            box-shadow:0 0 0 4px rgba(255,255,255,.05),0 0 18px rgba(255,255,255,.7);
         }
-        .payment-header p { color:#777; font-size:.96rem; margin:0; }
-        .payment-order-card {
-            display:flex; align-items:center; justify-content:space-between; gap:16px; margin:24px 0;
-            padding:15px 17px; border-radius:18px; background:rgba(255,255,255,.035);
-            border:1px solid rgba(255,255,255,.07);
+        .payment-header h2 { margin:14px 0 7px; font-size:clamp(2rem,4vw,3rem); line-height:1.02; font-weight:900; letter-spacing:-2px; color:#fff; }
+        .payment-header p { color:#777980; font-size:.92rem; margin:0; }
+
+        .payment-plan {
+            display:flex; align-items:center; justify-content:space-between; gap:18px;
+            padding:18px 20px; margin:0 0 20px; border-radius:22px;
+            background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
+            border:1px solid rgba(255,255,255,.085); box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
         }
-        .payment-order-card .label { color:#666; font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; }
-        .payment-order-card .value { color:#eee; font:700 .9rem/1.2 monospace; margin-top:5px; }
-        .payment-total { text-align:right; white-space:nowrap; }
-        .payment-total .amount { color:#fff; font-size:1.25rem; font-weight:800; }
-        .payment-total .plan { color:#666; font-size:.72rem; margin-top:3px; }
-        .payment-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+        .plan-name { color:#fff; font-size:1.08rem; font-weight:800; letter-spacing:-.3px; }
+        .payment-order { margin-top:6px; color:#696a70; font-size:.75rem; }
+        .payment-order b { color:#bdbdc1; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.08em; }
+        .plan-price { color:#fff; font-size:1.55rem; font-weight:900; letter-spacing:-.8px; white-space:nowrap; }
+
+        .payment-section-label { display:flex; justify-content:space-between; gap:10px; margin:0 0 10px; color:#85868c; font-size:.7rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+        .payment-section-label span:last-child { color:#505157; font-weight:600; letter-spacing:0; text-transform:none; }
+
+        .payment-methods { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
         .payment-method {
-            position:relative; display:flex; flex-direction:column; min-height:188px; padding:20px;
-            border-radius:22px; border:1px solid rgba(255,255,255,.075); color:#fff; text-decoration:none;
-            background:linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
-            overflow:hidden; cursor:pointer; transition:transform .45s cubic-bezier(.2,.8,.2,1), border-color .35s, background .35s, box-shadow .35s;
+            appearance:none; -webkit-appearance:none; width:100%; min-width:0;
+            position:relative; display:flex; flex-direction:column; align-items:flex-start;
+            min-height:176px; padding:19px; text-align:left; font:inherit; color:#fff;
+            border-radius:24px; border:1px solid rgba(255,255,255,.075);
+            background:linear-gradient(150deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+            cursor:pointer; overflow:hidden; isolation:isolate;
+            transition:transform .32s cubic-bezier(.2,.8,.2,1),border-color .28s,background .28s,box-shadow .32s;
         }
-        .payment-method::after {
-            content:""; position:absolute; width:130px; height:130px; right:-55px; bottom:-65px; border-radius:50%;
-            background:rgba(255,255,255,.07); filter:blur(20px); transition:transform .5s ease, opacity .5s ease;
-        }
-        .payment-method:hover { transform:translateY(-7px); border-color:rgba(255,255,255,.22); background:linear-gradient(145deg, rgba(255,255,255,.085), rgba(255,255,255,.025)); box-shadow:0 24px 55px rgba(0,0,0,.38); }
+        .payment-method::before { content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:linear-gradient(135deg,rgba(255,255,255,.075),transparent 38%); opacity:0; transition:opacity .28s; }
+        .payment-method::after { content:""; position:absolute; width:130px; height:130px; right:-65px; bottom:-75px; border-radius:50%; background:rgba(255,255,255,.06); filter:blur(20px); transition:transform .45s ease,opacity .45s ease; pointer-events:none; }
+        .payment-method:hover { transform:translateY(-5px); border-color:rgba(255,255,255,.20); background:linear-gradient(150deg,rgba(255,255,255,.085),rgba(255,255,255,.025)); box-shadow:0 24px 55px rgba(0,0,0,.38); }
+        .payment-method:hover::before { opacity:1; }
         .payment-method:hover::after { transform:scale(1.5); opacity:.8; }
-        .payment-method:active { transform:translateY(-2px) scale(.99); }
-        .payment-icon {
-            width:54px; height:54px; display:grid; place-items:center; border-radius:17px;
-            background:#fff; color:#0a0a0a; box-shadow:0 10px 30px rgba(255,255,255,.08); margin-bottom:26px;
-            transition:transform .45s cubic-bezier(.2,.8,.2,1);
-        }
-        .payment-icon svg { width:29px; height:29px; }
-        .payment-method:hover .payment-icon { transform:rotate(-5deg) scale(1.08); }
-        .payment-name { position:relative; z-index:2; font-size:1rem; font-weight:750; letter-spacing:-.2px; }
-        .payment-desc { position:relative; z-index:2; color:#6f6f73; font-size:.76rem; line-height:1.45; margin-top:6px; }
-        .payment-arrow {
-            position:absolute; z-index:3; right:17px; top:17px; width:30px; height:30px; border-radius:50%;
-            display:grid; place-items:center; color:#888; background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.06);
-            transition:all .35s ease;
-        }
-        .payment-method:hover .payment-arrow { color:#111; background:#fff; transform:translate(2px,-2px); }
-        .payment-footnote { display:flex; align-items:center; gap:8px; justify-content:center; color:#555; font-size:.72rem; margin-top:18px; }
-        .payment-footnote i { color:#888; }
-        @media (max-width:600px) {
-            .payment-wrap { padding:28px 20px 22px; }
-            .payment-header h2 { font-size:1.8rem; }
-            .payment-grid { grid-template-columns:1fr; }
-            .payment-method { min-height:120px; flex-direction:row; align-items:center; padding:16px; }
-            .payment-icon { margin:0 15px 0 0; width:48px; height:48px; }
-            .payment-method .payment-arrow { top:50%; right:15px; transform:translateY(-50%); }
-            .payment-method:hover .payment-arrow { transform:translate(2px,-50%); }
+        .payment-method:active { transform:translateY(-1px) scale(.99); }
+        .payment-method.selected { border-color:rgba(255,255,255,.75); background:linear-gradient(150deg,rgba(255,255,255,.13),rgba(255,255,255,.035)); box-shadow:0 0 0 1px rgba(255,255,255,.08),0 24px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08); }
+        .payment-method.selected::before { opacity:1; }
+        .payment-method.selected .pm-check { opacity:1; transform:scale(1); }
+
+        .pm-icon { width:56px; height:56px; flex:0 0 56px; display:grid; place-items:center; border-radius:18px; background:#fff; color:#111; box-shadow:0 12px 30px rgba(255,255,255,.08); margin-bottom:auto; overflow:hidden; transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s; }
+        .pm-icon img { width:40px; height:40px; object-fit:contain; display:block; }
+        .pm-icon svg { width:28px; height:28px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+        .payment-method:hover .pm-icon { transform:translateY(-2px) scale(1.06) rotate(-2deg); box-shadow:0 16px 36px rgba(255,255,255,.13); }
+        .pm-title { position:relative; z-index:2; margin-top:22px; font-size:1rem; font-weight:850; letter-spacing:-.25px; }
+        .pm-desc { position:relative; z-index:2; margin-top:5px; color:#707177; font-size:.73rem; line-height:1.45; padding-right:18px; }
+        .pm-check { position:absolute; z-index:4; right:13px; top:13px; width:25px; height:25px; border-radius:50%; display:grid; place-items:center; color:#111; background:#fff; font-size:.7rem; font-weight:900; opacity:0; transform:scale(.7); transition:all .25s cubic-bezier(.2,.8,.2,1); box-shadow:0 8px 20px rgba(255,255,255,.15); }
+
+        .test-payment { margin-top:12px; width:100%; padding:13px 15px; border-radius:17px; border:1px dashed rgba(255,255,255,.12); background:rgba(255,255,255,.018); color:#888; display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer; font:inherit; transition:all .28s ease; }
+        .test-payment:hover { color:#fff; border-color:rgba(255,255,255,.25); background:rgba(255,255,255,.045); }
+        .test-payment .test-left { display:flex; align-items:center; gap:10px; }
+        .test-payment .test-icon { width:32px; height:32px; display:grid; place-items:center; border-radius:10px; background:rgba(255,255,255,.07); color:#ccc; }
+        .test-payment strong { color:#c9c9cc; font-size:.82rem; }
+        .test-payment small { display:block; color:#606167; margin-top:2px; font-size:.68rem; }
+        .test-payment .test-price { color:#fff; font-weight:850; }
+
+        .payment-actions { display:flex; gap:10px; margin-top:20px; }
+        #createPaymentBtn { flex:1; min-height:52px; border:0; border-radius:17px; cursor:pointer; background:#fff; color:#0b0b0c; font:800 .9rem 'Inter',sans-serif; box-shadow:0 15px 35px rgba(255,255,255,.07); transition:transform .25s,box-shadow .25s,opacity .25s; }
+        #createPaymentBtn:hover { transform:translateY(-2px); box-shadow:0 20px 45px rgba(255,255,255,.13); }
+        #createPaymentBtn:disabled { cursor:wait; }
+        #cancelPaymentBtn { min-height:52px; padding:0 20px; border-radius:17px; cursor:pointer; background:rgba(255,255,255,.035); color:#888; border:1px solid rgba(255,255,255,.08); font:700 .85rem 'Inter',sans-serif; transition:all .25s; }
+        #cancelPaymentBtn:hover { color:#fff; background:rgba(255,255,255,.07); }
+        #paymentStatus { min-height:20px; margin-top:11px; text-align:center; color:#a8a8ad; font-size:.76rem; }
+        .payment-note { display:flex; justify-content:center; align-items:center; gap:7px; color:#4f5055; font-size:.68rem; margin-top:8px; text-align:center; }
+        .payment-note::before { content:""; width:5px; height:5px; border-radius:50%; background:#777; box-shadow:0 0 10px rgba(255,255,255,.3); }
+
+        @media (max-width:680px) {
+            #paymentModal { padding:12px; }
+            #paymentModal .modal-content { border-radius:27px; }
+            .payment-wrap { padding:26px 18px 19px; }
+            .payment-header h2 { letter-spacing:-1.3px; }
+            .payment-methods { grid-template-columns:1fr; }
+            .payment-method { min-height:102px; flex-direction:row; align-items:center; padding:14px; }
+            .pm-icon { margin:0 14px 0 0; width:49px; height:49px; flex-basis:49px; border-radius:15px; }
+            .pm-title { margin-top:0; }
+            .pm-desc { padding-right:22px; }
+            .pm-check { top:50%; right:12px; transform:translateY(-50%) scale(.7); }
+            .payment-method.selected .pm-check { transform:translateY(-50%) scale(1); }
+            .payment-actions { flex-direction:column; }
+            #cancelPaymentBtn { width:100%; }
+            .plan-price { font-size:1.25rem; }
         }
 
         /* Медиа */
@@ -919,9 +938,9 @@
             <button class="modal-close-modern" id="closePaymentModal" aria-label="Закрыть"><i class="fas fa-times"></i></button>
             <div class="payment-wrap">
                 <div class="payment-header">
-                    <div class="payment-kicker"><span></span> SECURE CHECKOUT</div>
-                    <h2>Оплата подписки</h2>
-                    <p>Выберите способ оплаты — счёт будет создан в Platega.</p>
+                    <div class="payment-kicker">SECURE CHECKOUT</div>
+                    <h2>Завершите оплату</h2>
+                    <p>Выберите удобный способ. Счёт создаётся в Platega.</p>
                 </div>
                 <div class="payment-plan">
                     <div>
@@ -930,38 +949,37 @@
                     </div>
                     <div class="plan-price" id="selectedPlanPrice">259 ₽</div>
                 </div>
+                <div class="payment-section-label"><span>Способ оплаты</span><span>Выберите один вариант</span></div>
                 <div class="payment-methods">
-                    <button class="payment-method" data-method="2" type="button">
-                        <div class="pm-check">✓</div>
-                        <div class="pm-icon">
-                            <svg viewBox="0 0 24 24"><path d="M4 8.5 12 4l8 4.5-8 4.5L4 8.5Z"/><path d="M6 11.5V16c0 1.5 2.7 3.5 6 3.5s6-2 6-3.5v-4.5"/><path d="M20 9v5"/></svg>
-                        </div>
-                        <div class="pm-title">СБП</div>
-                        <div class="pm-desc">Система быстрых платежей</div>
+                    <button class="payment-method selected" data-method="2" type="button" aria-pressed="true">
+                        <span class="pm-check">✓</span>
+                        <span class="pm-icon"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Faster_Payment_System_Russia_logo.svg" alt="СБП"></span>
+                        <span class="pm-title">СБП</span>
+                        <span class="pm-desc">Оплата через Систему быстрых платежей</span>
                     </button>
-                    <button class="payment-method" data-method="11" type="button">
-                        <div class="pm-check">✓</div>
-                        <div class="pm-icon">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg>
-                        </div>
-                        <div class="pm-title">Карта</div>
-                        <div class="pm-desc">Карточный эквайринг</div>
+                    <button class="payment-method" data-method="11" type="button" aria-pressed="false">
+                        <span class="pm-check">✓</span>
+                        <span class="pm-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h4"/></svg></span>
+                        <span class="pm-title">Карточный эквайринг</span>
+                        <span class="pm-desc">Оплата банковской картой</span>
                     </button>
-                    <button class="payment-method" data-method="13" type="button">
-                        <div class="pm-check">✓</div>
-                        <div class="pm-icon">
-                            <svg viewBox="0 0 24 24"><path d="M12 3v18M16.5 7.2c-.9-1-2.4-1.7-4.2-1.7-2.6 0-4.3 1.3-4.3 3 0 4.4 8.6 2.1 8.6 6.2 0 1.8-1.8 3.1-4.5 3.1-1.8 0-3.4-.7-4.4-1.8"/></svg>
-                        </div>
-                        <div class="pm-title">Криптовалюта</div>
-                        <div class="pm-desc">Crypto / USDT и другие</div>
+                    <button class="payment-method" data-method="13" type="button" aria-pressed="false">
+                        <span class="pm-check">✓</span>
+                        <span class="pm-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 8.2h8.7c1.5 0 2.7 1 2.7 2.2 0 1.1-.8 1.8-1.8 2.1 1.3.3 2.2 1.1 2.2 2.4 0 1.5-1.3 2.6-3.1 2.6H7.2c-.7 0-1.2-.5-1.2-1.2V9.4c0-.7.5-1.2 1.2-1.2Z"/><path d="M9 5.2h5.7c1.4 0 2.4.8 2.4 1.8 0 .5-.2.9-.6 1.2M9 12.5h5.2"/></svg></span>
+                        <span class="pm-title">Криптовалюта</span>
+                        <span class="pm-desc">Crypto / USDT и доступные методы</span>
                     </button>
                 </div>
+                <button class="test-payment" id="testPaymentBtn" type="button">
+                    <span class="test-left"><span class="test-icon"><i class="fas fa-flask"></i></span><span><strong>Тестовый платёж</strong><small>Создать настоящий счёт Platega на 1 ₽</small></span></span>
+                    <span class="test-price">1 ₽</span>
+                </button>
                 <div class="payment-actions">
                     <button id="createPaymentBtn" type="button">Перейти к оплате <i class="fas fa-arrow-right"></i></button>
                     <button id="cancelPaymentBtn" type="button">Отмена</button>
                 </div>
-                <div id="paymentStatus"></div>
-                <div class="payment-note">После создания счёта откроется страница Platega в новой вкладке.</div>
+                <div id="paymentStatus" role="status" aria-live="polite"></div>
+                <div class="payment-note">После создания счёта Platega откроется в новой вкладке.</div>
             </div>
         </div>
     </div>
@@ -1814,7 +1832,8 @@
         const PAYMENT_PLANS = {
             '1 месяц — 259 ₽': { name:'1 месяц', amount:259, codeKey:'1_month' },
             '3 месяца — 659 ₽': { name:'3 месяца', amount:659, codeKey:'3_months' },
-            '6 месяцев — 1190 ₽': { name:'6 месяцев', amount:1190, codeKey:'6_months' }
+            '6 месяцев — 1190 ₽': { name:'6 месяцев', amount:1190, codeKey:'6_months' },
+            '__test_1_rub__': { name:'Тестовый платёж', amount:1, codeKey:'test_1_rub', isTest:true }
         };
         let selectedPaymentPlan = PAYMENT_PLANS['1 месяц — 259 ₽'];
         let selectedPaymentMethod = 2;
@@ -1841,11 +1860,27 @@
         }
 
         document.querySelectorAll('.payment-method').forEach(btn=>{
-            btn.addEventListener('click',()=>{
-                document.querySelectorAll('.payment-method').forEach(b=>b.classList.remove('selected'));
+            btn.addEventListener('click',(event)=>{
+                event.preventDefault();
+                event.stopPropagation();
+                document.querySelectorAll('.payment-method').forEach(b=>{
+                    b.classList.remove('selected');
+                    b.setAttribute('aria-pressed','false');
+                });
                 btn.classList.add('selected');
+                btn.setAttribute('aria-pressed','true');
                 selectedPaymentMethod=Number(btn.dataset.method);
+                document.getElementById('paymentStatus').textContent='';
             });
+        });
+
+        document.getElementById('testPaymentBtn').addEventListener('click',()=>{
+            selectedPaymentPlan=PAYMENT_PLANS.__test_1_rub__;
+            paymentOrder=randomDigits(10);
+            document.getElementById('selectedPlanName').textContent=selectedPaymentPlan.name;
+            document.getElementById('selectedPlanPrice').textContent='1 ₽';
+            document.getElementById('paymentOrderNumber').textContent=paymentOrder;
+            document.getElementById('paymentStatus').textContent='Тестовый режим: будет создан настоящий счёт Platega на 1 ₽.';
         });
 
         async function createPlategaInvoice(){
@@ -1859,7 +1894,7 @@
             const body={
                 paymentMethod:selectedPaymentMethod,
                 paymentDetails:{amount:selectedPaymentPlan.amount,currency:'RUB'},
-                description:'Номер заказа: '+paymentOrder,
+                description:(selectedPaymentPlan.isTest ? 'Тестовый платёж. ' : '')+'Номер заказа: '+paymentOrder,
                 return:returnUrl,
                 failedUrl:failedUrl,
                 payload:JSON.stringify({
@@ -1964,6 +1999,11 @@
                 const codesRes=await fetch(PREMIUM_CODES_URL,{cache:'no-store'});
                 const codes=await codesRes.json();
                 const allCodes=Array.isArray(codes.codes)?codes.codes:[];
+                if(tx.codeKey === 'test_1_rub'){
+                    await showAlert('Тестовый платёж подтверждён','Счёт Platega на 1 ₽ успешно подтверждён. Ключ для тестового платежа не выдаётся.','success');
+                    return;
+                }
+
                 const keyObj=allCodes.find(x =>
                     x && x.used===false && x.duration===tx.codeKey
                 );
