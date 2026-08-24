@@ -913,28 +913,55 @@
         </div>
     </div>
 
-    <!-- Современная модалка оплаты -->
+    <!-- Современный модал оплаты -->
     <div class="modal-overlay" id="paymentModal">
         <div class="modal-content">
             <button class="modal-close-modern" id="closePaymentModal" aria-label="Закрыть"><i class="fas fa-times"></i></button>
             <div class="payment-wrap">
                 <div class="payment-header">
-                    <span class="payment-kicker">ProxyGem Secure Checkout</span>
+                    <div class="payment-kicker"><span></span> SECURE CHECKOUT</div>
                     <h2>Оплата подписки</h2>
-                    <p>Выберите способ оплаты — счёт создастся автоматически.</p>
+                    <p>Выберите способ оплаты — счёт будет создан в Platega.</p>
                 </div>
-                <div class="payment-order-card">
+                <div class="payment-plan">
                     <div>
-                        <div class="label">Номер заказа</div>
-                        <div class="value" id="paymentOrderNumber">—</div>
+                        <div class="plan-name" id="selectedPlanName">1 месяц</div>
+                        <div class="payment-order">Номер заказа: <b id="paymentOrderNumber">0000000000</b></div>
                     </div>
-                    <div class="payment-total">
-                        <div class="amount" id="paymentAmount">— ₽</div>
-                        <div class="plan" id="paymentPlanName">—</div>
-                    </div>
+                    <div class="plan-price" id="selectedPlanPrice">259 ₽</div>
                 </div>
-                <div class="payment-grid" id="paymentGrid"></div>
-                <div class="payment-footnote"><i class="fas fa-lock"></i> Безопасная оплата через Platega.io</div>
+                <div class="payment-methods">
+                    <button class="payment-method" data-method="2" type="button">
+                        <div class="pm-check">✓</div>
+                        <div class="pm-icon">
+                            <svg viewBox="0 0 24 24"><path d="M4 8.5 12 4l8 4.5-8 4.5L4 8.5Z"/><path d="M6 11.5V16c0 1.5 2.7 3.5 6 3.5s6-2 6-3.5v-4.5"/><path d="M20 9v5"/></svg>
+                        </div>
+                        <div class="pm-title">СБП</div>
+                        <div class="pm-desc">Система быстрых платежей</div>
+                    </button>
+                    <button class="payment-method" data-method="11" type="button">
+                        <div class="pm-check">✓</div>
+                        <div class="pm-icon">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg>
+                        </div>
+                        <div class="pm-title">Карта</div>
+                        <div class="pm-desc">Карточный эквайринг</div>
+                    </button>
+                    <button class="payment-method" data-method="13" type="button">
+                        <div class="pm-check">✓</div>
+                        <div class="pm-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 3v18M16.5 7.2c-.9-1-2.4-1.7-4.2-1.7-2.6 0-4.3 1.3-4.3 3 0 4.4 8.6 2.1 8.6 6.2 0 1.8-1.8 3.1-4.5 3.1-1.8 0-3.4-.7-4.4-1.8"/></svg>
+                        </div>
+                        <div class="pm-title">Криптовалюта</div>
+                        <div class="pm-desc">Crypto / USDT и другие</div>
+                    </button>
+                </div>
+                <div class="payment-actions">
+                    <button id="createPaymentBtn" type="button">Перейти к оплате <i class="fas fa-arrow-right"></i></button>
+                    <button id="cancelPaymentBtn" type="button">Отмена</button>
+                </div>
+                <div id="paymentStatus"></div>
+                <div class="payment-note">После создания счёта откроется страница Platega в новой вкладке.</div>
             </div>
         </div>
     </div>
@@ -1776,88 +1803,190 @@
             });
         }
 
-        // ===== ОПЛАТА / PLATEGA =====
-        const PAYMENT_API = 'https://YOUR-WORKER.example.workers.dev';
-        const paymentPlans = {
-            '1 месяц — 259 ₽': { months: 1, amount: 259, label: '1 месяц' },
-            '3 месяца — 659 ₽': { months: 3, amount: 659, label: '3 месяца' },
-            '6 месяцев — 1190 ₽': { months: 6, amount: 1190, label: '6 месяцев' }
+        // ===== PLATEGA DIRECT PAYMENT (GitHub Pages) =====
+        // ВАЖНО: прямой вызов раскрывает секрет в браузере. Для production это небезопасно.
+        const PLATEGA_API = 'https://app.platega.io';
+        const PLATEGA_MERCHANT_ID = 'bf007c7d-e02f-477a-aa45-74ad1b4cf836';
+        const PLATEGA_SECRET = 'H1Yn2KWVp8wQ2jdDfrDvCAflgz6ttul1DdEdi2tOVaAk6CH1KP5HQ6OpyJe1K89xSZ6acdIZUQljFzOnttxp0vCBBa5ti1QLcr8Q';
+        const PREMIUM_CODES_URL = 'https://raw.githubusercontent.com/slava20222014-create/Servers_ProxyGemSite/main/premium_codes.json';
+        const PUBLIC_SITE_URL = 'https://proxygem.github.io/site/';
+
+        const PAYMENT_PLANS = {
+            '1 месяц — 259 ₽': { name:'1 месяц', amount:259, codeKey:'1_month' },
+            '3 месяца — 659 ₽': { name:'3 месяца', amount:659, codeKey:'3_months' },
+            '6 месяцев — 1190 ₽': { name:'6 месяцев', amount:1190, codeKey:'6_months' }
         };
-        let selectedPaymentPlan = null;
+        let selectedPaymentPlan = PAYMENT_PLANS['1 месяц — 259 ₽'];
+        let selectedPaymentMethod = 2;
+        let paymentOrder = '';
 
-        const paymentMethods = [
-            {
-                id:'sbp', name:'СБП', desc:'QR и быстрый перевод',
-                method:2,
-                icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="currentColor" d="M8 10.5 15.2 4l8.1 7.4-7.1 6.4L8 10.5Zm16.1 14.7 7.1-6.4 8.8 8-7.2 6.4-8.7-8Zm-1.4-1.3-7.1 6.4L8 23.8l7.2-6.4 7.5 6.5Zm1.3 1.3 7.2 6.5-7.9 7.1-7.2-6.5 7.9-7.1ZM8 23.8l7.2-6.4 8.8 8-7.1 6.4L8 23.8Zm32 3-8.8 8-7.2-6.5 8.8-8 7.2 6.5Z"/></svg>'
-            },
-            {
-                id:'card', name:'Карточный эквайринг', desc:'Банковские карты',
-                method:11,
-                icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="9" width="38" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="3"/><path d="M5 18h38M11 30h11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
-            },
-            {
-                id:'crypto', name:'Криптовалюты', desc:'USDT, BTC, TON и другие',
-                method:13,
-                icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="currentColor" d="M24 4c11.05 0 20 8.95 20 20s-8.95 20-20 20S4 35.05 4 24 12.95 4 24 4Zm1.5 8h-3v3.1h-2.3V12h-3v3.2H15v3h2.3v11.6H15V33h2.2v3.2h3v-3.1h2.3v3.1h3v-3.2h1.4c3.4 0 5.8-1.9 5.8-4.8 0-2.1-1.2-3.7-3.1-4.3 1.5-.7 2.4-2 2.4-3.8 0-2.8-2.1-4.7-5.5-4.9V12Zm-4.7 6.2h4.3c1.7 0 2.7.8 2.7 2.1 0 1.5-1.1 2.2-3 2.2h-4v-4.3Zm0 7.4h4.5c2.1 0 3.2.8 3.2 2.4 0 1.5-1.1 2.3-3.2 2.3h-4.5v-4.7Z"/></svg>'
-            }
-        ];
-
-        function randomDigits(length){
-            let out=''; while(out.length<length) out += Math.floor(Math.random()*10);
-            return out.slice(0,length);
+        function randomDigits(n=10){
+            let s='';
+            while(s.length<n) s += Math.floor(Math.random()*10);
+            return s.slice(0,n);
         }
+        function randomToken20(){ return randomDigits(20); }
 
-        function showPaymentModal(plan){
-            selectedPaymentPlan = paymentPlans[plan] || paymentPlans['1 месяц — 259 ₽'];
-            document.getElementById('paymentPlanName').textContent = selectedPaymentPlan.label;
-            document.getElementById('paymentAmount').textContent = selectedPaymentPlan.amount.toLocaleString('ru-RU') + ' ₽';
-            document.getElementById('paymentOrderNumber').textContent = randomDigits(10);
-            renderPaymentMethods();
+        function openPaymentCheckout(planLabel){
+            selectedPaymentPlan = PAYMENT_PLANS[planLabel] || PAYMENT_PLANS['1 месяц — 259 ₽'];
+            paymentOrder = randomDigits(10);
+            document.getElementById('selectedPlanName').textContent=selectedPaymentPlan.name;
+            document.getElementById('selectedPlanPrice').textContent=selectedPaymentPlan.amount+' ₽';
+            document.getElementById('paymentOrderNumber').textContent=paymentOrder;
+            document.getElementById('paymentStatus').textContent='';
+            document.querySelectorAll('.payment-method').forEach(b=>b.classList.remove('selected'));
+            document.querySelector('.payment-method[data-method="2"]').classList.add('selected');
+            selectedPaymentMethod=2;
             openModal('paymentModal');
         }
 
-        function renderPaymentMethods(){
-            const grid=document.getElementById('paymentGrid');
-            grid.innerHTML=paymentMethods.map(m=>`
-                <button type="button" class="payment-method" data-payment-method="${m.id}">
-                    <span class="payment-icon">${m.icon}</span>
-                    <span class="payment-name">${m.name}</span>
-                    <span class="payment-desc">${m.desc}</span>
-                    <span class="payment-arrow"><i class="fas fa-arrow-up-right-from-square"></i></span>
-                </button>
-            `).join('');
-            grid.querySelectorAll('.payment-method').forEach(btn=>{
-                btn.addEventListener('click',()=>createPlategaPayment(btn.dataset.paymentMethod));
+        document.querySelectorAll('.payment-method').forEach(btn=>{
+            btn.addEventListener('click',()=>{
+                document.querySelectorAll('.payment-method').forEach(b=>b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedPaymentMethod=Number(btn.dataset.method);
             });
-        }
+        });
 
-        async function createPlategaPayment(methodId){
-            const method=paymentMethods.find(m=>m.id===methodId);
-            if(!method || !selectedPaymentPlan) return;
-            const buttons=document.querySelectorAll('.payment-method');
-            buttons.forEach(b=>{ b.disabled=true; b.style.pointerEvents='none'; b.style.opacity='.55'; });
+        async function createPlategaInvoice(){
+            const status=document.getElementById('paymentStatus');
+            const createBtn=document.getElementById('createPaymentBtn');
+            const successToken=randomToken20();
+
+            const returnUrl=PUBLIC_SITE_URL+'?payment_success='+successToken+'&order='+encodeURIComponent(paymentOrder);
+            const failedUrl=PUBLIC_SITE_URL+'?payment_failed='+successToken+'&order='+encodeURIComponent(paymentOrder);
+
+            const body={
+                paymentMethod:selectedPaymentMethod,
+                paymentDetails:{amount:selectedPaymentPlan.amount,currency:'RUB'},
+                description:'Номер заказа: '+paymentOrder,
+                return:returnUrl,
+                failedUrl:failedUrl,
+                payload:JSON.stringify({
+                    order:paymentOrder,
+                    plan:selectedPaymentPlan.name,
+                    codeKey:selectedPaymentPlan.codeKey,
+                    successToken
+                })
+            };
+
+            createBtn.disabled=true;
+            createBtn.style.opacity='.55';
+            status.textContent='Создаём счёт…';
+
             try{
-                const response=await fetch(PAYMENT_API.replace(/\/$/,'')+'/create-payment',{
+                const res=await fetch(PLATEGA_API+'/v2/transaction/process',{
                     method:'POST',
-                    headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({
-                        amount:selectedPaymentPlan.amount,
-                        months:selectedPaymentPlan.months,
-                        method:method.method,
-                        orderNumber:document.getElementById('paymentOrderNumber').textContent
-                    })
+                    headers:{
+                        'Content-Type':'application/json',
+                        'X-MerchantId':PLATEGA_MERCHANT_ID,
+                        'X-Secret':PLATEGA_SECRET
+                    },
+                    body:JSON.stringify(body)
                 });
-                const data=await response.json();
-                if(!response.ok || !data.url) throw new Error(data.error || 'Не удалось создать счёт');
-                window.open(data.url,'_blank','noopener,noreferrer');
-                closeModal('paymentModal');
-            }catch(error){
-                await showAlert('Ошибка оплаты', error.message || 'Не удалось создать счёт. Попробуйте ещё раз.','error');
-                buttons.forEach(b=>{ b.disabled=false; b.style.pointerEvents=''; b.style.opacity=''; });
+                const data=await res.json().catch(()=>({}));
+                if(!res.ok || !data.transactionId){
+                    throw new Error(data.message || data.error || ('Platega HTTP '+res.status));
+                }
+
+                localStorage.setItem('proxygem_payment_'+data.transactionId,JSON.stringify({
+                    transactionId:data.transactionId,
+                    order:paymentOrder,
+                    plan:selectedPaymentPlan.name,
+                    amount:selectedPaymentPlan.amount,
+                    codeKey:selectedPaymentPlan.codeKey,
+                    successToken
+                }));
+
+                if(data.redirect || data.url){
+                    window.open(data.redirect || data.url,'_blank','noopener,noreferrer');
+                    status.textContent='Счёт создан. Открыта страница оплаты.';
+                }else{
+                    throw new Error('Platega не вернул ссылку на оплату.');
+                }
+            }catch(err){
+                console.error(err);
+                status.textContent='Ошибка: '+err.message;
+            }finally{
+                createBtn.disabled=false;
+                createBtn.style.opacity='1';
             }
         }
 
+        document.getElementById('createPaymentBtn').addEventListener('click',createPlategaInvoice);
+        document.getElementById('cancelPaymentBtn').addEventListener('click',()=>closeModal('paymentModal'));
+        document.getElementById('closePaymentModal').addEventListener('click',()=>closeModal('paymentModal'));
+
+        async function checkDirectPayment(transactionId){
+            try{
+                const res=await fetch(PLATEGA_API+'/transaction/'+encodeURIComponent(transactionId),{
+                    headers:{'X-MerchantId':PLATEGA_MERCHANT_ID,'X-Secret':PLATEGA_SECRET}
+                });
+                if(!res.ok) return null;
+                return await res.json();
+            }catch(e){ return null; }
+        }
+
+        async function showPaymentResult(){
+            const params=new URLSearchParams(location.search);
+            const token=params.get('payment_success');
+            const failed=params.get('payment_failed');
+            if(!token && !failed) return;
+
+            if(failed){
+                await showAlert('Оплата не завершена','Платёж был отменён или завершился ошибкой.','warning');
+                history.replaceState({},'',PUBLIC_SITE_URL);
+                return;
+            }
+
+            let tx=null;
+            for(let i=0;i<localStorage.length;i++){
+                const k=localStorage.key(i);
+                if(!k || !k.startsWith('proxygem_payment_')) continue;
+                try{
+                    const item=JSON.parse(localStorage.getItem(k));
+                    if(item.successToken===token){ tx=item; break; }
+                }catch{}
+            }
+
+            if(!tx){
+                await showAlert('Платёж','Не найден локальный заказ для этой страницы.','warning');
+                return;
+            }
+
+            const data=await checkDirectPayment(tx.transactionId);
+            if(!data || data.status!=='CONFIRMED'){
+                await showAlert('Платёж ещё не подтверждён','Подтверждение Platega ещё не получено. Обновите страницу немного позже.','info');
+                return;
+            }
+
+            try{
+                const codesRes=await fetch(PREMIUM_CODES_URL,{cache:'no-store'});
+                const codes=await codesRes.json();
+                const allCodes=Array.isArray(codes.codes)?codes.codes:[];
+                const keyObj=allCodes.find(x =>
+                    x && x.used===false && x.duration===tx.codeKey
+                );
+                const key=keyObj ? keyObj.id : null;
+
+                if(!key){
+                    const message = tx.codeKey === '6_months'
+                        ? 'Платёж подтверждён, но в premium_codes.json сейчас нет категории 6_months. Добавь ключи с duration "6_months" в GitHub JSON.'
+                        : 'Платёж подтверждён, но свободный ключ для выбранного тарифа не найден в premium_codes.json.';
+                    await showAlert('Оплата подтверждена',message,'warning');
+                    return;
+                }
+
+                // ВАЖНО: GitHub raw доступен только на чтение. Без backend нельзя атомарно
+                // отметить ключ used=true, поэтому один и тот же ключ теоретически может
+                // быть выдан двум пользователям при одновременной оплате.
+                await showAlert('Оплата успешна','Ваш ключ: '+key+'\\n\\nСохраните его в безопасном месте.','success');
+            }catch(e){
+                await showAlert('Ошибка выдачи ключа','Оплата подтверждена, но premium_codes.json сейчас недоступен.','error');
+            }
+        }
+
+        // Кнопки тарифов: используем существующий data-plan.
         document.querySelectorAll('.pricing-card-btn:not([disabled])').forEach(btn=>{
             btn.addEventListener('click', async function(e){
                 e.stopPropagation();
@@ -1865,59 +1994,14 @@
                     await showAlert('Требуется авторизация','Пожалуйста, войдите в аккаунт, чтобы приобрести тариф.','warning');
                     showAuthModal(); return;
                 }
-                const ban=isUserBanned(currentUser.id);
-                if(ban){ await showAlert('Доступ запрещен','Ваш аккаунт забанен. Обратитесь в поддержку.','error'); return; }
-                const plan=this.dataset.plan||'1 месяц — 259 ₽';
-                showPaymentModal(plan);
+                if(isUserBanned(currentUser.id)){
+                    await showAlert('Доступ запрещен','Ваш аккаунт забанен. Обратитесь в поддержку.','error'); return;
+                }
+                openPaymentCheckout(this.dataset.plan||'1 месяц — 259 ₽');
             });
         });
 
-        document.getElementById('closePaymentModal').addEventListener('click',()=>closeModal('paymentModal'));
-
-        // Возврат после оплаты: /?payment=<20 цифр>
-        async function handlePaymentReturn(){
-            const params=new URLSearchParams(location.search);
-            const publicId=params.get('payment');
-            if(!publicId || !/^\d{20}$/.test(publicId)) return;
-            document.title=publicId;
-            const modal=document.getElementById('paymentModal');
-            if(modal){
-                const wrap=modal.querySelector('.payment-wrap');
-                wrap.innerHTML=`
-                    <div class="payment-header">
-                        <span class="payment-kicker">Payment result</span>
-                        <h2>Проверяем оплату…</h2>
-                        <p>Не закрывайте вкладку. Мы выдадим ключ сразу после подтверждения Platega.</p>
-                    </div>
-                    <div class="payment-order-card"><div><div class="label">Код операции</div><div class="value">${publicId}</div></div><div class="payment-total"><div class="amount"><i class="fas fa-spinner fa-spin"></i></div><div class="plan">ожидание подтверждения</div></div></div>
-                    <div id="paymentReturnState" style="text-align:center;color:#777;padding:20px 0;">Связываемся с платёжной системой…</div>
-                `;
-                openModal('paymentModal');
-            }
-            for(let i=0;i<30;i++){
-                try{
-                    const r=await fetch(PAYMENT_API.replace(/\/$/,'')+'/payment-status/'+publicId,{cache:'no-store'});
-                    const data=await r.json();
-                    if(data.status==='CONFIRMED' && data.code){
-                        document.querySelector('#paymentReturnState').innerHTML=`
-                            <div style="font-size:2.8rem;color:#fff;margin-bottom:10px;"><i class="fas fa-check-circle"></i></div>
-                            <div style="color:#fff;font-size:1.15rem;font-weight:800;">Оплата подтверждена</div>
-                            <div style="color:#777;margin:7px 0 18px;">Ваш ключ Premium</div>
-                            <div style="font:800 1rem/1.4 monospace;letter-spacing:.04em;padding:16px;border-radius:16px;background:#fff;color:#090909;word-break:break-all;">${data.code}</div>
-                            <button class="btn-primary" style="margin-top:16px;" onclick="navigator.clipboard.writeText('${data.code.replace(/'/g,"\\'")}');this.innerHTML='<i class=&quot;fas fa-check&quot;></i> Скопировано'">Скопировать ключ</button>
-                        `;
-                        return;
-                    }
-                    if(data.status==='CANCELED'){
-                        document.querySelector('#paymentReturnState').innerHTML='<div style="color:#ff6b6b;">Платёж отменён или не прошёл.</div>';
-                        return;
-                    }
-                    document.querySelector('#paymentReturnState').textContent='Оплата ещё не подтверждена. Проверяем снова…';
-                }catch(e){}
-                await new Promise(r=>setTimeout(r,3000));
-            }
-            document.querySelector('#paymentReturnState').textContent='Проверка заняла больше обычного времени. Обновите страницу чуть позже.';
-        }
+        document.addEventListener('DOMContentLoaded',()=>setTimeout(showPaymentResult,300));
 
         // ===== ВОССТАНОВЛЕНИЕ СЕССИИ =====
         function restoreSession() {
