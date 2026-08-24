@@ -5,7 +5,3 @@ compatibility_date = "2026-08-24"
 [vars]
 PUBLIC_SITE_URL = "https://proxygem.github.io/site"
 PREMIUM_CODES_URL = "https://raw.githubusercontent.com/slava20222014-create/Servers_ProxyGemSite/main/premium_codes.json"
-
-[[kv_namespaces]]
-binding = "PAYMENT_KV"
-id = "PUT_YOUR_KV_NAMESPACE_ID_HERE"
