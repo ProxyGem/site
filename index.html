@@ -528,6 +528,24 @@
         .profile-content .profile-tab .info-row .value { color:#ddd; }
         .profile-content .profile-tab .info-row .value.banned { color:#ff6b6b; }
         .profile-content .profile-tab .info-row .value.admin { color:#6bff6b; }
+        .purchase-history { display:flex; flex-direction:column; gap:12px; }
+        .purchase-history-empty { text-align:center; color:#666; padding:42px 20px; border:1px dashed rgba(255,255,255,0.06); border-radius:20px; }
+        .purchase-item { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04); border-radius:20px; padding:18px; transition:all .3s ease; }
+        .purchase-item:hover { background:rgba(255,255,255,0.035); border-color:rgba(255,255,255,0.08); transform:translateY(-2px); }
+        .purchase-item-head { display:flex; justify-content:space-between; gap:14px; align-items:flex-start; margin-bottom:14px; }
+        .purchase-item-title { color:#eee; font-weight:700; font-size:1rem; }
+        .purchase-item-time { color:#666; font-size:.78rem; white-space:nowrap; }
+        .purchase-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+        .purchase-field { padding:11px 12px; background:rgba(255,255,255,0.02); border-radius:12px; border:1px solid rgba(255,255,255,0.025); }
+        .purchase-field-label { display:block; color:#666; font-size:.72rem; margin-bottom:3px; }
+        .purchase-field-value { color:#ddd; font-size:.9rem; font-weight:600; word-break:break-word; }
+        .purchase-key { margin-top:12px; padding:12px 14px; border-radius:14px; background:rgba(107,159,255,.06); border:1px solid rgba(107,159,255,.12); }
+        .purchase-key .purchase-field-value { color:#b9d1ff; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+        @media (max-width:680px) {
+            .purchase-grid { grid-template-columns:1fr 1fr; }
+            .purchase-item-head { flex-direction:column; }
+            .purchase-item-time { white-space:normal; }
+        }
         .profile-content .profile-tab .form-group { margin-bottom:16px; }
         .profile-content .profile-tab .form-group label { display:block; color:#888; font-size:0.85rem; margin-bottom:4px; }
         .profile-content .profile-tab .form-group input, .profile-content .profile-tab .form-group select {
@@ -1315,6 +1333,7 @@
                     </div>
                     <div class="profile-menu">
                         <div class="menu-item active" data-tab="personal"><i class="fas fa-user"></i> Личные Данные</div>
+                        <div class="menu-item" data-tab="purchases"><i class="fas fa-receipt"></i> История покупок</div>
                         <div class="menu-item" data-tab="settings"><i class="fas fa-sliders-h"></i> Настройки сайта</div>
                     </div>
                 </div>
@@ -1342,6 +1361,12 @@
                         <div class="info-row"><span class="label">Забанен</span><span class="value" id="profileBanned">Нет</span></div>
                         <div class="info-row"><span class="label">Группа</span><span class="value" id="profileGroup">Пользователь</span></div>
                         <div style="margin-top:20px;"><button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Выйти</button></div>
+                    </div>
+                    <div class="profile-tab" id="profile-purchases">
+                        <h3><i class="fas fa-receipt"></i> История покупок</h3>
+                        <div class="purchase-history" id="purchaseHistoryList">
+                            <div class="purchase-history-empty"><i class="fas fa-receipt"></i><br>Покупок пока нет</div>
+                        </div>
                     </div>
                     <div class="profile-tab" id="profile-settings">
                         <h3><i class="fas fa-sliders-h"></i> Настройки сайта</h3>
@@ -1599,13 +1624,99 @@
             const users=getUsers(); const idx=users.findIndex(u=>u.id===currentUser.id);
             if(idx!==-1){ users[idx].settings={ language, notifications }; saveUsers(users); currentUser=users[idx]; localStorage.setItem('currentUser',JSON.stringify(currentUser)); await showAlert('Успех','Настройки сохранены!','success'); applyTranslations(language); document.getElementById('languageSelect').value=language; }
         });
+        function getPaymentMethodName(method){
+            const names={2:'СБП',11:'Карточный эквайринг',13:'Криптовалюта'};
+            return names[Number(method)]||('Метод #'+method);
+        }
+        function getPurchaseHistory(){
+            if(!currentUser) return [];
+            return Array.isArray(currentUser.purchaseHistory) ? currentUser.purchaseHistory : [];
+        }
+        function savePurchaseHistory(history){
+            if(!currentUser) return;
+            currentUser.purchaseHistory=history;
+            const users=getUsers();
+            const idx=users.findIndex(u=>u.id===currentUser.id);
+            if(idx!==-1){ users[idx].purchaseHistory=history; saveUsers(users); }
+            localStorage.setItem('currentUser',JSON.stringify(currentUser));
+        }
+        function getCommissionAmount(data, tx){
+            const candidates=[
+                data?.commission, data?.fee, data?.paymentDetails?.commission,
+                data?.paymentDetails?.fee, data?.amount?.commission, tx?.commission
+            ];
+            for(const value of candidates){
+                const num=Number(value);
+                if(Number.isFinite(num)) return num;
+            }
+            return 0;
+        }
+        function renderPurchaseHistory(){
+            const container=document.getElementById('purchaseHistoryList');
+            if(!container) return;
+            const history=getPurchaseHistory().slice().sort((a,b)=>Number(b.timestamp||0)-Number(a.timestamp||0));
+            if(!history.length){
+                container.innerHTML='<div class="purchase-history-empty"><i class="fas fa-receipt"></i><br>Покупок пока нет</div>';
+                return;
+            }
+            container.innerHTML=history.map(item=>{
+                const time=item.timestamp ? new Date(item.timestamp).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+                const amount=Number(item.amount)||0;
+                const commission=Number(item.commission)||0;
+                const price=Number(item.price ?? item.amount)||0;
+                const key=item.key ? escapeHtml(item.key) : 'Не выдан';
+                return `<div class="purchase-item">
+                    <div class="purchase-item-head">
+                        <div class="purchase-item-title"><i class="fas fa-box"></i> ${escapeHtml(item.plan||'Покупка')}</div>
+                        <div class="purchase-item-time">${time}</div>
+                    </div>
+                    <div class="purchase-grid">
+                        <div class="purchase-field"><span class="purchase-field-label">Покупка</span><span class="purchase-field-value">${escapeHtml(item.order||'—')}</span></div>
+                        <div class="purchase-field"><span class="purchase-field-label">Сумма</span><span class="purchase-field-value">${amount.toFixed(2)} ₽</span></div>
+                        <div class="purchase-field"><span class="purchase-field-label">Комиссия</span><span class="purchase-field-value">${commission.toFixed(2)} ₽</span></div>
+                        <div class="purchase-field"><span class="purchase-field-label">Цена</span><span class="purchase-field-value">${price.toFixed(2)} ₽</span></div>
+                        <div class="purchase-field"><span class="purchase-field-label">Способ оплаты</span><span class="purchase-field-value">${escapeHtml(item.paymentMethodName||'—')}</span></div>
+                        <div class="purchase-field"><span class="purchase-field-label">Статус</span><span class="purchase-field-value">${escapeHtml(item.status||'Оплачено')}</span></div>
+                    </div>
+                    <div class="purchase-key">
+                        <span class="purchase-field-label">Ключ</span>
+                        <span class="purchase-field-value">${key}</span>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+        function recordPurchase(tx,data,key){
+            if(!currentUser || !tx || tx.historyRecorded) return;
+            const history=getPurchaseHistory();
+            if(history.some(x=>x.transactionId===tx.transactionId)) return;
+            history.push({
+                transactionId:tx.transactionId,
+                order:tx.order,
+                plan:tx.plan,
+                amount:Number(tx.amount)||0,
+                price:Number(tx.price ?? tx.amount)||0,
+                commission:getCommissionAmount(data,tx),
+                timestamp:Date.now(),
+                paymentMethod:Number(tx.paymentMethod)||selectedPaymentMethod,
+                paymentMethodName:getPaymentMethodName(tx.paymentMethod||selectedPaymentMethod),
+                status:'Оплачено',
+                key:key||null,
+                codeKey:tx.codeKey
+            });
+            savePurchaseHistory(history);
+            tx.historyRecorded=true;
+            tx.issuedKey=key||null;
+            localStorage.setItem('proxygem_payment_'+tx.transactionId,JSON.stringify(tx));
+            renderPurchaseHistory();
+        }
+
         function updateProfileUI() {
             const profileBtn=document.getElementById('profileBtn'); const nameSpan=document.getElementById('profileName');
             if(currentUser){ const ban=isUserBanned(currentUser.id); if(ban){ nameSpan.textContent='Забанен'; profileBtn.style.borderColor='rgba(255,50,50,0.3)'; document.getElementById('adminTabBtn').style.display='none'; return; } nameSpan.textContent=currentUser.nickname||currentUser.name; profileBtn.style.borderColor='rgba(255,255,255,0.06)'; document.getElementById('adminTabBtn').style.display=(currentUser.isAdmin&&currentUser.telegramId===ADMIN_TELEGRAM_ID)?'flex':'none'; } else { nameSpan.textContent='Войти'; document.getElementById('adminTabBtn').style.display='none'; }
             updateProfilePage();
         }
         function updateProfilePage() {
-            if(!currentUser){ document.getElementById('profileNameDisplay').textContent='Гость'; document.getElementById('profileAvatarDisplay').src='logo.png'; document.getElementById('profileTelegram').textContent='Не авторизован'; document.getElementById('profileAccountType').textContent='—'; document.getElementById('profileId').textContent='—'; document.getElementById('profileBanned').textContent='Нет'; document.getElementById('profileBanned').className='value'; document.getElementById('profileGroup').textContent='Гость'; document.getElementById('profileGroup').className='value'; document.getElementById('profileAvatar').src='logo.png'; document.getElementById('profileNickname').value=''; return; }
+            if(!currentUser){ document.getElementById('profileNameDisplay').textContent='Гость'; document.getElementById('profileAvatarDisplay').src='logo.png'; document.getElementById('profileTelegram').textContent='Не авторизован'; document.getElementById('profileAccountType').textContent='—'; document.getElementById('profileId').textContent='—'; document.getElementById('profileBanned').textContent='Нет'; document.getElementById('profileBanned').className='value'; document.getElementById('profileGroup').textContent='Гость'; document.getElementById('profileGroup').className='value'; document.getElementById('profileAvatar').src='logo.png'; document.getElementById('profileNickname').value=''; renderPurchaseHistory(); return; }
             const ban=isUserBanned(currentUser.id);
             document.getElementById('profileNameDisplay').textContent=currentUser.nickname||currentUser.name;
             document.getElementById('profileAvatarDisplay').src=currentUser.avatar||'logo.png';
@@ -1618,6 +1729,7 @@
             if(currentUser.isAdmin&&currentUser.telegramId===ADMIN_TELEGRAM_ID){ groupEl.textContent='ADMIN'; groupEl.className='value admin'; } else { groupEl.textContent='Пользователь'; groupEl.className='value'; }
             document.getElementById('profileAvatar').src=currentUser.avatar||'logo.png';
             document.getElementById('profileNickname').value=currentUser.nickname||'';
+            renderPurchaseHistory();
             if(currentUser.settings){ document.getElementById('languageSelect').value=currentUser.settings.language||'ru'; document.getElementById('notificationsToggle').checked=currentUser.settings.notifications||false; if(currentUser.settings.language&&currentUser.settings.language!==currentLang) applyTranslations(currentUser.settings.language); }
         }
         document.getElementById('profileBtn').addEventListener('click', function(){
@@ -1929,8 +2041,14 @@
                     order:paymentOrder,
                     plan:selectedPaymentPlan.name,
                     amount:selectedPaymentPlan.amount,
+                    price:selectedPaymentPlan.amount,
+                    commission:0,
+                    paymentMethod:selectedPaymentMethod,
+                    paymentMethodName:getPaymentMethodName(selectedPaymentMethod),
+                    createdAt:Date.now(),
                     codeKey:selectedPaymentPlan.codeKey,
-                    successToken
+                    successToken,
+                    historyRecorded:false
                 }));
 
                 if(data.redirect || data.url){
@@ -1999,15 +2117,17 @@
                 const codesRes=await fetch(PREMIUM_CODES_URL,{cache:'no-store'});
                 const codes=await codesRes.json();
                 const allCodes=Array.isArray(codes.codes)?codes.codes:[];
-                if(tx.codeKey === 'test_1_rub'){
-                    await showAlert('Тестовый платёж подтверждён','Счёт Platega на 1 ₽ успешно подтверждён. Ключ для тестового платежа не выдаётся.','success');
-                    return;
-                }
 
                 const keyObj=allCodes.find(x =>
                     x && x.used===false && x.duration===tx.codeKey
                 );
-                const key=keyObj ? keyObj.id : null;
+                let key=tx.issuedKey || (keyObj ? keyObj.id : null);
+
+                // Тестовая оплата тоже выдаёт ключ. Если отдельного тестового ключа
+                // нет в premium_codes.json, создаём локальный тестовый ключ для проверки сценария.
+                if(tx.codeKey === 'test_1_rub' && !key){
+                    key='TEST-'+tx.order+'-'+randomDigits(8);
+                }
 
                 if(!key){
                     const message = tx.codeKey === '6_months'
@@ -2017,10 +2137,12 @@
                     return;
                 }
 
+                recordPurchase(tx,data,key);
+
                 // ВАЖНО: GitHub raw доступен только на чтение. Без backend нельзя атомарно
                 // отметить ключ used=true, поэтому один и тот же ключ теоретически может
                 // быть выдан двум пользователям при одновременной оплате.
-                await showAlert('Оплата успешна','Ваш ключ: '+key+'\\n\\nСохраните его в безопасном месте.','success');
+                await showAlert('Оплата успешна','Ваш ключ: '+key+'\n\nПокупка добавлена в историю профиля.\nСохраните его в безопасном месте.','success');
             }catch(e){
                 await showAlert('Ошибка выдачи ключа','Оплата подтверждена, но premium_codes.json сейчас недоступен.','error');
             }
