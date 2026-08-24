@@ -1941,17 +1941,6 @@
         const PREMIUM_CODES_URL = 'https://raw.githubusercontent.com/slava20222014-create/Servers_ProxyGemSite/main/premium_codes.json';
         const PUBLIC_SITE_URL = 'https://proxygem.github.io/site/';
 
-        // ===== GITHUB KEY ISSUING =====
-        // ВАЖНО: GitHub token в одном HTML-файле будет виден посетителям сайта.
-        // Для production безопаснее вынести его на backend.
-        // НЕ вставляй сюда уже опубликованный/отозванный токен.
-        const KEY_SITE = 'PASTE_GITHUB_CLASSIC_TOKEN_HERE';
-        const GITHUB_OWNER = 'slava20222014-create';
-        const GITHUB_REPO = 'Servers_ProxyGemSite';
-        const GITHUB_FILE = 'premium_codes.json';
-        const GITHUB_BRANCH = 'main';
-        const GITHUB_API = 'https://api.github.com';
-
         const PAYMENT_PLANS = {
             '1 месяц — 259 ₽': { name:'1 месяц', amount:259, codeKey:'1_month' },
             '3 месяца — 659 ₽': { name:'3 месяца', amount:659, codeKey:'3_months' },
@@ -2094,203 +2083,14 @@
             return premiumCodesPromise;
         }
 
-        // UTF-8 -> Base64 for GitHub Contents API.
-        function utf8ToBase64(text){
-            const bytes=new TextEncoder().encode(text);
-            let binary='';
-            const chunk=0x8000;
-            for(let i=0;i<bytes.length;i+=chunk){
-                binary += String.fromCharCode(...bytes.subarray(i,i+chunk));
-            }
-            return btoa(binary);
-        }
-
-        // Base64 -> UTF-8.
-        function base64ToUtf8(base64){
-            const binary=atob(String(base64).replace(/\n/g,''));
-            const bytes=Uint8Array.from(binary,c=>c.charCodeAt(0));
-            return new TextDecoder().decode(bytes);
-        }
-
-        function githubHeaders(){
-            if(!KEY_SITE || KEY_SITE==='PASTE_YOUR_NEW_KEY_SITE_HERE'){
-                throw new Error('KEY_SITE не настроен в HTML.');
-            }
-            return {
-                'Accept':'application/vnd.github+json',
-                'Authorization':'Bearer '+KEY_SITE,
-                'X-GitHub-Api-Version':'2022-11-28',
-                'Content-Type':'application/json'
-            };
-        }
-
-        function githubFileUrl(){
-            return GITHUB_API+
-                '/repos/'+encodeURIComponent(GITHUB_OWNER)+
-                '/'+encodeURIComponent(GITHUB_REPO)+
-                '/contents/'+GITHUB_FILE+
-                '?ref='+encodeURIComponent(GITHUB_BRANCH);
-        }
-
-        async function githubGetPremiumCodes(){
-            const res=await fetch(githubFileUrl(),{
-                method:'GET',
-                headers:githubHeaders(),
-                cache:'no-store'
-            });
-
-            const data=await res.json().catch(()=>({}));
-
-            if(!res.ok){
-                throw new Error(data.message || ('GitHub GET HTTP '+res.status));
-            }
-
-            if(!data.sha || !data.content){
-                throw new Error('GitHub не вернул SHA/content premium_codes.json.');
-            }
-
-            const parsed=JSON.parse(base64ToUtf8(data.content));
-
-            if(!Array.isArray(parsed.codes)){
-                throw new Error('В premium_codes.json должен быть массив codes.');
-            }
-
-            return {
-                sha:data.sha,
-                document:parsed
-            };
-        }
-
-        async function githubUpdatePremiumCodes(sha,document,message){
-            const res=await fetch(GITHUB_API+
-                '/repos/'+encodeURIComponent(GITHUB_OWNER)+
-                '/'+encodeURIComponent(GITHUB_REPO)+
-                '/contents/'+GITHUB_FILE,{
-                    method:'PUT',
-                    headers:githubHeaders(),
-                    body:JSON.stringify({
-                        message,
-                        content:utf8ToBase64(JSON.stringify(document,null,2)+'\n'),
-                        sha,
-                        branch:GITHUB_BRANCH
-                    })
-                });
-
-            const data=await res.json().catch(()=>({}));
-
-            if(res.status===409){
-                const err=new Error('GITHUB_CONFLICT');
-                err.code='GITHUB_CONFLICT';
-                throw err;
-            }
-
-            if(!res.ok){
-                throw new Error(data.message || ('GitHub PUT HTTP '+res.status));
-            }
-
-            return data;
-        }
-
-        async function claimPremiumKeyFromGitHub(transactionId,userId,duration){
-            // Optimistic locking через SHA GitHub.
-            // Если два пользователя одновременно выбрали один ключ:
-            // первый PUT проходит, второй получает 409, перечитывает файл
-            // и выбирает следующий свободный ключ.
-            for(let attempt=0;attempt<8;attempt++){
-                const file=await githubGetPremiumCodes();
-                const codes=file.document.codes;
-
-                // Идемпотентность: если этот платёж уже получил ключ,
-                // возвращаем именно его, не выдавая новый.
-                const already=codes.find(x =>
-                    x &&
-                    x.transactionId &&
-                    String(x.transactionId)===String(transactionId)
-                );
-
-                if(already && already.id){
-                    return {
-                        key:already.id,
-                        alreadyIssued:true
-                    };
-                }
-
-                const index=codes.findIndex(x =>
-                    x &&
-                    x.id &&
-                    String(x.duration)===String(duration) &&
-                    x.used===false &&
-                    (x.gived===false || typeof x.gived==='undefined')
-                );
-
-                if(index===-1){
-                    return {
-                        key:null,
-                        error:'NO_FREE_KEYS',
-                        message:'Нет свободного ключа: нужен duration="'+duration+'", used=false и gived=false.'
-                    };
-                }
-
-                const selected=codes[index];
-
-                // Важно: used НЕ меняем.
-                // gived=true означает, что ключ уже выдан покупателю.
-                codes[index]={
-                    ...selected,
-                    gived:true,
-                    transactionId:String(transactionId),
-                    givedAt:new Date().toISOString(),
-                    givedTo:userId ? String(userId) : null
-                };
-
-                const newDocument={
-                    ...file.document,
-                    codes
-                };
-
-                try{
-                    await githubUpdatePremiumCodes(
-                        file.sha,
-                        newDocument,
-                        'Give key '+selected.id+' for transaction '+transactionId
-                    );
-
-                    // Сохраняем выбранный ключ локально.
-                    return {
-                        key:selected.id,
-                        alreadyIssued:false
-                    };
-                }catch(error){
-                    if(error && error.code==='GITHUB_CONFLICT'){
-                        // Кто-то изменил файл после нашего GET.
-                        // Перечитываем и пробуем снова.
-                        continue;
-                    }
-                    throw error;
-                }
-            }
-
-            return {
-                key:null,
-                error:'TOO_MANY_CONCURRENT_REQUESTS',
-                message:'Слишком много одновременных выдач. Повторите попытку.'
-            };
-        }
-
         async function checkDirectPayment(transactionId){
             try{
                 const res=await fetch(PLATEGA_API+'/transaction/'+encodeURIComponent(transactionId),{
-                    headers:{
-                        'X-MerchantId':PLATEGA_MERCHANT_ID,
-                        'X-Secret':PLATEGA_SECRET
-                    }
+                    headers:{'X-MerchantId':PLATEGA_MERCHANT_ID,'X-Secret':PLATEGA_SECRET}
                 });
                 if(!res.ok) return null;
                 return await res.json();
-            }catch(e){
-                console.error('checkDirectPayment:',e);
-                return null;
-            }
+            }catch(e){ return null; }
         }
 
         async function showPaymentResult(){
@@ -2300,11 +2100,7 @@
             if(!token && !failed) return;
 
             if(failed){
-                await showAlert(
-                    'Оплата не завершена',
-                    'Платёж был отменён или завершился ошибкой.',
-                    'warning'
-                );
+                await showAlert('Оплата не завершена','Платёж был отменён или завершился ошибкой.','warning');
                 history.replaceState({},'',PUBLIC_SITE_URL);
                 return;
             }
@@ -2315,82 +2111,51 @@
                 if(!k || !k.startsWith('proxygem_payment_')) continue;
                 try{
                     const item=JSON.parse(localStorage.getItem(k));
-                    if(item.successToken===token){
-                        tx=item;
-                        break;
-                    }
+                    if(item.successToken===token){ tx=item; break; }
                 }catch{}
             }
 
             if(!tx){
-                await showAlert(
-                    'Платёж',
-                    'Не найден локальный заказ для этой страницы.',
-                    'warning'
-                );
+                await showAlert('Платёж','Не найден локальный заказ для этой страницы.','warning');
                 return;
             }
 
             const data=await checkDirectPayment(tx.transactionId);
-
             if(!data || data.status!=='CONFIRMED'){
-                await showAlert(
-                    'Платёж ещё не подтверждён',
-                    'Подтверждение Platega ещё не получено. Обновите страницу немного позже.',
-                    'info'
-                );
+                await showAlert('Платёж ещё не подтверждён','Подтверждение Platega ещё не получено. Обновите страницу немного позже.','info');
                 return;
             }
 
             try{
-                // Если ключ уже был выдан этому transactionId,
-                // GitHub вернёт тот же ключ.
-                const targetDuration =
-                    tx.codeKey==='test_1_rub'
-                        ? '1_month'
-                        : tx.codeKey;
+                const allCodes=await loadPremiumCodes();
 
-                const issueData=await claimPremiumKeyFromGitHub(
-                    tx.transactionId,
-                    currentUser ? currentUser.id : null,
-                    targetDuration
+                // Всегда выдаём только настоящий ключ из premium_codes.json.
+                // used:false = ключ свободен/рабочий; used:true = уже использован.
+                const targetDuration = tx.codeKey === 'test_1_rub' ? '1_month' : tx.codeKey;
+                const issuedObj=tx.issuedKey
+                    ? allCodes.find(x => x && x.id===tx.issuedKey && x.used===false && x.duration===targetDuration)
+                    : null;
+                const keyObj=issuedObj || allCodes.find(x =>
+                    x && x.used === false && x.duration === targetDuration && x.id
                 );
-
-                const key=issueData.key || null;
+                const key=keyObj ? keyObj.id : null;
 
                 if(!key){
-                    await showAlert(
-                        'Ошибка выдачи ключа',
-                        issueData.message || 'Ключ не был выдан.',
-                        'error'
-                    );
+                    const message = tx.codeKey === '6_months'
+                        ? 'Платёж подтверждён, но в premium_codes.json сейчас нет категории 6_months. Добавь ключи с duration "6_months" в GitHub JSON.'
+                        : 'Платёж подтверждён, но свободный ключ для выбранного тарифа не найден в premium_codes.json.';
+                    await showAlert('Оплата подтверждена',message,'warning');
                     return;
                 }
 
-                tx.issuedKey=key;
                 recordPurchase(tx,data,key);
 
-                localStorage.setItem(
-                    'proxygem_payment_'+tx.transactionId,
-                    JSON.stringify(tx)
-                );
-
-                await showAlert(
-                    'Оплата успешна',
-                    'Ваш ключ: '+key+
-                    '\n\nПокупка добавлена в историю профиля.'+
-                    '\nСохраните его в безопасном месте.',
-                    'success'
-                );
+                // ВАЖНО: GitHub raw доступен только на чтение. Без backend нельзя атомарно
+                // отметить ключ used=true, поэтому один и тот же ключ теоретически может
+                // быть выдан двум пользователям при одновременной оплате.
+                await showAlert('Оплата успешна','Ваш ключ: '+key+'\n\nПокупка добавлена в историю профиля.\nСохраните его в безопасном месте.','success');
             }catch(e){
-                console.error('GitHub key issue:',e);
-
-                await showAlert(
-                    'Ошибка выдачи ключа',
-                    'Оплата подтверждена, но ключ не удалось выдать через GitHub. '+
-                    (e.message || ''),
-                    'error'
-                );
+                await showAlert('Ошибка выдачи ключа','Оплата подтверждена, но premium_codes.json сейчас недоступен.','error');
             }
         }
 
