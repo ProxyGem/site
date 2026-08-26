@@ -2183,7 +2183,53 @@
         document.querySelectorAll('.tab-btn:not(.modal-trigger)').forEach(btn=>{ btn.addEventListener('click',function(){ navigateTo(this.dataset.tab); }); });
         document.getElementById('heroFeaturesBtn').addEventListener('click',()=>navigateTo('features'));
         document.getElementById('heroDownloadBtn').addEventListener('click',()=>navigateTo('download'));
-        document.getElementById('downloadMainBtn').addEventListener('click',()=>{ showAlert('Скачивание','Скачивание ProxyGem начнется...','info'); });
+        // ===== ПРЯМОЕ СКАЧИВАНИЕ ИЗ GOOGLE DRIVE =====
+const GOOGLE_DRIVE_FILE_ID = '16ZygT3oy87CRHM6ir2Vyefkk7WFJlXk2';
+const GOOGLE_DRIVE_DOWNLOAD_URL =
+    `https://drive.google.com/uc?export=download&id=${GOOGLE_DRIVE_FILE_ID}`;
+
+document.getElementById('downloadMainBtn').addEventListener('click', () => {
+    const link = document.createElement('a');
+    link.href = 'https://github.com/ProxyGem/ProxyGem/releases/latest/download/ProxyGemSetup.exe';
+    link.download = 'ProxyGemSetup.exe';
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+});
+
+        if (!response.ok) {
+            throw new Error(`Google Drive HTTP ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'ProxyGem';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
+    } catch (error) {
+        console.error('Ошибка скачивания:', error);
+
+        // Запасной вариант: браузер сам скачает файл по прямому endpoint.
+        const link = document.createElement('a');
+        link.href = GOOGLE_DRIVE_DOWNLOAD_URL;
+        link.download = 'ProxyGem';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    } finally {
+        btn.disabled = false;
+        if (btn.querySelector('.btn-text')) btn.querySelector('.btn-text').textContent = oldText;
+    }
+});
         window.addEventListener('popstate',()=>{ const path=window.location.pathname.replace(BASE_PATH+'/',''); navigateTo(path||'home'); });
 
         // ===== ПЕРЕВОДЫ =====
