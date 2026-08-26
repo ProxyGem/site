@@ -807,7 +807,12 @@
         }
         .payment-secure i{color:#d8d8da;font-size:.72rem}
 
-        .payment-layout{display:block}
+        .payment-layout{
+            display:grid;
+            grid-template-columns:minmax(280px,.82fr) minmax(420px,1.18fr);
+            gap:20px;
+            align-items:stretch;
+        }
         .payment-summary{
             position:relative;
             overflow:hidden;
@@ -918,11 +923,13 @@
         .payment-section-label span:last-child{
             color:#4f5056;font-weight:600;letter-spacing:0;text-transform:none;
         }
-        .payment-methods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+        .payment-methods{
+            display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+        }
         .payment-method{
             appearance:none;-webkit-appearance:none;width:100%;min-width:0;
             position:relative;display:flex;flex-direction:column;align-items:flex-start;
-            min-height:145px;padding:15px;text-align:left;font:inherit;color:#fff;
+            min-height:170px;padding:17px;text-align:left;font:inherit;color:#fff;
             border-radius:21px;border:1px solid rgba(255,255,255,.065);
             background:linear-gradient(155deg,rgba(255,255,255,.045),rgba(255,255,255,.012));
             cursor:pointer;overflow:hidden;isolation:isolate;
@@ -1038,18 +1045,112 @@
         }
 
 
+        /* Финальный компактный дизайн оплаты */
+        .payment-wrap-compact{
+            padding:24px;
+            max-width:100%;
+        }
+        .payment-plan-bar{
+            display:flex;
+            align-items:center;
+            gap:18px;
+            margin-bottom:16px;
+            padding:14px 16px;
+            border:1px solid rgba(255,255,255,.07);
+            border-radius:18px;
+            background:rgba(255,255,255,.025);
+        }
+        .payment-plan-bar > div{
+            display:flex;
+            flex-direction:column;
+            gap:2px;
+            min-width:0;
+        }
+        .payment-plan-label{
+            color:#66676d;
+            font-size:.6rem;
+            font-weight:800;
+            text-transform:uppercase;
+            letter-spacing:.12em;
+        }
+        .payment-plan-bar strong{
+            color:#f3f3f5;
+            font-size:.92rem;
+            white-space:nowrap;
+        }
+        .payment-order{
+            margin-left:auto;
+            color:#5c5d63;
+            font-size:.62rem;
+            white-space:nowrap;
+        }
+        .payment-order b{
+            color:#9d9ea4;
+            font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+        }
+        .payment-methods-compact{
+            grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+            gap:10px;
+        }
+        .payment-methods-compact .payment-method{
+            min-height:128px;
+            padding:14px;
+            justify-content:flex-start;
+        }
+        .payment-methods-compact .pm-title{
+            margin-top:13px;
+            font-size:.77rem;
+            line-height:1.18;
+        }
+        .payment-methods-compact .pm-desc{display:none}
+        .pm-icon-card i{
+            font-size:1.35rem;
+        }
         .pm-icon-funpay{
-            background:linear-gradient(145deg,#f3f3f3,#ffffff);
-            overflow:hidden;
+            background:#fff;
         }
         .pm-icon-funpay img{
-            width:31px !important;
-            height:31px !important;
+            width:34px !important;
+            height:34px !important;
             object-fit:contain;
             display:block;
         }
-        .payment-method-funpay.selected .pm-icon-funpay{
-            box-shadow:0 0 0 1px rgba(255,255,255,.12),0 8px 24px rgba(0,0,0,.25);
+        .payment-footer-compact{
+            border-top:0;
+            padding-top:12px;
+            margin-top:6px;
+            justify-content:flex-end;
+        }
+        .payment-footer-compact .payment-actions{
+            width:100%;
+            justify-content:flex-end;
+        }
+        #paymentStatus{
+            min-height:18px;
+            margin-top:8px;
+            text-align:center;
+        }
+        @media(max-width:1050px) and (min-width:681px){
+            .payment-methods-compact{
+                grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+            }
+        }
+        @media(max-width:680px){
+            .payment-wrap-compact{padding:18px}
+            .payment-plan-bar{gap:10px;flex-wrap:wrap}
+            .payment-order{margin-left:0;width:100%}
+            .payment-methods-compact{grid-template-columns:1fr !important}
+            .payment-methods-compact .payment-method{
+                min-height:72px;
+                flex-direction:row;
+                align-items:center;
+            }
+            .payment-methods-compact .pm-title{margin-top:0}
+            .payment-methods-compact .pm-icon{margin:0 13px 0 0}
+            .payment-footer-compact .payment-actions{
+                flex-direction:column;
+            }
+            #createPaymentBtn,#cancelPaymentBtn{width:100%}
         }
 
         /* Медиа */
@@ -1183,67 +1284,61 @@
         </div>
     </div>
 
-    <!-- Премиальный модал оплаты v2 -->
+    <!-- Премиальный модал оплаты -->
     <div class="modal-overlay" id="paymentModal">
         <div class="modal-content">
             <button class="modal-close-modern" id="closePaymentModal" aria-label="Закрыть"><i class="fas fa-times"></i></button>
 
-            <div class="payment-wrap">
-<div class="payment-layout">
-                    <section class="payment-main">
-                        
-                            <h2>Способ оплаты</h2>
-                            <p>Выберите один вариант — система запомнит ваш выбор до создания счёта.</p>
-                        </div>
-
-                        <div class="payment-methods">
-    <button class="payment-method selected" data-method="2" type="button" aria-pressed="true">
-        <span class="pm-check">✓</span>
-        <span class="pm-icon pm-icon-sbp">
-            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Faster_Payment_System_Russia_logo.svg" alt="СБП">
-        </span>
-        <span class="pm-title">СБП</span>
-        <span class="pm-desc">Система быстрых платежей</span>
-    </button>
-
-    <button class="payment-method" data-method="11" type="button" aria-pressed="false">
-        <span class="pm-check">✓</span>
-        <span class="pm-icon pm-icon-card"><i class="far fa-credit-card" aria-hidden="true"></i></span>
-        <span class="pm-title">БАНКОВСКАЯ КАРТА</span>
-        <span class="pm-desc">Оплата банковской картой</span>
-    </button>
-
-    <button class="payment-method" data-method="13" type="button" aria-pressed="false">
-        <span class="pm-check">✓</span>
-        <span class="pm-icon pm-icon-crypto">
-            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/USDT_Logo.png" alt="Крипта валюта">
-        </span>
-        <span class="pm-title">КРИПТА ВАЛЮТА</span>
-        <span class="pm-desc">USDT и другие криптовалюты</span>
-    </button>
-
-    <button class="payment-method payment-method-funpay" data-method="funpay" type="button" aria-pressed="false">
-        <span class="pm-check">↗</span>
-        <span class="pm-icon pm-icon-funpay">
-            <img src="https://funpay.com/favicon.ico" alt="FunPay">
-        </span>
-        <span class="pm-title">ФАНПЕЙ</span>
-        <span class="pm-desc">Оплата через FunPay</span>
-    </button>
-</div>
-
-                        <div class="payment-footer">
-                            <div class="payment-trust"><i class="fas fa-shield-halved"></i><span>Ваши платёжные данные обрабатываются на защищённой стороне</span></div>
-                            <div class="payment-actions">
-                                <button id="createPaymentBtn" type="button">Перейти к оплате <i class="fas fa-arrow-right"></i></button>
-                                <button id="cancelPaymentBtn" type="button">Отмена</button>
-                            </div>
-                        </div>
-
-                        <div id="paymentStatus" role="status" aria-live="polite"></div>
-                        <div class="payment-note">После создания счёта Platega откроется в новой вкладке.</div>
-                    </section>
+            <div class="payment-wrap payment-wrap-compact">
+                <div class="payment-plan-bar">
+                    <div>
+                        <span class="payment-plan-label">Тариф</span>
+                        <strong id="selectedPlanName">1 месяц</strong>
+                    </div>
+                    <strong id="selectedPlanPrice">259 ₽</strong>
+                    <span class="payment-order">Заказ <b id="paymentOrderNumber">0000000000</b></span>
                 </div>
+
+                <div class="payment-methods payment-methods-compact">
+                    <button class="payment-method selected" data-method="2" type="button" aria-pressed="true">
+                        <span class="pm-check">✓</span>
+                        <span class="pm-icon pm-icon-sbp">
+                            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Faster_Payment_System_Russia_logo.svg" alt="СБП">
+                        </span>
+                        <span class="pm-title">СБП</span>
+                    </button>
+
+                    <button class="payment-method" data-method="11" type="button" aria-pressed="false">
+                        <span class="pm-check">✓</span>
+                        <span class="pm-icon pm-icon-card"><i class="far fa-credit-card" aria-hidden="true"></i></span>
+                        <span class="pm-title">БАНКОВСКАЯ КАРТА</span>
+                    </button>
+
+                    <button class="payment-method" data-method="13" type="button" aria-pressed="false">
+                        <span class="pm-check">✓</span>
+                        <span class="pm-icon pm-icon-crypto">
+                            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/USDT_Logo.png" alt="Крипта валюта">
+                        </span>
+                        <span class="pm-title">КРИПТА ВАЛЮТА</span>
+                    </button>
+
+                    <button class="payment-method payment-method-funpay" data-method="funpay" type="button" aria-pressed="false">
+                        <span class="pm-check">↗</span>
+                        <span class="pm-icon pm-icon-funpay">
+                            <img src="https://funpay.com/favicon.ico" alt="FunPay">
+                        </span>
+                        <span class="pm-title">ФАНПЕЙ</span>
+                    </button>
+                </div>
+
+                <div class="payment-footer payment-footer-compact">
+                    <div class="payment-actions">
+                        <button id="createPaymentBtn" type="button">Перейти к оплате <i class="fas fa-arrow-right"></i></button>
+                        <button id="cancelPaymentBtn" type="button">Отмена</button>
+                    </div>
+                </div>
+
+                <div id="paymentStatus" role="status" aria-live="polite"></div>
             </div>
         </div>
     </div>
@@ -2227,11 +2322,13 @@
                 });
                 btn.classList.add('selected');
                 btn.setAttribute('aria-pressed','true');
+
                 if(btn.dataset.method === 'funpay'){
                     window.open('https://funpay.com/users/18535597/','_blank','noopener,noreferrer');
                     document.getElementById('paymentStatus').textContent='Открываем FunPay…';
                     return;
                 }
+
                 selectedPaymentMethod=Number(btn.dataset.method);
                 document.getElementById('paymentStatus').textContent='';
             });
@@ -2438,24 +2535,3 @@
     </script>
 </body>
 </html>
-<style>
-/* Финальная компактная раскладка способов оплаты */
-.payment-layout{display:block!important}
-.payment-main{width:100%;padding:0!important}
-.payment-methods{
-    width:100%;
-    display:grid!important;
-    grid-template-columns:repeat(4,minmax(0,1fr))!important;
-    gap:10px!important;
-    margin:0!important;
-}
-.payment-method{
-    min-height:145px!important;
-}
-@media (max-width:1050px) and (min-width:681px){
-    .payment-methods{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-}
-@media (max-width:680px){
-    .payment-methods{grid-template-columns:1fr!important}
-}
-</style>
