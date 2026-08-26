@@ -1044,6 +1044,68 @@
             #paymentStatus,.payment-note{text-align:center;justify-content:center}
         }
 
+
+        /* Современный выбор способа оплаты */
+        .payment-mode-switch{
+            display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:18px;
+        }
+        .payment-mode{
+            appearance:none;width:100%;min-height:76px;padding:14px 15px;
+            display:flex;align-items:center;gap:12px;text-align:left;
+            color:#fff;border:1px solid rgba(255,255,255,.07);border-radius:20px;
+            background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012));
+            cursor:pointer;transition:transform .25s,border-color .25s,background .25s,box-shadow .25s;
+        }
+        .payment-mode:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.16)}
+        .payment-mode.active{
+            border-color:rgba(255,255,255,.45);
+            background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.035));
+            box-shadow:0 18px 42px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.08);
+        }
+        .mode-icon{
+            width:44px;height:44px;flex:0 0 44px;border-radius:13px;
+            display:grid;place-items:center;background:#fff;color:#111;font-size:18px;
+        }
+        .funpay-mode-icon{
+            background:linear-gradient(135deg,#ff7900,#ffad00);color:#fff;
+            font:bold 22px Arial,sans-serif;
+        }
+        .mode-copy{position:relative;z-index:1}
+        .mode-copy strong{display:block;font-size:.9rem}
+        .mode-copy small{display:block;margin-top:3px;color:#707178;font-size:.66rem}
+        .mode-arrow{margin-left:auto;color:#666;font-size:.72rem}
+        .payment-mode.active .mode-arrow{color:#fff}
+        .funpay-payment-panel{animation:funpayIn .28s ease}
+        .funpay-card{
+            display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;
+            padding:20px;border:1px solid rgba(255,255,255,.075);border-radius:22px;
+            background:radial-gradient(circle at 0 0,rgba(255,130,0,.13),transparent 38%),
+                       linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012));
+        }
+        .funpay-logo{
+            width:56px;height:56px;border-radius:17px;display:grid;place-items:center;
+            background:linear-gradient(135deg,#ff7900,#ffad00);color:#fff;
+            font:bold 27px Arial,sans-serif;box-shadow:0 12px 30px rgba(255,122,0,.2);
+        }
+        .funpay-eyebrow{display:block;color:#ff9b28;font-size:.6rem;font-weight:800;letter-spacing:.14em}
+        .funpay-copy h3{margin:3px 0 4px;font-size:1rem;color:#eee}
+        .funpay-copy p{margin:0;color:#777;font-size:.7rem;line-height:1.5}
+        .funpay-go-btn{
+            display:inline-flex;align-items:center;justify-content:center;gap:8px;
+            min-height:48px;padding:0 17px;border-radius:15px;background:#fff;color:#111;
+            text-decoration:none;font-size:.76rem;font-weight:800;white-space:nowrap;transition:.25s;
+        }
+        .funpay-go-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,255,255,.12)}
+        .pm-icon-card{font-size:22px;background:linear-gradient(145deg,#f6f7fb,#d9dce5)}
+        .pm-icon-crypto{background:linear-gradient(145deg,#eef7f0,#d9f0df)}
+        .pm-icon-crypto img{width:34px!important;height:34px!important;border-radius:50%}
+        @keyframes funpayIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+        @media(max-width:680px){
+            .payment-mode-switch{grid-template-columns:1fr}
+            .funpay-card{grid-template-columns:auto 1fr}
+            .funpay-go-btn{grid-column:1/-1;width:100%}
+        }
+
         /* Медиа */
         @media (max-width:850px) {
             .nav-circle { top:12px; padding:12px 18px; border-radius:40px; gap:4px; flex-wrap:nowrap; overflow-x:auto; max-width:95vw; justify-content:center; }
@@ -1219,33 +1281,65 @@
                             <p>Выберите один вариант — система запомнит ваш выбор до создания счёта.</p>
                         </div>
 
-                        <div class="payment-section-label">
+                        
+                        <div class="payment-mode-switch" role="tablist" aria-label="Выбор оплаты">
+                            <button class="payment-mode active" type="button" data-mode="base" aria-selected="true">
+                                <span class="mode-icon"><i class="fas fa-credit-card"></i></span>
+                                <span class="mode-copy"><strong>Основная оплата</strong><small>СБП · Банковская карта · Криптовалюта</small></span>
+                                <i class="fas fa-chevron-right mode-arrow"></i>
+                            </button>
+                            <button class="payment-mode" type="button" data-mode="funpay" aria-selected="false">
+                                <span class="mode-icon funpay-mode-icon">F</span>
+                                <span class="mode-copy"><strong>FunPay</strong><small>Оплата через FunPay</small></span>
+                                <i class="fas fa-chevron-right mode-arrow"></i>
+                            </button>
+                        </div>
+
+                        <div id="basePaymentMethods">
+<div class="payment-section-label">
                             <span>Выберите способ</span>
                             <span>3 доступных варианта</span>
                         </div>
 
-                        <div class="payment-methods">
-                            <button class="payment-method selected" data-method="2" type="button" aria-pressed="true">
-                                <span class="pm-check">✓</span>
-                                <span class="pm-icon"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Faster_Payment_System_Russia_logo.svg" alt="СБП"></span>
-                                <span class="pm-title">СБП</span>
-                                <span class="pm-desc">Быстрая оплата через Систему быстрых платежей</span>
-                            </button>
+                        
+                            <div class="payment-methods">
+                                <button class="payment-method selected" data-method="2" type="button" aria-pressed="true">
+                                    <span class="pm-check">✓</span>
+                                    <span class="pm-icon pm-icon-sbp"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Faster_Payment_System_Russia_logo.svg" alt="СБП"></span>
+                                    <span class="pm-title">СБП</span>
+                                    <span class="pm-desc">Быстрая оплата через Систему быстрых платежей</span>
+                                </button>
 
-                            <button class="payment-method" data-method="11" type="button" aria-pressed="false">
-                                <span class="pm-check">✓</span>
-                                <span class="pm-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h4"/></svg></span>
-                                <span class="pm-title">Банковская карта</span>
-                                <span class="pm-desc">Оплата картой через карточный эквайринг</span>
-                            </button>
+                                <button class="payment-method" data-method="11" type="button" aria-pressed="false">
+                                    <span class="pm-check">✓</span>
+                                    <span class="pm-icon pm-icon-card"><i class="far fa-credit-card"></i></span>
+                                    <span class="pm-title">Банковская карта</span>
+                                    <span class="pm-desc">Оплата картой через карточный эквайринг</span>
+                                </button>
 
-                            <button class="payment-method" data-method="13" type="button" aria-pressed="false">
-                                <span class="pm-check">✓</span>
-                                <span class="pm-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 8.2h8.7c1.5 0 2.7 1 2.7 2.2 0 1.1-.8 1.8-1.8 2.1 1.3.3 2.2 1.1 2.2 2.4 0 1.5-1.3 2.6-3.1 2.6H7.2c-.7 0-1.2-.5-1.2-1.2V9.4c0-.7.5-1.2 1.2-1.2Z"/><path d="M9 5.2h5.7c1.4 0 2.4.8 2.4 1.8 0 .5-.2.9-.6 1.2M9 12.5h5.2"/></svg></span>
-                                <span class="pm-title">Криптовалюта</span>
-                                <span class="pm-desc">Crypto / USDT и доступные методы</span>
-                            </button>
+                                <button class="payment-method" data-method="13" type="button" aria-pressed="false">
+                                    <span class="pm-check">✓</span>
+                                    <span class="pm-icon pm-icon-crypto"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/USDT_Logo.png" alt="Криптовалюта"></span>
+                                    <span class="pm-title">Криптовалюта</span>
+                                    <span class="pm-desc">Crypto / USDT и доступные методы</span>
+                                </button>
+                            </div>
                         </div>
+
+                        <div id="funpayPaymentPanel" class="funpay-payment-panel" hidden>
+                            <div class="funpay-card">
+                                <div class="funpay-logo">F</div>
+                                <div class="funpay-copy">
+                                    <span class="funpay-eyebrow">FUNPAY CHECKOUT</span>
+                                    <h3>Оплата через FunPay</h3>
+                                    <p>Перейдите на страницу продавца FunPay для оформления и оплаты заказа.</p>
+                                </div>
+                                <a class="funpay-go-btn" href="https://funpay.com/users/18535597/" target="_blank" rel="noopener noreferrer">
+                                    Перейти в FunPay <i class="fas fa-arrow-up-right-from-square"></i>
+                                </a>
+                            </div>
+                        </div>
+
 
                         <div class="payment-footer">
                             <div class="payment-trust"><i class="fas fa-shield-halved"></i><span>Ваши платёжные данные обрабатываются на защищённой стороне</span></div>
@@ -2226,11 +2320,49 @@
             document.getElementById('selectedPlanPrice').textContent=selectedPaymentPlan.amount+' ₽';
             document.getElementById('paymentOrderNumber').textContent=paymentOrder;
             document.getElementById('paymentStatus').textContent='';
+            selectedPaymentMode='base';
+            document.querySelectorAll('.payment-mode').forEach(b=>{
+                const active=b.dataset.mode==='base';
+                b.classList.toggle('active',active);
+                b.setAttribute('aria-selected',String(active));
+            });
+            document.getElementById('basePaymentMethods').hidden=false;
+            document.getElementById('funpayPaymentPanel').hidden=true;
+            document.getElementById('createPaymentBtn').style.display='';
             document.querySelectorAll('.payment-method').forEach(b=>b.classList.remove('selected'));
             document.querySelector('.payment-method[data-method="2"]').classList.add('selected');
             selectedPaymentMethod=2;
             openModal('paymentModal');
         }
+
+        let selectedPaymentMode = 'base';
+
+        document.querySelectorAll('.payment-mode').forEach(btn=>{
+            btn.addEventListener('click',()=>{
+                selectedPaymentMode=btn.dataset.mode;
+                document.querySelectorAll('.payment-mode').forEach(b=>{
+                    const active=b===btn;
+                    b.classList.toggle('active',active);
+                    b.setAttribute('aria-selected',String(active));
+                });
+
+                const base=document.getElementById('basePaymentMethods');
+                const funpay=document.getElementById('funpayPaymentPanel');
+                const createBtn=document.getElementById('createPaymentBtn');
+
+                if(selectedPaymentMode==='funpay'){
+                    base.hidden=true;
+                    funpay.hidden=false;
+                    createBtn.style.display='none';
+                    document.getElementById('paymentStatus').textContent='Откройте FunPay для оформления оплаты.';
+                }else{
+                    base.hidden=false;
+                    funpay.hidden=true;
+                    createBtn.style.display='';
+                    document.getElementById('paymentStatus').textContent='';
+                }
+            });
+        });
 
         document.querySelectorAll('.payment-method').forEach(btn=>{
             btn.addEventListener('click',(event)=>{
