@@ -923,16 +923,8 @@
         .payment-section-label span:last-child{
             color:#4f5056;font-weight:600;letter-spacing:0;text-transform:none;
         }
-        .payment-method-funpay .pm-icon-funpay{
-            background:linear-gradient(145deg,#6f3cff,#9b6cff);
-            color:#fff;
-            font-family:Arial,sans-serif;
-            font-size:25px;
-            font-weight:900;
-        }
-        .pm-icon-funpay span{line-height:1}
         .payment-methods{
-            display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+            display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
         }
         .payment-method{
             appearance:none;-webkit-appearance:none;width:100%;min-width:0;
@@ -1050,6 +1042,21 @@
             .payment-actions{flex-direction:column}
             #createPaymentBtn,#cancelPaymentBtn{width:100%;min-width:0}
             #paymentStatus,.payment-note{text-align:center;justify-content:center}
+        }
+
+
+        .pm-icon-funpay{
+            background:linear-gradient(145deg,#f3f3f3,#ffffff);
+            overflow:hidden;
+        }
+        .pm-icon-funpay img{
+            width:31px !important;
+            height:31px !important;
+            object-fit:contain;
+            display:block;
+        }
+        .payment-method-funpay.selected .pm-icon-funpay{
+            box-shadow:0 0 0 1px rgba(255,255,255,.12),0 8px 24px rgba(0,0,0,.25);
         }
 
         /* Медиа */
@@ -1189,18 +1196,7 @@
             <button class="modal-close-modern" id="closePaymentModal" aria-label="Закрыть"><i class="fas fa-times"></i></button>
 
             <div class="payment-wrap">
-                <div class="payment-topbar">
-                    <div class="payment-brand">
-                        <div class="payment-brand-icon"><i class="fas fa-gem"></i></div>
-                        <div>
-                            <div class="payment-brand-title">ProxyGem Checkout</div>
-                            <div class="payment-brand-sub">Быстрая и защищённая оплата</div>
-                        </div>
-                    </div>
-                    <div class="payment-secure"><i class="fas fa-shield-halved"></i> Secure payment</div>
-                </div>
-
-                <div class="payment-layout">
+<div class="payment-layout">
                     <aside class="payment-summary">
                         <div class="summary-eyebrow">Ваш заказ</div>
                         <h2 class="summary-title">Всё готово.<br>Остался один шаг.</h2>
@@ -1228,34 +1224,40 @@
                         </div>
 
                         <div class="payment-methods">
-                            <button class="payment-method selected" data-method="2" type="button" aria-pressed="true">
-                                <span class="pm-check">✓</span>
-                                <span class="pm-icon"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Faster_Payment_System_Russia_logo.svg" alt="СБП"></span>
-                                <span class="pm-title">СБП</span>
-                                <span class="pm-desc">Система быстрых платежей</span>
-                            </button>
+    <button class="payment-method selected" data-method="2" type="button" aria-pressed="true">
+        <span class="pm-check">✓</span>
+        <span class="pm-icon pm-icon-sbp">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Faster_Payment_System_Russia_logo.svg" alt="СБП">
+        </span>
+        <span class="pm-title">СБП</span>
+        <span class="pm-desc">Система быстрых платежей</span>
+    </button>
 
-                            <button class="payment-method" data-method="11" type="button" aria-pressed="false">
-                                <span class="pm-check">✓</span>
-                                <span class="pm-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h4"/></svg></span>
-                                <span class="pm-title">БАНКОВСКАЯ КАРТА</span>
-                                <span class="pm-desc">Оплата банковской картой</span>
-                            </button>
+    <button class="payment-method" data-method="11" type="button" aria-pressed="false">
+        <span class="pm-check">✓</span>
+        <span class="pm-icon pm-icon-card"><i class="far fa-credit-card" aria-hidden="true"></i></span>
+        <span class="pm-title">БАНКОВСКАЯ КАРТА</span>
+        <span class="pm-desc">Оплата банковской картой</span>
+    </button>
 
-                            <button class="payment-method" data-method="13" type="button" aria-pressed="false">
-                                <span class="pm-check">✓</span>
-                                <span class="pm-icon"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/USDT_Logo.png" alt="Крипта валюта"></span>
-                                <span class="pm-title">КРИПТА ВАЛЮТА</span>
-                                <span class="pm-desc">USDT и другие криптовалюты</span>
-                            </button>
+    <button class="payment-method" data-method="13" type="button" aria-pressed="false">
+        <span class="pm-check">✓</span>
+        <span class="pm-icon pm-icon-crypto">
+            <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/USDT_Logo.png" alt="Крипта валюта">
+        </span>
+        <span class="pm-title">КРИПТА ВАЛЮТА</span>
+        <span class="pm-desc">USDT и другие криптовалюты</span>
+    </button>
 
-                            <button class="payment-method payment-method-funpay" data-method="funpay" type="button" aria-pressed="false">
-                                <span class="pm-check">↗</span>
-                                <span class="pm-icon pm-icon-funpay" aria-hidden="true"><span>F</span></span>
-                                <span class="pm-title">ФАНПЕЙ</span>
-                                <span class="pm-desc">Оплата через FunPay</span>
-                            </button>
-                        </div>
+    <button class="payment-method payment-method-funpay" data-method="funpay" type="button" aria-pressed="false">
+        <span class="pm-check">↗</span>
+        <span class="pm-icon pm-icon-funpay">
+            <img src="https://funpay.com/favicon.ico" alt="FunPay">
+        </span>
+        <span class="pm-title">ФАНПЕЙ</span>
+        <span class="pm-desc">Оплата через FunPay</span>
+    </button>
+</div>
 
                         <div class="payment-footer">
                             <div class="payment-trust"><i class="fas fa-shield-halved"></i><span>Ваши платёжные данные обрабатываются на защищённой стороне</span></div>
