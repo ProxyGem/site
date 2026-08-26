@@ -705,110 +705,343 @@
             .footer-new .footer-bottom { flex-direction:column; text-align:center; }
         }
 
-        /* ===== ULTRA MODERN PAYMENT UI ===== */
-        #paymentModal { padding:24px; align-items:center; }
-        #paymentModal .modal-content {
-            width:min(900px, 96vw); max-width:900px; padding:0; overflow:hidden;
-            border-radius:34px; position:relative;
-            background:radial-gradient(circle at 0% 0%,rgba(255,255,255,.12),transparent 28%),
-                       radial-gradient(circle at 100% 100%,rgba(255,255,255,.07),transparent 30%),
-                       linear-gradient(145deg,rgba(25,25,27,.98),rgba(8,8,9,.985));
-            border:1px solid rgba(255,255,255,.13);
-            box-shadow:0 60px 180px rgba(0,0,0,.82),inset 0 1px 0 rgba(255,255,255,.07);
-            backdrop-filter:blur(32px); -webkit-backdrop-filter:blur(32px);
+        /* ===== PROXYGEM — PREMIUM PAYMENT UI v2 ===== */
+        #paymentModal{
+            padding:20px;
+            align-items:center;
+            background:rgba(2,2,3,.78);
+            backdrop-filter:blur(26px);
+            -webkit-backdrop-filter:blur(26px);
         }
-        #paymentModal .modal-content::before {
-            content:""; position:absolute; inset:0; pointer-events:none;
-            background:linear-gradient(115deg,transparent 18%,rgba(255,255,255,.065) 38%,transparent 53%);
-            transform:translateX(-120%); animation:checkoutShine 8s ease-in-out infinite;
+        #paymentModal .modal-content{
+            width:min(1040px,96vw);
+            max-width:1040px;
+            padding:0;
+            overflow:hidden;
+            border-radius:38px;
+            position:relative;
+            background:
+                radial-gradient(circle at 12% 0%,rgba(255,255,255,.13),transparent 27%),
+                radial-gradient(circle at 92% 100%,rgba(130,150,255,.07),transparent 31%),
+                linear-gradient(145deg,#171719 0%,#0b0b0d 55%,#080809 100%);
+            border:1px solid rgba(255,255,255,.14);
+            box-shadow:0 70px 180px rgba(0,0,0,.86),inset 0 1px 0 rgba(255,255,255,.09);
+            backdrop-filter:blur(34px);
+            -webkit-backdrop-filter:blur(34px);
+            animation:paymentModalIn .5s cubic-bezier(.16,1,.3,1) both;
         }
-        #paymentModal .modal-content::after {
-            content:""; position:absolute; width:360px; height:360px; right:-180px; top:-190px;
-            border-radius:50%; background:rgba(255,255,255,.055); filter:blur(60px); pointer-events:none;
+        #paymentModal .modal-content::before{
+            content:"";
+            position:absolute; inset:0;
+            pointer-events:none;
+            background:
+                linear-gradient(120deg,transparent 12%,rgba(255,255,255,.065) 28%,transparent 43%),
+                radial-gradient(circle at 78% 18%,rgba(255,255,255,.05),transparent 24%);
+            transform:translateX(-115%);
+            animation:paymentShine 9s ease-in-out infinite;
         }
-        @keyframes checkoutShine { 0%,55%{transform:translateX(-120%);opacity:0} 65%{opacity:1} 82%,100%{transform:translateX(120%);opacity:0} }
-
-        .payment-wrap { position:relative; z-index:2; padding:38px; }
-        .payment-header { margin-bottom:22px; padding-right:42px; }
-        .payment-kicker {
-            display:inline-flex; align-items:center; gap:8px; padding:7px 11px; border-radius:999px;
-            color:#b8b8bc; font-size:.68rem; font-weight:800; letter-spacing:.14em;
-            background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.08);
+        #paymentModal .modal-content::after{
+            content:"";
+            position:absolute;
+            width:420px;height:420px;
+            right:-220px;top:-240px;
+            border-radius:50%;
+            background:rgba(255,255,255,.055);
+            filter:blur(75px);
+            pointer-events:none;
+            animation:paymentOrb 8s ease-in-out infinite alternate;
         }
-        .payment-kicker::before {
-            content:""; width:6px; height:6px; border-radius:50%; background:#fff;
-            box-shadow:0 0 0 4px rgba(255,255,255,.05),0 0 18px rgba(255,255,255,.7);
+        @keyframes paymentModalIn{
+            from{opacity:0;transform:translateY(24px) scale(.965);filter:blur(8px)}
+            to{opacity:1;transform:none;filter:none}
         }
-        .payment-header h2 { margin:14px 0 7px; font-size:clamp(2rem,4vw,3rem); line-height:1.02; font-weight:900; letter-spacing:-2px; color:#fff; }
-        .payment-header p { color:#777980; font-size:.92rem; margin:0; }
-
-        .payment-plan {
-            display:flex; align-items:center; justify-content:space-between; gap:18px;
-            padding:18px 20px; margin:0 0 20px; border-radius:22px;
-            background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
-            border:1px solid rgba(255,255,255,.085); box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+        @keyframes paymentShine{
+            0%,58%{transform:translateX(-115%);opacity:0}
+            66%{opacity:1}
+            82%,100%{transform:translateX(115%);opacity:0}
         }
-        .plan-name { color:#fff; font-size:1.08rem; font-weight:800; letter-spacing:-.3px; }
-        .payment-order { margin-top:6px; color:#696a70; font-size:.75rem; }
-        .payment-order b { color:#bdbdc1; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.08em; }
-        .plan-price { color:#fff; font-size:1.55rem; font-weight:900; letter-spacing:-.8px; white-space:nowrap; }
-
-        .payment-section-label { display:flex; justify-content:space-between; gap:10px; margin:0 0 10px; color:#85868c; font-size:.7rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
-        .payment-section-label span:last-child { color:#505157; font-weight:600; letter-spacing:0; text-transform:none; }
-
-        .payment-methods { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-        .payment-method {
-            appearance:none; -webkit-appearance:none; width:100%; min-width:0;
-            position:relative; display:flex; flex-direction:column; align-items:flex-start;
-            min-height:176px; padding:19px; text-align:left; font:inherit; color:#fff;
-            border-radius:24px; border:1px solid rgba(255,255,255,.075);
-            background:linear-gradient(150deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
-            cursor:pointer; overflow:hidden; isolation:isolate;
-            transition:transform .32s cubic-bezier(.2,.8,.2,1),border-color .28s,background .28s,box-shadow .32s;
+        @keyframes paymentOrb{
+            from{transform:translate(0,0) scale(1)}
+            to{transform:translate(-45px,40px) scale(1.12)}
         }
-        .payment-method::before { content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:linear-gradient(135deg,rgba(255,255,255,.075),transparent 38%); opacity:0; transition:opacity .28s; }
-        .payment-method::after { content:""; position:absolute; width:130px; height:130px; right:-65px; bottom:-75px; border-radius:50%; background:rgba(255,255,255,.06); filter:blur(20px); transition:transform .45s ease,opacity .45s ease; pointer-events:none; }
-        .payment-method:hover { transform:translateY(-5px); border-color:rgba(255,255,255,.20); background:linear-gradient(150deg,rgba(255,255,255,.085),rgba(255,255,255,.025)); box-shadow:0 24px 55px rgba(0,0,0,.38); }
-        .payment-method:hover::before { opacity:1; }
-        .payment-method:hover::after { transform:scale(1.5); opacity:.8; }
-        .payment-method:active { transform:translateY(-1px) scale(.99); }
-        .payment-method.selected { border-color:rgba(255,255,255,.75); background:linear-gradient(150deg,rgba(255,255,255,.13),rgba(255,255,255,.035)); box-shadow:0 0 0 1px rgba(255,255,255,.08),0 24px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08); }
-        .payment-method.selected::before { opacity:1; }
-        .payment-method.selected .pm-check { opacity:1; transform:scale(1); }
 
-        .pm-icon { width:56px; height:56px; flex:0 0 56px; display:grid; place-items:center; border-radius:18px; background:#fff; color:#111; box-shadow:0 12px 30px rgba(255,255,255,.08); margin-bottom:auto; overflow:hidden; transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s; }
-        .pm-icon img { width:40px; height:40px; object-fit:contain; display:block; }
-        .pm-icon svg { width:28px; height:28px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
-        .payment-method:hover .pm-icon { transform:translateY(-2px) scale(1.06) rotate(-2deg); box-shadow:0 16px 36px rgba(255,255,255,.13); }
-        .pm-title { position:relative; z-index:2; margin-top:22px; font-size:1rem; font-weight:850; letter-spacing:-.25px; }
-        .pm-desc { position:relative; z-index:2; margin-top:5px; color:#707177; font-size:.73rem; line-height:1.45; padding-right:18px; }
-        .pm-check { position:absolute; z-index:4; right:13px; top:13px; width:25px; height:25px; border-radius:50%; display:grid; place-items:center; color:#111; background:#fff; font-size:.7rem; font-weight:900; opacity:0; transform:scale(.7); transition:all .25s cubic-bezier(.2,.8,.2,1); box-shadow:0 8px 20px rgba(255,255,255,.15); }
+        .payment-wrap{
+            position:relative;
+            z-index:2;
+            padding:34px;
+        }
+        .payment-topbar{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:18px;
+            margin-bottom:28px;
+        }
+        .payment-brand{
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+        .payment-brand-icon{
+            width:42px;height:42px;
+            display:grid;place-items:center;
+            border-radius:14px;
+            color:#111;
+            background:linear-gradient(145deg,#fff,#bfc0c4);
+            box-shadow:0 12px 32px rgba(255,255,255,.13);
+            animation:paymentBrandPulse 3.5s ease-in-out infinite;
+        }
+        .payment-brand-icon i{font-size:16px}
+        @keyframes paymentBrandPulse{
+            0%,100%{box-shadow:0 12px 32px rgba(255,255,255,.10);transform:translateY(0)}
+            50%{box-shadow:0 18px 44px rgba(255,255,255,.20);transform:translateY(-2px)}
+        }
+        .payment-brand-title{font-weight:850;color:#fff;font-size:.92rem}
+        .payment-brand-sub{color:#66676d;font-size:.72rem;margin-top:2px}
+        .payment-secure{
+            display:inline-flex;align-items:center;gap:8px;
+            color:#8d8e94;font-size:.68rem;font-weight:800;
+            letter-spacing:.12em;text-transform:uppercase;
+            padding:9px 12px;border:1px solid rgba(255,255,255,.07);
+            border-radius:999px;background:rgba(255,255,255,.025);
+        }
+        .payment-secure i{color:#d8d8da;font-size:.72rem}
 
-        .payment-actions { display:flex; gap:10px; margin-top:20px; }
-        #createPaymentBtn { flex:1; min-height:52px; border:0; border-radius:17px; cursor:pointer; background:#fff; color:#0b0b0c; font:800 .9rem 'Inter',sans-serif; box-shadow:0 15px 35px rgba(255,255,255,.07); transition:transform .25s,box-shadow .25s,opacity .25s; }
-        #createPaymentBtn:hover { transform:translateY(-2px); box-shadow:0 20px 45px rgba(255,255,255,.13); }
-        #createPaymentBtn:disabled { cursor:wait; }
-        #cancelPaymentBtn { min-height:52px; padding:0 20px; border-radius:17px; cursor:pointer; background:rgba(255,255,255,.035); color:#888; border:1px solid rgba(255,255,255,.08); font:700 .85rem 'Inter',sans-serif; transition:all .25s; }
-        #cancelPaymentBtn:hover { color:#fff; background:rgba(255,255,255,.07); }
-        #paymentStatus { min-height:20px; margin-top:11px; text-align:center; color:#a8a8ad; font-size:.76rem; }
-        .payment-note { display:flex; justify-content:center; align-items:center; gap:7px; color:#4f5055; font-size:.68rem; margin-top:8px; text-align:center; }
-        .payment-note::before { content:""; width:5px; height:5px; border-radius:50%; background:#777; box-shadow:0 0 10px rgba(255,255,255,.3); }
+        .payment-layout{
+            display:grid;
+            grid-template-columns:minmax(280px,.82fr) minmax(420px,1.18fr);
+            gap:20px;
+            align-items:stretch;
+        }
+        .payment-summary{
+            position:relative;
+            overflow:hidden;
+            min-height:520px;
+            padding:28px;
+            border-radius:28px;
+            border:1px solid rgba(255,255,255,.08);
+            background:
+                radial-gradient(circle at 50% 0%,rgba(255,255,255,.075),transparent 34%),
+                linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+            box-shadow:inset 0 1px 0 rgba(255,255,255,.045);
+        }
+        .payment-summary::before{
+            content:"";
+            position:absolute;inset:-1px;
+            border-radius:inherit;
+            background:linear-gradient(145deg,rgba(255,255,255,.11),transparent 32%,transparent 68%,rgba(255,255,255,.045));
+            opacity:.6;pointer-events:none;
+        }
+        .summary-eyebrow{
+            position:relative;z-index:1;
+            display:flex;align-items:center;gap:8px;
+            color:#777980;font-size:.67rem;font-weight:800;
+            letter-spacing:.14em;text-transform:uppercase;
+        }
+        .summary-eyebrow::before{
+            content:"";width:7px;height:7px;border-radius:50%;
+            background:#fff;box-shadow:0 0 18px rgba(255,255,255,.75);
+        }
+        .summary-title{
+            position:relative;z-index:1;
+            margin-top:18px;color:#fff;
+            font-size:clamp(1.8rem,3vw,2.45rem);
+            line-height:1.02;font-weight:900;letter-spacing:-1.8px;
+        }
+        .summary-copy{
+            position:relative;z-index:1;
+            color:#73747b;font-size:.82rem;line-height:1.65;margin-top:10px;
+        }
+        .summary-plan{
+            position:relative;z-index:1;
+            margin-top:30px;padding:20px;
+            border-radius:22px;
+            background:rgba(0,0,0,.19);
+            border:1px solid rgba(255,255,255,.07);
+            box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+        }
+        .summary-plan-label{
+            color:#62636a;font-size:.65rem;font-weight:800;
+            letter-spacing:.12em;text-transform:uppercase;
+        }
+        .summary-plan-name{
+            margin-top:7px;color:#fff;font-size:1.1rem;font-weight:850;
+        }
+        .summary-plan-price{
+            margin-top:14px;
+            color:#fff;font-size:2.7rem;line-height:1;font-weight:900;letter-spacing:-2px;
+        }
+        .summary-plan-price span{font-size:1rem;color:#7d7e84;font-weight:700;letter-spacing:0}
+        .summary-order{
+            margin-top:12px;color:#55565c;font-size:.68rem;
+        }
+        .summary-order b{
+            color:#a2a3a8;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+            letter-spacing:.08em;
+        }
+        .summary-benefits{
+            position:relative;z-index:1;
+            display:grid;gap:11px;margin-top:24px;
+        }
+        .summary-benefit{
+            display:flex;align-items:center;gap:10px;color:#96979d;font-size:.76rem;
+        }
+        .summary-benefit i{
+            width:24px;height:24px;display:grid;place-items:center;
+            border-radius:8px;background:rgba(255,255,255,.055);
+            color:#d7d7da;font-size:.65rem;
+        }
+        .payment-main{
+            min-width:0;
+            padding:28px;
+            border-radius:28px;
+            border:1px solid rgba(255,255,255,.08);
+            background:rgba(0,0,0,.14);
+            box-shadow:inset 0 1px 0 rgba(255,255,255,.045);
+        }
+        .payment-header{margin:0 0 22px;padding-right:36px}
+        .payment-kicker{
+            display:inline-flex;align-items:center;gap:8px;
+            padding:7px 10px;border-radius:999px;
+            color:#b9bac0;font-size:.63rem;font-weight:850;letter-spacing:.13em;
+            background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.075);
+        }
+        .payment-kicker::before{
+            content:"";width:6px;height:6px;border-radius:50%;
+            background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.04),0 0 16px rgba(255,255,255,.7);
+        }
+        .payment-header h2{
+            margin:13px 0 6px;font-size:clamp(1.75rem,3.2vw,2.5rem);
+            line-height:1.04;font-weight:900;letter-spacing:-1.7px;color:#fff;
+        }
+        .payment-header p{color:#686970;font-size:.8rem;margin:0}
+        .payment-section-label{
+            display:flex;justify-content:space-between;gap:10px;
+            margin:0 0 10px;color:#77787f;font-size:.64rem;font-weight:850;
+            letter-spacing:.12em;text-transform:uppercase;
+        }
+        .payment-section-label span:last-child{
+            color:#4f5056;font-weight:600;letter-spacing:0;text-transform:none;
+        }
+        .payment-methods{
+            display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+        }
+        .payment-method{
+            appearance:none;-webkit-appearance:none;width:100%;min-width:0;
+            position:relative;display:flex;flex-direction:column;align-items:flex-start;
+            min-height:170px;padding:17px;text-align:left;font:inherit;color:#fff;
+            border-radius:21px;border:1px solid rgba(255,255,255,.065);
+            background:linear-gradient(155deg,rgba(255,255,255,.045),rgba(255,255,255,.012));
+            cursor:pointer;overflow:hidden;isolation:isolate;
+            transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s,background .3s,box-shadow .35s;
+        }
+        .payment-method::before{
+            content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+            background:linear-gradient(135deg,rgba(255,255,255,.095),transparent 42%);
+            opacity:0;transition:opacity .3s;
+        }
+        .payment-method::after{
+            content:"";position:absolute;width:130px;height:130px;right:-75px;bottom:-78px;
+            border-radius:50%;background:rgba(255,255,255,.055);filter:blur(22px);
+            transition:transform .5s ease,opacity .5s ease;pointer-events:none;
+        }
+        .payment-method:hover{
+            transform:translateY(-5px);
+            border-color:rgba(255,255,255,.18);
+            background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.018));
+            box-shadow:0 22px 50px rgba(0,0,0,.34);
+        }
+        .payment-method:hover::before{opacity:1}
+        .payment-method:hover::after{transform:scale(1.55);opacity:.9}
+        .payment-method:active{transform:translateY(-1px) scale(.99)}
+        .payment-method.selected{
+            border-color:rgba(255,255,255,.72);
+            background:linear-gradient(155deg,rgba(255,255,255,.12),rgba(255,255,255,.035));
+            box-shadow:0 0 0 1px rgba(255,255,255,.07),0 24px 55px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.08);
+        }
+        .payment-method.selected::before{opacity:1}
+        .payment-method.selected .pm-check{opacity:1;transform:scale(1)}
+        .pm-icon{
+            width:52px;height:52px;flex:0 0 52px;display:grid;place-items:center;
+            border-radius:16px;background:linear-gradient(145deg,#fff,#d8d8da);color:#111;
+            box-shadow:0 12px 28px rgba(255,255,255,.08);
+            margin-bottom:auto;overflow:hidden;
+            transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;
+        }
+        .pm-icon img{width:38px;height:38px;object-fit:contain;display:block}
+        .pm-icon svg{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+        .payment-method:hover .pm-icon{transform:translateY(-2px) scale(1.06) rotate(-2deg);box-shadow:0 16px 36px rgba(255,255,255,.13)}
+        .pm-title{position:relative;z-index:2;margin-top:19px;font-size:.9rem;font-weight:850;letter-spacing:-.2px}
+        .pm-desc{position:relative;z-index:2;margin-top:5px;color:#66676e;font-size:.68rem;line-height:1.45;padding-right:12px}
+        .pm-check{
+            position:absolute;z-index:4;right:11px;top:11px;width:23px;height:23px;border-radius:50%;
+            display:grid;place-items:center;color:#111;background:#fff;font-size:.64rem;font-weight:900;
+            opacity:0;transform:scale(.7);transition:all .25s cubic-bezier(.2,.8,.2,1);
+            box-shadow:0 8px 20px rgba(255,255,255,.15);
+        }
+        .payment-footer{
+            display:flex;align-items:center;justify-content:space-between;gap:12px;
+            margin-top:18px;padding-top:15px;border-top:1px solid rgba(255,255,255,.055);
+        }
+        .payment-trust{display:flex;align-items:center;gap:7px;color:#55565c;font-size:.66rem}
+        .payment-trust i{color:#8e8f95}
+        .payment-actions{display:flex;gap:9px;margin:0}
+        #createPaymentBtn{
+            min-height:52px;min-width:220px;padding:0 22px;border:0;border-radius:16px;cursor:pointer;
+            background:linear-gradient(135deg,#fff,#e3e3e5);color:#0b0b0c;
+            font:850 .82rem 'Inter',sans-serif;box-shadow:0 16px 38px rgba(255,255,255,.08);
+            transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,filter .3s;
+            position:relative;overflow:hidden;
+        }
+        #createPaymentBtn::after{
+            content:"";position:absolute;top:-120%;left:-25%;width:30%;height:340%;
+            background:rgba(255,255,255,.6);transform:rotate(24deg);filter:blur(12px);
+            transition:transform .7s ease;opacity:.18;
+        }
+        #createPaymentBtn:hover{transform:translateY(-3px);box-shadow:0 22px 48px rgba(255,255,255,.15);filter:brightness(1.03)}
+        #createPaymentBtn:hover::after{transform:translateX(420%) rotate(24deg)}
+        #createPaymentBtn:disabled{cursor:wait}
+        #cancelPaymentBtn{
+            min-height:52px;padding:0 18px;border-radius:16px;cursor:pointer;
+            background:rgba(255,255,255,.025);color:#77787e;border:1px solid rgba(255,255,255,.07);
+            font:750 .78rem 'Inter',sans-serif;transition:all .25s;
+        }
+        #cancelPaymentBtn:hover{color:#fff;background:rgba(255,255,255,.065);border-color:rgba(255,255,255,.12)}
+        #paymentStatus{min-height:18px;margin-top:10px;text-align:right;color:#9b9ca2;font-size:.68rem}
+        .payment-note{
+            display:flex;justify-content:flex-end;align-items:center;gap:7px;color:#4d4e54;
+            font-size:.63rem;margin-top:6px;text-align:right;
+        }
+        .payment-note::before{content:"";width:5px;height:5px;border-radius:50%;background:#777;box-shadow:0 0 10px rgba(255,255,255,.3)}
 
-        @media (max-width:680px) {
-            #paymentModal { padding:12px; }
-            #paymentModal .modal-content { border-radius:27px; }
-            .payment-wrap { padding:26px 18px 19px; }
-            .payment-header h2 { letter-spacing:-1.3px; }
-            .payment-methods { grid-template-columns:1fr; }
-            .payment-method { min-height:102px; flex-direction:row; align-items:center; padding:14px; }
-            .pm-icon { margin:0 14px 0 0; width:49px; height:49px; flex-basis:49px; border-radius:15px; }
-            .pm-title { margin-top:0; }
-            .pm-desc { padding-right:22px; }
-            .pm-check { top:50%; right:12px; transform:translateY(-50%) scale(.7); }
-            .payment-method.selected .pm-check { transform:translateY(-50%) scale(1); }
-            .payment-actions { flex-direction:column; }
-            #cancelPaymentBtn { width:100%; }
-            .plan-price { font-size:1.25rem; }
+        @media (max-width:900px){
+            .payment-layout{grid-template-columns:1fr}
+            .payment-summary{min-height:auto}
+            .summary-benefits{grid-template-columns:repeat(2,1fr)}
+        }
+        @media (max-width:680px){
+            #paymentModal{padding:10px}
+            #paymentModal .modal-content{border-radius:28px}
+            .payment-wrap{padding:18px}
+            .payment-topbar{margin-bottom:18px}
+            .payment-secure{display:none}
+            .payment-layout{gap:12px}
+            .payment-summary,.payment-main{padding:20px;border-radius:22px}
+            .payment-summary{min-height:auto}
+            .summary-title{font-size:1.8rem}
+            .summary-plan{margin-top:20px}
+            .summary-benefits{grid-template-columns:1fr}
+            .payment-methods{grid-template-columns:1fr}
+            .payment-method{min-height:92px;flex-direction:row;align-items:center;padding:13px}
+            .pm-icon{margin:0 13px 0 0;width:47px;height:47px;flex-basis:47px;border-radius:14px}
+            .pm-title{margin-top:0}
+            .pm-desc{padding-right:24px}
+            .pm-check{top:50%;right:11px;transform:translateY(-50%) scale(.7)}
+            .payment-method.selected .pm-check{transform:translateY(-50%) scale(1)}
+            .payment-footer{align-items:stretch;flex-direction:column}
+            .payment-actions{flex-direction:column}
+            #createPaymentBtn,#cancelPaymentBtn{width:100%;min-width:0}
+            #paymentStatus,.payment-note{text-align:center;justify-content:center}
         }
 
         /* Медиа */
@@ -942,50 +1175,90 @@
         </div>
     </div>
 
-    <!-- Современный модал оплаты -->
+    <!-- Премиальный модал оплаты v2 -->
     <div class="modal-overlay" id="paymentModal">
         <div class="modal-content">
             <button class="modal-close-modern" id="closePaymentModal" aria-label="Закрыть"><i class="fas fa-times"></i></button>
+
             <div class="payment-wrap">
-                <div class="payment-header">
-                    <div class="payment-kicker">SECURE CHECKOUT</div>
-                    <h2>Завершите оплату</h2>
-                    <p>Выберите удобный способ. Счёт создаётся в Platega.</p>
-                </div>
-                <div class="payment-plan">
-                    <div>
-                        <div class="plan-name" id="selectedPlanName">1 месяц</div>
-                        <div class="payment-order">Номер заказа: <b id="paymentOrderNumber">0000000000</b></div>
+                <div class="payment-topbar">
+                    <div class="payment-brand">
+                        <div class="payment-brand-icon"><i class="fas fa-gem"></i></div>
+                        <div>
+                            <div class="payment-brand-title">ProxyGem Checkout</div>
+                            <div class="payment-brand-sub">Быстрая и защищённая оплата</div>
+                        </div>
                     </div>
-                    <div class="plan-price" id="selectedPlanPrice">259 ₽</div>
+                    <div class="payment-secure"><i class="fas fa-shield-halved"></i> Secure payment</div>
                 </div>
-                <div class="payment-section-label"><span>Способ оплаты</span><span>Выберите один вариант</span></div>
-                <div class="payment-methods">
-                    <button class="payment-method selected" data-method="2" type="button" aria-pressed="true">
-                        <span class="pm-check">✓</span>
-                        <span class="pm-icon"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Faster_Payment_System_Russia_logo.svg" alt="СБП"></span>
-                        <span class="pm-title">СБП</span>
-                        <span class="pm-desc">Оплата через Систему быстрых платежей</span>
-                    </button>
-                    <button class="payment-method" data-method="11" type="button" aria-pressed="false">
-                        <span class="pm-check">✓</span>
-                        <span class="pm-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h4"/></svg></span>
-                        <span class="pm-title">Карточный эквайринг</span>
-                        <span class="pm-desc">Оплата банковской картой</span>
-                    </button>
-                    <button class="payment-method" data-method="13" type="button" aria-pressed="false">
-                        <span class="pm-check">✓</span>
-                        <span class="pm-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 8.2h8.7c1.5 0 2.7 1 2.7 2.2 0 1.1-.8 1.8-1.8 2.1 1.3.3 2.2 1.1 2.2 2.4 0 1.5-1.3 2.6-3.1 2.6H7.2c-.7 0-1.2-.5-1.2-1.2V9.4c0-.7.5-1.2 1.2-1.2Z"/><path d="M9 5.2h5.7c1.4 0 2.4.8 2.4 1.8 0 .5-.2.9-.6 1.2M9 12.5h5.2"/></svg></span>
-                        <span class="pm-title">Криптовалюта</span>
-                        <span class="pm-desc">Crypto / USDT и доступные методы</span>
-                    </button>
+
+                <div class="payment-layout">
+                    <aside class="payment-summary">
+                        <div class="summary-eyebrow">Ваш заказ</div>
+                        <h2 class="summary-title">Всё готово.<br>Остался один шаг.</h2>
+                        <p class="summary-copy">Выберите удобный способ оплаты — после создания счёта откроется защищённая страница Platega.</p>
+
+                        <div class="summary-plan">
+                            <div class="summary-plan-label">Выбранный тариф</div>
+                            <div class="summary-plan-name" id="selectedPlanName">1 месяц</div>
+                            <div class="summary-plan-price" id="selectedPlanPrice">259 ₽</div>
+                            <div class="summary-order">Заказ <b id="paymentOrderNumber">0000000000</b></div>
+                        </div>
+
+                        <div class="summary-benefits">
+                            <div class="summary-benefit"><i class="fas fa-bolt"></i><span>Мгновенное создание счёта</span></div>
+                            <div class="summary-benefit"><i class="fas fa-lock"></i><span>Защищённая платёжная страница</span></div>
+                            <div class="summary-benefit"><i class="fas fa-key"></i><span>Ключ выдаётся после подтверждения</span></div>
+                        </div>
+                    </aside>
+
+                    <section class="payment-main">
+                        <div class="payment-header">
+                            <div class="payment-kicker">SECURE CHECKOUT</div>
+                            <h2>Способ оплаты</h2>
+                            <p>Выберите один вариант — система запомнит ваш выбор до создания счёта.</p>
+                        </div>
+
+                        <div class="payment-section-label">
+                            <span>Выберите способ</span>
+                            <span>3 доступных варианта</span>
+                        </div>
+
+                        <div class="payment-methods">
+                            <button class="payment-method selected" data-method="2" type="button" aria-pressed="true">
+                                <span class="pm-check">✓</span>
+                                <span class="pm-icon"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Faster_Payment_System_Russia_logo.svg" alt="СБП"></span>
+                                <span class="pm-title">СБП</span>
+                                <span class="pm-desc">Быстрая оплата через Систему быстрых платежей</span>
+                            </button>
+
+                            <button class="payment-method" data-method="11" type="button" aria-pressed="false">
+                                <span class="pm-check">✓</span>
+                                <span class="pm-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h4"/></svg></span>
+                                <span class="pm-title">Банковская карта</span>
+                                <span class="pm-desc">Оплата картой через карточный эквайринг</span>
+                            </button>
+
+                            <button class="payment-method" data-method="13" type="button" aria-pressed="false">
+                                <span class="pm-check">✓</span>
+                                <span class="pm-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 8.2h8.7c1.5 0 2.7 1 2.7 2.2 0 1.1-.8 1.8-1.8 2.1 1.3.3 2.2 1.1 2.2 2.4 0 1.5-1.3 2.6-3.1 2.6H7.2c-.7 0-1.2-.5-1.2-1.2V9.4c0-.7.5-1.2 1.2-1.2Z"/><path d="M9 5.2h5.7c1.4 0 2.4.8 2.4 1.8 0 .5-.2.9-.6 1.2M9 12.5h5.2"/></svg></span>
+                                <span class="pm-title">Криптовалюта</span>
+                                <span class="pm-desc">Crypto / USDT и доступные методы</span>
+                            </button>
+                        </div>
+
+                        <div class="payment-footer">
+                            <div class="payment-trust"><i class="fas fa-shield-halved"></i><span>Ваши платёжные данные обрабатываются на защищённой стороне</span></div>
+                            <div class="payment-actions">
+                                <button id="createPaymentBtn" type="button">Перейти к оплате <i class="fas fa-arrow-right"></i></button>
+                                <button id="cancelPaymentBtn" type="button">Отмена</button>
+                            </div>
+                        </div>
+
+                        <div id="paymentStatus" role="status" aria-live="polite"></div>
+                        <div class="payment-note">После создания счёта Platega откроется в новой вкладке.</div>
+                    </section>
                 </div>
-                <div class="payment-actions">
-                    <button id="createPaymentBtn" type="button">Перейти к оплате <i class="fas fa-arrow-right"></i></button>
-                    <button id="cancelPaymentBtn" type="button">Отмена</button>
-                </div>
-                <div id="paymentStatus" role="status" aria-live="polite"></div>
-                <div class="payment-note">После создания счёта Platega откроется в новой вкладке.</div>
             </div>
         </div>
     </div>
