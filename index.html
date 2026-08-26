@@ -807,12 +807,7 @@
         }
         .payment-secure i{color:#d8d8da;font-size:.72rem}
 
-        .payment-layout{
-            display:grid;
-            grid-template-columns:minmax(280px,.82fr) minmax(420px,1.18fr);
-            gap:20px;
-            align-items:stretch;
-        }
+        .payment-layout{display:block}
         .payment-summary{
             position:relative;
             overflow:hidden;
@@ -923,9 +918,7 @@
         .payment-section-label span:last-child{
             color:#4f5056;font-weight:600;letter-spacing:0;text-transform:none;
         }
-        .payment-methods{
-            display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;
-        }
+        .payment-methods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
         .payment-method{
             appearance:none;-webkit-appearance:none;width:100%;min-width:0;
             position:relative;display:flex;flex-direction:column;align-items:flex-start;
@@ -1197,24 +1190,6 @@
 
             <div class="payment-wrap">
 <div class="payment-layout">
-                    <aside class="payment-summary">
-                        <div class="summary-eyebrow">Ваш заказ</div>
-                        <h2 class="summary-title">Всё готово.<br>Остался один шаг.</h2>
-                        <p class="summary-copy">Выберите удобный способ оплаты — после создания счёта откроется защищённая страница Platega.</p>
-
-                        <div class="summary-plan">
-                            <div class="summary-plan-label">Выбранный тариф</div>
-                            <div class="summary-plan-name" id="selectedPlanName">1 месяц</div>
-                            <div class="summary-plan-price" id="selectedPlanPrice">259 ₽</div>
-                            <div class="summary-order">Заказ <b id="paymentOrderNumber">0000000000</b></div>
-                        </div>
-
-                        
-                            
-                            
-                        </div>
-                    </aside>
-
                     <section class="payment-main">
                         
                             <h2>Способ оплаты</h2>
@@ -2463,3 +2438,24 @@
     </script>
 </body>
 </html>
+<style>
+/* Финальная компактная раскладка способов оплаты */
+.payment-layout{display:block!important}
+.payment-main{width:100%;padding:0!important}
+.payment-methods{
+    width:100%;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:10px!important;
+    margin:0!important;
+}
+.payment-method{
+    min-height:145px!important;
+}
+@media (max-width:1050px) and (min-width:681px){
+    .payment-methods{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media (max-width:680px){
+    .payment-methods{grid-template-columns:1fr!important}
+}
+</style>
