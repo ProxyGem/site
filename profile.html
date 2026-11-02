@@ -22,7 +22,7 @@
   body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);
     -webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5;min-height:100vh}
   button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}
-  input{font-family:inherit;color:inherit}
+  input,textarea{font-family:inherit;color:inherit}
   :focus-visible{outline:2px solid rgba(255,255,255,0.6);outline-offset:2px;border-radius:10px}
   [hidden]{display:none !important}
 
@@ -119,7 +119,6 @@
   .input{height:46px;width:100%;border-radius:13px;background:rgba(255,255,255,0.04);border:1px solid var(--stroke);
     padding:0 15px;font-size:14px;color:#fff}
   .input:focus{outline:none;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.45)}
-  .input.error{border-color:rgba(255,255,255,0.6)}
   .hint{font-size:11.5px;color:var(--text-3)}
 
   #authScreen{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;overflow:auto}
@@ -134,11 +133,11 @@
     background:linear-gradient(160deg,rgba(255,255,255,0.22),rgba(255,255,255,0.05));
     border:1px solid var(--stroke-2);box-shadow:0 20px 46px -18px rgba(0,0,0,1)}
   .auth-logo img{width:34px;height:34px;object-fit:contain;filter:brightness(0) invert(1)}
-  .auth-brand h1{margin:0;font-size:22px;font-weight:650;letter-spacing:-.03em}
+  .auth-brand h1{margin:0;font-size:22px;font-weight:650}
   .auth-brand p{margin:0;font-size:12.5px;color:var(--text-3);max-width:300px}
 
   .tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid var(--stroke);margin-bottom:20px}
-  .tab{flex:1;height:38px;border-radius:10px;font-size:13px;font-weight:550;color:var(--text-2);display:grid;place-items:center}
+  .tab{flex:1;height:38px;border-radius:10px;font-size:13px;font-weight:550;color:var(--text-2);display:grid;place-items:center;cursor:pointer}
   .tab.active{background:rgba(255,255,255,0.92);color:#040404}
 
   .auth-form{display:flex;flex-direction:column;gap:14px}
@@ -150,7 +149,6 @@
     font-size:13.5px;font-weight:550;width:100%;color:#fff}
   .auth-btn:hover{background:rgba(255,255,255,0.1)}
   .auth-btn svg{width:20px;height:20px;flex:0 0 auto}
-  .auth-btn .arrow{margin-left:auto;opacity:.5;width:16px;height:16px;stroke:currentColor}
 
   .overlay{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;
     background:rgba(0,0,0,0.62);backdrop-filter:blur(12px);
@@ -170,14 +168,6 @@
   .x:hover{background:rgba(255,255,255,0.08);color:#fff}
   .x svg{width:16px;height:16px;stroke:currentColor}
 
-  .crop-stage{position:relative;width:100%;aspect-ratio:16/7;border-radius:18px;overflow:hidden;background:#0b0b0b;border:1px solid var(--stroke-2);cursor:grab;touch-action:none}
-  .crop-stage.round{aspect-ratio:1/1;max-width:320px;margin:0 auto;border-radius:50%}
-  .crop-stage img{position:absolute;top:50%;left:50%;user-select:none;pointer-events:none;will-change:transform}
-  .crop-stage .mask{position:absolute;inset:0;box-shadow:0 0 0 999px rgba(0,0,0,0.55) inset;pointer-events:none}
-  .zoom{display:flex;align-items:center;gap:12px;margin-top:16px}
-  .zoom input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:999px;background:rgba(255,255,255,0.14);outline:none}
-  .zoom input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;cursor:pointer}
-
   .toasts{position:fixed;right:24px;bottom:24px;z-index:120;display:flex;flex-direction:column;gap:10px;max-width:calc(100% - 48px)}
   .toast{display:flex;align-items:center;gap:12px;padding:13px 17px;border-radius:15px;
     background:rgba(18,18,18,0.94);border:1px solid var(--stroke-2);
@@ -187,6 +177,56 @@
 
   .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
   .reveal.in{opacity:1;transform:none}
+
+  /* FRIENDS */
+  .friends-panel{margin-top:24px}
+  .friends-tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid var(--stroke);margin-bottom:16px}
+  .ftab{flex:1;height:36px;border-radius:10px;font-size:12.5px;font-weight:550;color:var(--text-2);display:grid;place-items:center;cursor:pointer;transition:.3s var(--ease)}
+  .ftab.active{background:rgba(255,255,255,0.92);color:#040404}
+  .friends-list{display:flex;flex-direction:column;gap:8px}
+  .friend-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.03);border:1px solid var(--stroke);transition:.3s var(--ease)}
+  .friend-row:hover{background:rgba(255,255,255,0.06);border-color:var(--stroke-2)}
+  .friend-avatar{width:40px;height:40px;border-radius:50%;background:#141414;border:1px solid var(--stroke-2);overflow:hidden;display:grid;place-items:center;flex:0 0 auto;color:#8d8d8d;font-weight:650;font-size:14px}
+  .friend-avatar img{width:100%;height:100%;object-fit:cover}
+  .friend-info{flex:1;min-width:0}
+  .friend-info b{display:block;font-size:13.5px;font-weight:550}
+  .friend-info span{display:block;font-size:11.5px;color:var(--text-3)}
+  .friend-actions{display:flex;gap:6px;flex:0 0 auto}
+  .add-friend{display:flex;gap:8px;margin-bottom:14px}
+  .add-friend .input{height:40px}
+  .empty-state{padding:20px;text-align:center;color:var(--text-3);font-size:12.5px;border:1px dashed var(--stroke);border-radius:var(--radius-sm)}
+
+  /* CHAT */
+  .chat-modal{width:min(720px,100%) !important;height:min(640px,90vh) !important;display:flex !important;flex-direction:column !important;padding:0 !important;overflow:hidden !important}
+  .chat-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--stroke);flex:0 0 auto}
+  .chat-head .friend-avatar{width:36px;height:36px}
+  .chat-head .t{flex:1;min-width:0}
+  .chat-head .t b{display:block;font-size:14px;font-weight:600}
+  .chat-head .t span{display:block;font-size:11.5px;color:var(--text-3)}
+  .chat-body{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px;background:rgba(0,0,0,0.15)}
+  .msg{max-width:75%;padding:9px 13px;border-radius:16px;font-size:13px;line-height:1.45;word-wrap:break-word;position:relative;animation:msgIn .3s var(--ease-out)}
+  @keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .msg.me{align-self:flex-end;background:#fff;color:#040404;border-bottom-right-radius:6px}
+  .msg.them{align-self:flex-start;background:rgba(255,255,255,0.08);border:1px solid var(--stroke);border-bottom-left-radius:6px}
+  .msg time{display:block;font-size:10px;opacity:.55;margin-top:4px}
+  .msg img{max-width:240px;border-radius:10px;display:block;margin-top:4px;cursor:pointer}
+  .msg audio{max-width:260px;display:block;margin-top:6px}
+  .msg .file-name{display:block;font-size:11px;opacity:.7;margin-top:4px;word-break:break-all}
+  .chat-input{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--stroke);flex:0 0 auto;align-items:flex-end}
+  .chat-input textarea{flex:1;resize:none;min-height:40px;max-height:120px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid var(--stroke);padding:10px 14px;font-size:13px;line-height:1.4}
+  .chat-input textarea:focus{outline:none;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.07)}
+  .chat-attach{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,0.06);border:1px solid var(--stroke);flex:0 0 auto;color:#fff}
+  .chat-attach:hover{background:rgba(255,255,255,0.12)}
+  .chat-attach svg{width:18px;height:18px;stroke:currentColor}
+  .chat-send{height:40px;padding:0 16px;border-radius:12px;background:#fff;color:#040404;font-weight:600;font-size:13px;flex:0 0 auto}
+
+  /* Lightbox */
+  .lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.92);display:grid;place-items:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
+  .lightbox.open{opacity:1;pointer-events:auto}
+  .lightbox img{max-width:90vw;max-height:80vh;border-radius:12px;object-fit:contain}
+  .lightbox-bar{position:absolute;top:20px;right:20px;display:flex;gap:8px}
+  .lightbox-bar a,.lightbox-bar button{height:40px;padding:0 14px;border-radius:12px;background:rgba(255,255,255,0.1);border:1px solid var(--stroke-2);color:#fff;display:inline-flex;align-items:center;gap:6px;font-size:12.5px}
+  .lightbox-bar a:hover,.lightbox-bar button:hover{background:rgba(255,255,255,0.2)}
 
   @media (max-width:700px){
     .wrap{padding:20px 14px 84px}
@@ -199,6 +239,7 @@
     .modal-foot{flex-direction:column-reverse}
     .modal-foot .btn{width:100%}
     .auth-glass{padding:28px 22px 24px}
+    .chat-modal{height:100vh !important;border-radius:0 !important;max-height:100vh !important}
   }
 </style>
 </head>
@@ -206,6 +247,7 @@
 
 <div class="bg-layer" aria-hidden="true"><div class="orb a"></div><div class="orb b"></div></div>
 
+<!-- AUTH -->
 <div id="authScreen">
   <div class="auth-shell reveal">
     <div class="auth-glass">
@@ -214,19 +256,19 @@
         <h1>ProxyGem</h1>
         <p>Войдите или создайте аккаунт.</p>
       </div>
-      <div class="tabs" role="tablist">
-        <button class="tab active" id="tabLogin" role="tab" aria-selected="true">Вход</button>
-        <button class="tab" id="tabRegister" role="tab" aria-selected="false">Регистрация</button>
+      <div class="tabs">
+        <button class="tab active" id="tabLogin">Вход</button>
+        <button class="tab" id="tabRegister">Регистрация</button>
       </div>
       <form class="auth-form" id="authForm" novalidate>
         <div class="field">
           <label for="authLogin">Логин</label>
-          <input class="input" id="authLogin" type="text" autocomplete="username" placeholder="Ваш логин" maxlength="24" required />
+          <input class="input" id="authLogin" type="text" autocomplete="username" placeholder="Ваш логин" maxlength="24" />
           <div class="hint" id="authLoginHint"></div>
         </div>
         <div class="field">
           <label for="authPass">Пароль</label>
-          <input class="input" id="authPass" type="password" autocomplete="current-password" placeholder="Минимум 8 символов" required />
+          <input class="input" id="authPass" type="password" autocomplete="current-password" placeholder="Минимум 8 символов" />
           <div class="hint" id="authPassHint"></div>
         </div>
         <div class="field" id="confirmField" hidden>
@@ -246,7 +288,6 @@
             <path d="m9 14.3 8.5-6.2"/>
           </svg>
           Войти через Telegram
-          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
         <button class="auth-btn" id="authGoogle" type="button">
           <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true">
@@ -256,21 +297,22 @@
             <path fill="#ffffff" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
           </svg>
           Войти через Google
-          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- APP -->
 <div class="wrap" id="app" hidden>
   <header class="topbar reveal">
     <div class="brand">
       <div class="logo"><img src="logo.ico" alt="ProxyGem" /></div>
-      <div><div>ProxyGem</div><small>Profile &amp; Settings</small></div>
+      <div><div>ProxyGem</div><small>Profile &amp; Friends</small></div>
     </div>
     <div><button class="btn sm" id="refreshBtn">Обновить</button></div>
   </header>
+
   <div class="grid">
     <section class="glass profile reveal">
       <div class="banner" id="banner">
@@ -301,31 +343,40 @@
         </div>
         <div class="meta">
           <span class="chip"><span class="dot"></span><span id="statusChip">Аккаунт активен</span></span>
+          <span class="chip">ID: <span id="statId">—</span></span>
           <span class="chip">Регистрация: <span id="regDate">—</span></span>
           <span class="chip"><span id="authChip">Способы входа: —</span></span>
         </div>
-        <div class="divider"></div>
-        <div class="stat-grid">
-          <div class="stat"><div class="k">ID</div><div class="v" id="statId">—</div></div>
-          <div class="stat"><div class="k">Последний вход</div><div class="v" id="statLogin">—</div></div>
-          <div class="stat"><div class="k">Профиль</div><div class="v" id="statComplete">—</div></div>
-        </div>
       </div>
     </section>
-    <section class="glass reveal">
-      <div class="panel-head"><div><h2>Настройки аккаунта</h2><p>Персональные данные</p></div></div>
+
+    <section class="glass reveal friends-panel">
+      <div class="panel-head"><div><h2>Друзья</h2><p>Найдите по ID, нику или логину</p></div></div>
       <div class="panel-body">
-        <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5S20 17 20 21"/></svg></div><div class="t"><b>Аватар</b><span>Изображение профиля</span></div></div><div class="r"><button class="btn sm" data-action="avatar">Изменить</button></div></div>
-        <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 8 9 6 9-6"/></svg></div><div class="t"><b>Баннер</b><span>Обложка профиля</span></div></div><div class="r"><button class="btn sm" data-action="banner">Изменить</button></div></div>
-        <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16.5V20h3.5L18 9.5 14.5 6 4 16.5Z"/><path d="m13 7.5 3.5 3.5"/></svg></div><div class="t"><b>Никнейм</b><span id="nickPreview">—</span></div></div><div class="r"><button class="btn sm" data-action="nick">Изменить</button></div></div>
-        <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 3 10.5l7 2.5 2.5 7L21 3Z"/></svg></div><div class="t"><b>Telegram</b><span id="tgStatus">Не подключён</span></div></div><div class="r"><button class="btn sm" id="tgLinkBtn">Подключить</button></div></div>
-        <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M21 12h-9"/><path d="M12 21a9 9 0 0 1 0-18"/></svg></div><div class="t"><b>Google</b><span id="ggStatus">Не подключён</span></div></div><div class="r"><button class="btn sm" id="ggLinkBtn">Подключить</button></div></div>
-        <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9"/><path d="M6 8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-2"/></svg></div><div class="t"><b>Управление</b><span>Выход и удаление</span></div></div><div class="r"><button class="btn sm" id="logoutBtn">Выйти</button><button class="btn sm danger" id="deleteBtn">Удалить</button></div></div>
+        <div class="add-friend">
+          <input class="input" id="friendSearch" placeholder="ID, ник или логин" />
+          <button class="btn sm" id="friendSearchBtn">Найти</button>
+        </div>
+        <div id="friendSearchResults"></div>
+        <div class="friends-tabs">
+          <div class="ftab active" data-ftab="friends">Друзья <span id="friendsCount">0</span></div>
+          <div class="ftab" data-ftab="incoming">Заявки <span id="incomingCount">0</span></div>
+          <div class="ftab" data-ftab="outgoing">Отправлены <span id="outgoingCount">0</span></div>
+        </div>
+        <div id="friendsBody"></div>
       </div>
     </section>
   </div>
+
+  <section class="glass reveal" style="margin-top:24px">
+    <div class="panel-head"><div><h2>Настройки аккаунта</h2><p>Выход и управление</p></div></div>
+    <div class="panel-body">
+      <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9"/><path d="M6 8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-2"/></svg></div><div class="t"><b>Управление</b><span>Выход и удаление</span></div></div><div class="r"><button class="btn sm" id="logoutBtn">Выйти</button><button class="btn sm danger" id="deleteBtn">Удалить</button></div></div>
+    </div>
+  </section>
 </div>
 
+<!-- MODAL -->
 <div class="overlay" id="overlay" aria-hidden="true">
   <div class="modal" id="modal">
     <div class="modal-head">
@@ -337,9 +388,18 @@
   </div>
 </div>
 
-<div class="toasts" id="toasts" aria-live="polite"></div>
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-bar">
+    <a id="lightboxDownload" download>Скачать</a>
+    <button id="lightboxClose">Закрыть</button>
+  </div>
+  <img id="lightboxImg" alt="Просмотр" />
+</div>
+
+<div class="toasts" id="toasts"></div>
 <input type="file" id="fileAvatar" accept="image/png,image/jpeg,image/webp" hidden />
 <input type="file" id="fileBanner" accept="image/png,image/jpeg,image/webp" hidden />
+<input type="file" id="chatFile" accept="image/png,image/jpeg,image/webp,audio/*" hidden />
 
 <script>
 (function(){
@@ -356,7 +416,14 @@
     upload:   API + "/profile/upload",
     tgStart:  API + "/auth/telegram/start",
     ggStart:  API + "/auth/google/start",
-    del:      API + "/account"
+    del:      API + "/account",
+    friends:  API + "/friends",
+    friendSearch: API + "/friends/search",
+    friendReq:    API + "/friends/request",
+    friendResp:   API + "/friends/respond",
+    friendRemove: API + "/friends/remove",
+    messages:     (id) => API + "/messages/" + id,
+    messagesUpload: (id) => API + "/messages/" + id + "/upload"
   };
   const TOKEN_KEY = "proxygem_token";
   const NICK_RE = /^[A-Za-z0-9_.\-]{3,24}$/;
@@ -365,12 +432,13 @@
   const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
   const esc = (s)=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const fmtDate = (iso)=>{ try{ return new Date(iso).toLocaleDateString("ru-RU",{day:"2-digit",month:"short",year:"numeric"}); }catch(e){ return "—"; } };
+  const fmtTime = (ts)=>{ try{ return new Date(ts).toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}); }catch(e){ return ""; } };
 
   function getToken(){ try{ return localStorage.getItem(TOKEN_KEY); }catch(e){ return null; } }
   function setToken(t){ try{ if(t) localStorage.setItem(TOKEN_KEY,t); else localStorage.removeItem(TOKEN_KEY); }catch(e){} }
   function absUrl(u){
     if(!u) return u;
-    if(/^https?:\/\//i.test(u) || u.startsWith("data:")) return u;
+    if(/^https?:\/\//i.test(u) || u.startsWith("data:") || u.startsWith("blob:")) return u;
     if(u.startsWith("/")) return API + u;
     return u;
   }
@@ -420,18 +488,20 @@
     els.forEach(e=> io.observe(e));
   }
 
+  // ========== MODAL ==========
   const overlay = $("#overlay"), modal = $("#modal");
   const modalTitle = $("#modalTitle"), modalSub = $("#modalSub");
   const modalBody = $("#modalBody"), modalFoot = $("#modalFoot");
-  let lastFocus = null, onCloseFn = null;
+  let lastFocus = null, onCloseFn = null, chatOpenForId = null;
 
-  function openModal({title, sub="", body="", foot="", onClose=null, wide=false}){
+  function openModal({title, sub="", body="", foot="", onClose=null, wide=false, className=""}){
     lastFocus = document.activeElement;
     modalTitle.textContent = title;
     modalSub.textContent = sub;
     modalBody.innerHTML = body;
     modalFoot.innerHTML = foot;
-    modal.style.width = wide ? "min(640px,100%)" : "";
+    modal.className = "modal" + (className ? " " + className : "");
+    modal.style.width = wide ? "min(720px,100%)" : "";
     overlay.classList.add("open");
     overlay.setAttribute("aria-hidden","false");
     onCloseFn = onClose;
@@ -442,6 +512,7 @@
     overlay.setAttribute("aria-hidden","true");
     if(typeof onCloseFn === "function") onCloseFn();
     onCloseFn = null;
+    chatOpenForId = null;
     if(lastFocus && lastFocus.focus) lastFocus.focus();
   }
   overlay.addEventListener("click", (e)=>{ if(e.target===overlay) closeModal(); });
@@ -459,6 +530,7 @@
     $("#cfOk").addEventListener("click", ()=>{ closeModal(); onConfirm && onConfirm(); });
   }
 
+  // ========== AUTH ==========
   let currentUser = null;
   let pendingRegister = false;
 
@@ -491,7 +563,6 @@
     let passOk = pass.length >= 8 && pass.length <= 72;
     authPass.classList.toggle("error", !!pass && !passOk);
     let pass2Ok = !pendingRegister || (pass2.length >= 8 && pass2 === pass);
-    if(pendingRegister) authPass2.classList.toggle("error", !!pass2 && !pass2Ok);
     authSubmit.disabled = !(loginOk && passOk && pass2Ok);
     return loginOk && passOk && pass2Ok;
   }
@@ -511,11 +582,11 @@
       currentUser = (data && data.user) || await fetchMe();
       authLogin.value = authPass.value = authPass2.value = "";
       validateAuth();
-      renderProfile(); showApp();
+      renderProfile(); showApp(); loadFriends();
       toast(pendingRegister ? "Аккаунт создан" : "Добро пожаловать");
     }catch(err){
       toast(err.message || "Ошибка авторизации", "err");
-      if(err.status === 409){ authLoginHint.textContent = "Этот логин уже занят"; authLogin.classList.add("error"); }
+      if(err.status === 409){ authLoginHint.textContent = "Логин занят"; authLogin.classList.add("error"); }
       if(err.status === 401){ authPassHint.textContent = "Неверный логин или пароль"; authPass.classList.add("error"); }
     }finally{ authSubmit.classList.remove("loading"); authSubmit.disabled = false; }
   });
@@ -540,6 +611,7 @@
     return null;
   }
 
+  // ========== PROFILE ==========
   function ensureUser(u){
     if(!u) return null;
     const out = {...u};
@@ -551,14 +623,11 @@
     out.banner = absUrl(out.banner);
     return out;
   }
-
   function renderProfile(){
     const u = ensureUser(currentUser) || {};
     $("#displayName").textContent = u.nick || "—";
-    $("#nickPreview").textContent = u.nick || "—";
-    $("#regDate").textContent = fmtDate(u.regDate);
-    $("#statLogin").textContent = fmtDate(u.lastLogin);
     $("#statId").textContent = u.id || "—";
+    $("#regDate").textContent = fmtDate(u.regDate);
     const av = $("#avatarImg"), ph = $("#avatarPh");
     if(u.avatar){ av.src = u.avatar; av.hidden=false; ph.style.display="none"; }
     else { av.hidden=true; ph.style.display=""; }
@@ -570,18 +639,7 @@
     if(u.google) methods.push("Google");
     if(u.login) methods.push("Пароль");
     $("#authChip").textContent = "Способы входа: " + (methods.length ? methods.join(" · ") : "—");
-    $("#tgStatus").textContent = u.telegram ? "Подключён" : "Не подключён";
-    $("#ggStatus").textContent = u.google ? "Подключён" : "Не подключён";
-    $("#tgLinkBtn").textContent = u.telegram ? "Отключить" : "Подключить";
-    $("#ggLinkBtn").textContent = u.google ? "Отключить" : "Подключить";
-    let c = 0;
-    if(u.nick) c++;
-    if(u.avatar) c++;
-    if(u.banner) c++;
-    if(u.telegram || u.google) c++;
-    $("#statComplete").textContent = Math.round(c/4*100) + "%";
   }
-
   async function patchProfile(patch){
     const data = await api(EP.profile, {method:"PATCH", body:patch});
     const u = (data && (data.user || data)) || {};
@@ -589,72 +647,27 @@
     renderProfile();
   }
 
-  async function uploadImage(kind, dataUrl){
-    const res = await fetch(dataUrl);
-    const blob = await res.blob();
-    const fd = new FormData();
-    fd.append("file", blob, kind + "." + (blob.type.split("/")[1] || "png"));
-    fd.append("kind", kind);
-    const data = await api(EP.upload, {method:"POST", body:fd});
-    if(data && data.url){
-      currentUser = {...ensureUser(currentUser), [kind]: absUrl(data.url)};
-      renderProfile();
-    }
-  }
-
-  function openNickModal(){
-    const cur = (ensureUser(currentUser) || {}).nick || "";
-    openModal({
-      title: "Редактирование никнейма",
-      sub: "3–24 символа. Латиница, цифры, точка, дефис, подчёркивание.",
-      body: `<div class="field"><label for="nickInput">Никнейм</label>
-        <input class="input" id="nickInput" type="text" maxlength="24" value="${esc(cur)}" placeholder="username" />
-        <div class="hint" id="nickHint">Введите никнейм.</div></div>`,
-      foot: `<button class="btn" id="nickCancel">Отмена</button>
-             <button class="btn primary" id="nickSave" disabled>Сохранить</button>`
-    });
-    const input = $("#nickInput"), hint = $("#nickHint"), saveBtn = $("#nickSave");
-    function validate(){
-      const v = input.value.trim();
-      const ok = NICK_RE.test(v);
-      hint.textContent = !v ? "Поле пустое." : (!ok ? "3–24 символа" : "Отлично.");
-      input.classList.toggle("error", !!v && !ok);
-      saveBtn.disabled = !ok || v === cur;
-      return ok;
-    }
-    input.addEventListener("input", validate);
-    validate();
-    $("#nickCancel").addEventListener("click", closeModal);
-    saveBtn.addEventListener("click", async ()=>{
-      if(!validate()) return;
-      saveBtn.classList.add("loading"); saveBtn.disabled = true;
-      try{ await patchProfile({nick: input.value.trim()}); closeModal(); toast("Никнейм сохранён"); }
-      catch(err){ toast(err.message||"Ошибка", "err"); }
-      finally{ saveBtn.classList.remove("loading"); saveBtn.disabled=false; }
-    });
-  }
-
+  // ========== IMAGE UPLOAD / CROP ==========
   const MAX_MB = 8;
   function readFile(file){
     return new Promise((resolve,reject)=>{
       if(!file) return reject(new Error("Файл не выбран"));
-      const ok = ["image/png","image/jpeg","image/webp"];
-      if(!ok.includes(file.type)) return reject(new Error("PNG, JPG, WEBP"));
-      if(file.size > MAX_MB*1024*1024) return reject(new Error("Файл больше " + MAX_MB + " МБ"));
       const fr = new FileReader();
       fr.onload = ()=> resolve(fr.result);
       fr.onerror = ()=> reject(new Error("Не удалось прочитать"));
       fr.readAsDataURL(file);
     });
   }
-
   function openCropper({dataUrl, round=false, title, sub, onApply}){
     openModal({
       title, sub, wide:true,
-      body: `<div class="crop-stage ${round?'round':''}" id="cropStage">
-          <img id="cropImg" alt="Предпросмотр" /><div class="mask"></div></div>
-        <div class="zoom"><input type="range" id="cropZoom" min="1" max="2.6" step="0.01" value="1" /></div>
-        <div class="hint" style="margin-top:12px">Перетаскивайте изображение. Ползунок — масштаб.</div>`,
+      body: `<div class="crop-stage ${round?'round':''}" id="cropStage" style="position:relative;width:100%;aspect-ratio:${round?'1/1':'16/7'};border-radius:${round?'50%':'18px'};overflow:hidden;background:#0b0b0b;border:1px solid var(--stroke-2);cursor:grab;touch-action:none;${round?'max-width:320px;margin:0 auto;':''}">
+          <img id="cropImg" alt="Предпросмотр" style="position:absolute;top:50%;left:50%;user-select:none;pointer-events:none;will-change:transform" />
+          <div style="position:absolute;inset:0;box-shadow:0 0 0 999px rgba(0,0,0,0.55) inset;pointer-events:none"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:16px">
+          <input type="range" id="cropZoom" min="1" max="2.6" step="0.01" value="1" style="flex:1" />
+        </div>`,
       foot: `<button class="btn" id="cropCancel">Отмена</button>
              <button class="btn primary" id="cropApply">Применить</button>`
     });
@@ -705,7 +718,6 @@
       onApply(out); closeModal();
     });
   }
-
   function pickImage(kind){
     const input = kind === "avatar" ? $("#fileAvatar") : $("#fileBanner");
     input.value = "";
@@ -719,8 +731,19 @@
           title: kind==="avatar" ? "Аватар" : "Баннер",
           sub: "Настройте кадрирование и масштаб.",
           onApply: async (result)=>{
-            try{ await uploadImage(kind, result); toast(kind==="avatar" ? "Аватар обновлён" : "Баннер обновлён"); }
-            catch(err){ toast(err.message||"Ошибка", "err"); }
+            try{
+              const res = await fetch(result);
+              const blob = await res.blob();
+              const fd = new FormData();
+              fd.append("file", blob, kind + "." + (blob.type.split("/")[1] || "png"));
+              fd.append("kind", kind);
+              const data = await api(EP.upload, {method:"POST", body:fd});
+              if(data && data.url){
+                currentUser = {...ensureUser(currentUser), [kind]: absUrl(data.url)};
+                renderProfile();
+                toast(kind==="avatar" ? "Аватар обновлён" : "Баннер обновлён");
+              }
+            }catch(err){ toast(err.message||"Ошибка", "err"); }
           }
         });
       }catch(err){ toast(err.message||"Ошибка", "err"); }
@@ -728,100 +751,276 @@
     input.click();
   }
 
-  function removeBanner(){
-    const u = ensureUser(currentUser) || {};
-    if(!u.banner){ toast("Баннер уже отсутствует"); return; }
+  // ========== FRIENDS ==========
+  let friendsState = { friends: [], incoming: [], outgoing: [], myId: null };
+  let activeFTab = "friends";
+
+  async function loadFriends(){
+    try{
+      const data = await api(EP.friends);
+      friendsState = data;
+      renderFriends();
+    }catch(err){
+      if(err.status !== 401) toast("Друзья: " + err.message, "err");
+    }
+  }
+  function renderFriends(){
+    $("#friendsCount").textContent = friendsState.friends.length;
+    $("#incomingCount").textContent = friendsState.incoming.length;
+    $("#outgoingCount").textContent = friendsState.outgoing.length;
+
+    const body = $("#friendsBody");
+    let list = [];
+    if(activeFTab === "friends") list = friendsState.friends;
+    if(activeFTab === "incoming") list = friendsState.incoming;
+    if(activeFTab === "outgoing") list = friendsState.outgoing;
+
+    if(!list.length){
+      body.innerHTML = `<div class="empty-state">${
+        activeFTab === "friends" ? "Пока нет друзей. Найдите по ID ниже." :
+        activeFTab === "incoming" ? "Нет входящих заявок." : "Нет отправленных заявок."
+      }</div>`;
+      return;
+    }
+
+    body.innerHTML = `<div class="friends-list">` + list.map(f => {
+      const avatarHtml = f.avatar
+        ? `<img src="${esc(absUrl(f.avatar))}" alt="" />`
+        : esc((f.nick || "?").slice(0,2).toUpperCase());
+      let actions = "";
+      if(activeFTab === "friends"){
+        actions = `<button class="btn sm" data-chat="${f.id}">Чат</button>
+                   <button class="btn sm danger" data-remove="${f.id}">Удалить</button>`;
+      } else if(activeFTab === "incoming"){
+        actions = `<button class="btn sm primary" data-accept="${f.id}">Принять</button>
+                   <button class="btn sm danger" data-decline="${f.id}">Отклонить</button>`;
+      } else {
+        actions = `<button class="btn sm" disabled>Ожидание</button>`;
+      }
+      return `<div class="friend-row">
+        <div class="friend-avatar">${avatarHtml}</div>
+        <div class="friend-info">
+          <b>${esc(f.nick)}</b>
+          <span>ID: ${f.id} · @${esc(f.login)}</span>
+        </div>
+        <div class="friend-actions">${actions}</div>
+      </div>`;
+    }).join("") + `</div>`;
+
+    body.querySelectorAll("[data-chat]").forEach(b => b.addEventListener("click", ()=> openChat(parseInt(b.getAttribute("data-chat"),10))));
+    body.querySelectorAll("[data-remove]").forEach(b => b.addEventListener("click", ()=> removeFriend(parseInt(b.getAttribute("data-remove"),10))));
+    body.querySelectorAll("[data-accept]").forEach(b => b.addEventListener("click", ()=> respondRequest(parseInt(b.getAttribute("data-accept"),10), true)));
+    body.querySelectorAll("[data-decline]").forEach(b => b.addEventListener("click", ()=> respondRequest(parseInt(b.getAttribute("data-decline"),10), false)));
+  }
+  $$(".ftab").forEach(t => t.addEventListener("click", ()=>{
+    $$(".ftab").forEach(x => x.classList.remove("active"));
+    t.classList.add("active");
+    activeFTab = t.getAttribute("data-ftab");
+    renderFriends();
+  }));
+
+  async function searchFriends(){
+    const q = $("#friendSearch").value.trim();
+    if(!q) return;
+    try{
+      const data = await api(EP.friendSearch + "?q=" + encodeURIComponent(q));
+      const wrap = $("#friendSearchResults");
+      if(!data.users || !data.users.length){
+        wrap.innerHTML = `<div class="empty-state" style="margin-bottom:14px">Никого не найдено.</div>`;
+        return;
+      }
+      wrap.innerHTML = `<div class="friends-list" style="margin-bottom:14px">` + data.users.map(u => {
+        const avatarHtml = u.avatar ? `<img src="${esc(absUrl(u.avatar))}" alt="" />` : esc((u.nick || "?").slice(0,2).toUpperCase());
+        return `<div class="friend-row">
+          <div class="friend-avatar">${avatarHtml}</div>
+          <div class="friend-info"><b>${esc(u.nick)}</b><span>ID: ${u.id} · @${esc(u.login)}</span></div>
+          <div class="friend-actions"><button class="btn sm primary" data-add="${u.id}">Добавить</button></div>
+        </div>`;
+      }).join("") + `</div>`;
+      wrap.querySelectorAll("[data-add]").forEach(b => b.addEventListener("click", ()=> sendFriendRequest(parseInt(b.getAttribute("data-add"),10))));
+    }catch(err){ toast(err.message||"Ошибка поиска", "err"); }
+  }
+  $("#friendSearchBtn").addEventListener("click", searchFriends);
+  $("#friendSearch").addEventListener("keydown", (e)=>{ if(e.key === "Enter") searchFriends(); });
+
+  async function sendFriendRequest(id){
+    try{
+      await api(EP.friendReq, {method:"POST", body:{id}});
+      toast("Заявка отправлена");
+      $("#friendSearchResults").innerHTML = "";
+      loadFriends();
+    }catch(err){ toast(err.message||"Ошибка", "err"); }
+  }
+  async function respondRequest(id, accept){
+    try{
+      await api(EP.friendResp, {method:"POST", body:{id, accept}});
+      toast(accept ? "Заявка принята" : "Заявка отклонена");
+      loadFriends();
+    }catch(err){ toast(err.message||"Ошибка", "err"); }
+  }
+  async function removeFriend(id){
     confirmModal({
-      title: "Удалить баннер?", sub: "Обложка будет заменена на нейтральный фон.",
-      confirmText: "Удалить",
-      onConfirm: async ()=>{ try{ await patchProfile({banner: null}); toast("Баннер удалён"); }catch(err){ toast(err.message||"Ошибка", "err"); } }
+      title: "Удалить друга?", sub: "Переписка останется, но отправлять сообщения будет нельзя.",
+      confirmText: "Удалить", danger: true,
+      onConfirm: async ()=>{
+        try{ await api(EP.friendRemove, {method:"POST", body:{id}}); toast("Удалён"); loadFriends(); }
+        catch(err){ toast(err.message||"Ошибка", "err"); }
+      }
     });
   }
 
-  function toggleProvider(kind){
-    const u = ensureUser(currentUser) || {};
-    if(u[kind]){
-      confirmModal({
-        title: `Отключить ${kind==="telegram"?"Telegram":"Google"}?`,
-        sub: "Убедитесь, что есть пароль или другой способ входа.",
-        confirmText: "Отключить", danger: true,
-        onConfirm: async ()=>{
-          try{
-            await api(EP.profile + "/unlink", {method:"POST", body:{provider:kind}});
-            currentUser = {...u, [kind]: false}; renderProfile(); toast("Отключено");
-          }catch(err){ toast(err.message||"Ошибка", "err"); }
-        }
+  // ========== CHAT ==========
+  let chatPollTimer = null;
+
+  async function openChat(friendId){
+    const friend = friendsState.friends.find(f => f.id === friendId);
+    if(!friend){ toast("Друг не найден", "err"); return; }
+
+    chatOpenForId = friendId;
+    const avatarHtml = friend.avatar ? `<img src="${esc(absUrl(friend.avatar))}" alt="" />` : esc((friend.nick || "?").slice(0,2).toUpperCase());
+    openModal({
+      title: "",
+      className: "chat-modal",
+      body: `
+        <div class="chat-head">
+          <div class="friend-avatar">${avatarHtml}</div>
+          <div class="t"><b>${esc(friend.nick)}</b><span>ID: ${friend.id}</span></div>
+          <button class="btn sm" id="chatClose">Закрыть</button>
+        </div>
+        <div class="chat-body" id="chatBody">
+          <div class="empty-state">Загрузка сообщений…</div>
+        </div>
+        <div class="chat-input">
+          <button class="chat-attach" id="chatAttach" title="Отправить фото или музыку">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l8.57-8.57a4 4 0 1 1 5.66 5.66L9.17 17.66a2 2 0 1 1-2.83-2.83l8.49-8.49"/></svg>
+          </button>
+          <textarea id="chatText" placeholder="Сообщение…" rows="1"></textarea>
+          <button class="chat-send" id="chatSend">Отправить</button>
+        </div>
+      `,
+      foot: "",
+      onClose: ()=>{ if(chatPollTimer){ clearInterval(chatPollTimer); chatPollTimer=null; } }
+    });
+
+    const head = $(".chat-head");
+    head.querySelector("#chatClose").addEventListener("click", closeModal);
+    $("#chatSend").addEventListener("click", ()=> sendChatMessage(friendId));
+    $("#chatAttach").addEventListener("click", ()=> pickChatFile(friendId));
+    const ta = $("#chatText");
+    ta.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter" && !e.shiftKey){ e.preventDefault(); sendChatMessage(friendId); }
+    });
+    ta.addEventListener("input", ()=>{
+      ta.style.height = "auto";
+      ta.style.height = Math.min(120, ta.scrollHeight) + "px";
+    });
+
+    await loadMessages(friendId);
+    chatPollTimer = setInterval(()=> loadMessages(friendId, true), 4000);
+  }
+
+  async function loadMessages(friendId, silent=false){
+    if(chatOpenForId !== friendId) return;
+    try{
+      const data = await api(EP.messages(friendId));
+      const body = $("#chatBody");
+      if(!body) return;
+      const msgs = data.messages || [];
+      if(!msgs.length){
+        body.innerHTML = `<div class="empty-state">Пока нет сообщений.</div>`;
+        return;
+      }
+      body.innerHTML = msgs.map(m => renderMessage(m)).join("");
+      body.querySelectorAll("img[data-src]").forEach(img => {
+        img.addEventListener("click", ()=> openLightbox(img.getAttribute("data-src"), img.getAttribute("data-name") || "image.jpg"));
       });
-    } else {
-      confirmModal({
-        title: `Подключить ${kind==="telegram"?"Telegram":"Google"}?`,
-        sub: "Откроется интерфейс авторизации провайдера.",
-        confirmText: "Продолжить",
-        onConfirm: ()=> kind==="telegram" ? startTelegram() : startGoogle()
-      });
+      body.scrollTop = body.scrollHeight;
+    }catch(err){
+      if(!silent) toast(err.message||"Ошибка загрузки", "err");
     }
   }
 
-  function logout(){
-    confirmModal({
-      title: "Выйти из аккаунта?", sub: "Сессия будет завершена.",
-      confirmText: "Выйти",
-      onConfirm: async ()=>{
-        try{ await api(EP.logout, {method:"POST"}); }catch(e){}
-        setToken(null); currentUser = null; showAuth(); toast("Вы вышли");
-      }
-    });
-  }
-  function deleteAccount(){
-    confirmModal({
-      title: "Удалить аккаунт?", sub: "Действие необратимо.",
-      confirmText: "Удалить аккаунт", danger: true,
-      onConfirm: async ()=>{
-        try{ await api(EP.del, {method:"DELETE"}); setToken(null); currentUser=null; showAuth(); toast("Аккаунт удалён"); }
-        catch(err){ toast(err.message||"Не удалось удалить", "err"); }
-      }
-    });
-  }
-
-  function bind(){
-    $("#nickEditBtn").addEventListener("click", openNickModal);
-    $("#avatarEditBtn").addEventListener("click", ()=> pickImage("avatar"));
-    $("#bannerEditBtn").addEventListener("click", ()=> pickImage("banner"));
-    $("#bannerDelBtn").addEventListener("click", removeBanner);
-    $$('[data-action]').forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const a = btn.getAttribute("data-action");
-        if(a==="avatar") pickImage("avatar");
-        if(a==="banner") pickImage("banner");
-        if(a==="nick") openNickModal();
-      });
-    });
-    $("#logoutBtn").addEventListener("click", logout);
-    $("#deleteBtn").addEventListener("click", deleteAccount);
-    $("#tgLinkBtn").addEventListener("click", ()=>toggleProvider("telegram"));
-    $("#ggLinkBtn").addEventListener("click", ()=>toggleProvider("google"));
-    $("#refreshBtn").addEventListener("click", async ()=>{
-      const btn = $("#refreshBtn");
-      btn.classList.add("loading");
-      try{ currentUser = await fetchMe(); renderProfile(); toast("Обновлено"); }
-      catch(err){ toast(err.message||"Ошибка", "err"); }
-      finally{ btn.classList.remove("loading"); }
-    });
+  function renderMessage(m){
+    const me = currentUser && m.from === currentUser.id;
+    const cls = me ? "me" : "them";
+    const time = fmtTime(m.createdAt);
+    if(m.type === "image"){
+      const src = esc(absUrl(m.url));
+      return `<div class="msg ${cls}">
+        <a href="${src}" target="_blank" rel="noopener">
+          <img src="${src}" data-src="${src}" data-name="${esc(m.filename || 'image.jpg')}" alt="" loading="lazy" />
+        </a>
+        <time>${time}</time>
+      </div>`;
+    }
+    if(m.type === "audio"){
+      const src = esc(absUrl(m.url));
+      return `<div class="msg ${cls}">
+        <audio controls preload="metadata" src="${src}"></audio>
+        <span class="file-name">${esc(m.filename || 'audio')} · <a href="${src}" download style="color:inherit;text-decoration:underline">Скачать</a></span>
+        <time>${time}</time>
+      </div>`;
+    }
+    return `<div class="msg ${cls}">${esc(m.content || "")}<time>${time}</time></div>`;
   }
 
-  // FIX: обработка возврата с OAuth
+  async function sendChatMessage(friendId){
+    const ta = $("#chatText");
+    if(!ta) return;
+    const text = ta.value.trim();
+    if(!text) return;
+    ta.value = ""; ta.style.height = "auto";
+    try{
+      await api(EP.messages(friendId), {method:"POST", body:{type:"text", content:text}});
+      await loadMessages(friendId);
+    }catch(err){ toast(err.message||"Ошибка отправки", "err"); }
+  }
+
+  function pickChatFile(friendId){
+    const input = $("#chatFile");
+    input.value = "";
+    input.onchange = async ()=>{
+      const file = input.files && input.files[0];
+      if(!file) return;
+      if(file.size > 25 * 1024 * 1024){ toast("Файл больше 25 МБ", "err"); return; }
+      try{
+        const fd = new FormData();
+        fd.append("file", file, file.name);
+        const data = await api(EP.messagesUpload(friendId), {method:"POST", body:fd});
+        if(data && data.url){
+          await loadMessages(friendId);
+          toast(data.type === "audio" ? "Музыка отправлена" : "Фото отправлено");
+        }
+      }catch(err){ toast(err.message||"Ошибка загрузки", "err"); }
+    };
+    input.click();
+  }
+
+  // ========== LIGHTBOX ==========
+  const lightbox = $("#lightbox"), lightboxImg = $("#lightboxImg"), lightboxDl = $("#lightboxDownload");
+  function openLightbox(src, name){
+    lightboxImg.src = src;
+    lightboxDl.href = src;
+    lightboxDl.setAttribute("download", name || "image.jpg");
+    lightbox.classList.add("open");
+  }
+  function closeLightbox(){ lightbox.classList.remove("open"); lightboxImg.src = ""; }
+  lightbox.addEventListener("click", (e)=>{ if(e.target === lightbox) closeLightbox(); });
+  $("#lightboxClose").addEventListener("click", closeLightbox);
+  document.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && lightbox.classList.contains("open")) closeLightbox(); });
+
+  // ========== AUTH RETURN ==========
   async function handleOAuthReturn(){
     const params = new URLSearchParams(location.search);
     const token = params.get("token");
     const error = params.get("error");
-
     if(token){
       setToken(token);
       history.replaceState({}, "", location.origin + location.pathname);
       try{
         currentUser = await fetchMe();
-        if(currentUser){ renderProfile(); showApp(); toast("Вход выполнен"); return true; }
-      }catch(e){ console.error("fetchMe after OAuth:", e); }
+        if(currentUser){ renderProfile(); showApp(); loadFriends(); toast("Вход выполнен"); return true; }
+      }catch(e){ console.error(e); }
     }
     if(error){
       history.replaceState({}, "", location.origin + location.pathname);
@@ -830,38 +1029,95 @@
     return false;
   }
 
+  // ========== BIND ==========
+  function bind(){
+    $("#nickEditBtn").addEventListener("click", ()=>{
+      const cur = (ensureUser(currentUser) || {}).nick || "";
+      openModal({
+        title: "Редактирование никнейма",
+        sub: "3–24 символа. Латиница, цифры, точка, дефис, подчёркивание.",
+        body: `<div class="field"><label for="nickInput">Никнейм</label>
+          <input class="input" id="nickInput" type="text" maxlength="24" value="${esc(cur)}" />
+          <div class="hint" id="nickHint">Введите никнейм.</div></div>`,
+        foot: `<button class="btn" id="nickCancel">Отмена</button>
+               <button class="btn primary" id="nickSave" disabled>Сохранить</button>`
+      });
+      const input = $("#nickInput"), hint = $("#nickHint"), saveBtn = $("#nickSave");
+      function validate(){
+        const v = input.value.trim();
+        const ok = NICK_RE.test(v);
+        hint.textContent = !v ? "Поле пустое." : (!ok ? "3–24 символа" : "Отлично.");
+        saveBtn.disabled = !ok || v === cur;
+        return ok;
+      }
+      input.addEventListener("input", validate);
+      validate();
+      $("#nickCancel").addEventListener("click", closeModal);
+      saveBtn.addEventListener("click", async ()=>{
+        if(!validate()) return;
+        saveBtn.classList.add("loading"); saveBtn.disabled = true;
+        try{ await patchProfile({nick: input.value.trim()}); closeModal(); toast("Никнейм сохранён"); }
+        catch(err){ toast(err.message||"Ошибка", "err"); }
+        finally{ saveBtn.classList.remove("loading"); saveBtn.disabled=false; }
+      });
+    });
+    $("#avatarEditBtn").addEventListener("click", ()=> pickImage("avatar"));
+    $("#bannerEditBtn").addEventListener("click", ()=> pickImage("banner"));
+    $("#bannerDelBtn").addEventListener("click", ()=>{
+      confirmModal({
+        title: "Удалить баннер?", sub: "Обложка будет заменена на нейтральный фон.",
+        confirmText: "Удалить",
+        onConfirm: async ()=>{ try{ await patchProfile({banner: null}); toast("Баннер удалён"); }catch(err){ toast(err.message||"Ошибка", "err"); } }
+      });
+    });
+    $("#logoutBtn").addEventListener("click", ()=>{
+      confirmModal({
+        title: "Выйти из аккаунта?", sub: "Сессия будет завершена.",
+        confirmText: "Выйти",
+        onConfirm: async ()=>{
+          try{ await api(EP.logout, {method:"POST"}); }catch(e){}
+          setToken(null); currentUser = null; showAuth(); toast("Вы вышли");
+        }
+      });
+    });
+    $("#deleteBtn").addEventListener("click", ()=>{
+      confirmModal({
+        title: "Удалить аккаунт?", sub: "Действие необратимо. Друзья и переписка будут удалены.",
+        confirmText: "Удалить аккаунт", danger: true,
+        onConfirm: async ()=>{
+          try{ await api(EP.del, {method:"DELETE"}); setToken(null); currentUser=null; showAuth(); toast("Аккаунт удалён"); }
+          catch(err){ toast(err.message||"Не удалось удалить", "err"); }
+        }
+      });
+    });
+    $("#refreshBtn").addEventListener("click", async ()=>{
+      const btn = $("#refreshBtn");
+      btn.classList.add("loading");
+      try{ currentUser = await fetchMe(); renderProfile(); await loadFriends(); toast("Обновлено"); }
+      catch(err){ toast(err.message||"Ошибка", "err"); }
+      finally{ btn.classList.remove("loading"); }
+    });
+  }
+
   async function boot(){
     bind(); setMode("login");
-
-    // 1) Если вернулись с OAuth — обрабатываем токен
     const handled = await handleOAuthReturn();
     if(handled) return;
-
-    // 2) Если токен уже есть — проверяем
     if(getToken()){
       try{
         currentUser = await fetchMe();
-        if(currentUser){ renderProfile(); showApp(); return; }
+        if(currentUser){ renderProfile(); showApp(); loadFriends(); return; }
       }catch(e){}
     }
-
-    // 3) Иначе — экран входа
     showAuth();
     reveal();
   }
-
-  // FIX: возврат из bfcache (Safari), popstate, visibilitychange
   window.addEventListener("pageshow", (e)=>{
     if(e.persisted) handleOAuthReturn().then(ok=>{
-      if(!ok && getToken()) fetchMe().then(u=>{ if(u){ renderProfile(); showApp(); } });
+      if(!ok && getToken()) fetchMe().then(u=>{ if(u){ renderProfile(); showApp(); loadFriends(); } });
     });
   });
   window.addEventListener("popstate", ()=>{ handleOAuthReturn(); });
-  document.addEventListener("visibilitychange", ()=>{
-    if(document.visibilityState === "visible" && getToken() && !currentUser){
-      handleOAuthReturn();
-    }
-  });
 
   boot();
 })();
