@@ -192,7 +192,7 @@
   .friend-info b{display:block;font-size:13.5px;font-weight:550}
   .friend-info span{display:block;font-size:11.5px;color:var(--text-3)}
   .friend-actions{display:flex;gap:6px;flex:0 0 auto}
-  .add-friend{display:flex;gap:8px;margin-bottom:14px}
+  .add-friend{display:flex;gap:8px;margin-bottom:10px}
   .add-friend .input{height:40px}
   .empty-state{padding:20px;text-align:center;color:var(--text-3);font-size:12.5px;border:1px dashed var(--stroke);border-radius:var(--radius-sm)}
 
@@ -220,7 +220,6 @@
   .chat-attach svg{width:18px;height:18px;stroke:currentColor}
   .chat-send{height:40px;padding:0 16px;border-radius:12px;background:#fff;color:#040404;font-weight:600;font-size:13px;flex:0 0 auto}
 
-  /* Lightbox */
   .lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.92);display:grid;place-items:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
   .lightbox.open{opacity:1;pointer-events:auto}
   .lightbox img{max-width:90vw;max-height:80vh;border-radius:12px;object-fit:contain}
@@ -351,12 +350,13 @@
     </section>
 
     <section class="glass reveal friends-panel">
-      <div class="panel-head"><div><h2>Друзья</h2><p>Найдите по ID, нику или логину</p></div></div>
+      <div class="panel-head"><div><h2>Друзья</h2><p>Поиск по 7-значному ID, нику или логину</p></div></div>
       <div class="panel-body">
         <div class="add-friend">
-          <input class="input" id="friendSearch" placeholder="ID, ник или логин" />
+          <input class="input" id="friendSearch" placeholder="7-значный ID, ник или логин" />
           <button class="btn sm" id="friendSearchBtn">Найти</button>
         </div>
+        <div class="hint" style="margin-bottom:10px">ID — 7 цифр, например <b>4821937</b>. Свой ID скопируйте из профиля.</div>
         <div id="friendSearchResults"></div>
         <div class="friends-tabs">
           <div class="ftab active" data-ftab="friends">Друзья <span id="friendsCount">0</span></div>
@@ -376,7 +376,6 @@
   </section>
 </div>
 
-<!-- MODAL -->
 <div class="overlay" id="overlay" aria-hidden="true">
   <div class="modal" id="modal">
     <div class="modal-head">
@@ -488,7 +487,7 @@
     els.forEach(e=> io.observe(e));
   }
 
-  // ========== MODAL ==========
+  // MODAL
   const overlay = $("#overlay"), modal = $("#modal");
   const modalTitle = $("#modalTitle"), modalSub = $("#modalSub");
   const modalBody = $("#modalBody"), modalFoot = $("#modalFoot");
@@ -530,7 +529,7 @@
     $("#cfOk").addEventListener("click", ()=>{ closeModal(); onConfirm && onConfirm(); });
   }
 
-  // ========== AUTH ==========
+  // AUTH
   let currentUser = null;
   let pendingRegister = false;
 
@@ -611,14 +610,13 @@
     return null;
   }
 
-  // ========== PROFILE ==========
+  // PROFILE
   function ensureUser(u){
     if(!u) return null;
     const out = {...u};
     out.nick = out.nick || out.login || "user";
     out.id = out.id || "—";
     out.regDate = out.regDate || new Date().toISOString();
-    out.lastLogin = out.lastLogin || new Date().toISOString();
     out.avatar = absUrl(out.avatar);
     out.banner = absUrl(out.banner);
     return out;
@@ -647,8 +645,7 @@
     renderProfile();
   }
 
-  // ========== IMAGE UPLOAD / CROP ==========
-  const MAX_MB = 8;
+  // IMAGE
   function readFile(file){
     return new Promise((resolve,reject)=>{
       if(!file) return reject(new Error("Файл не выбран"));
@@ -661,7 +658,7 @@
   function openCropper({dataUrl, round=false, title, sub, onApply}){
     openModal({
       title, sub, wide:true,
-      body: `<div class="crop-stage ${round?'round':''}" id="cropStage" style="position:relative;width:100%;aspect-ratio:${round?'1/1':'16/7'};border-radius:${round?'50%':'18px'};overflow:hidden;background:#0b0b0b;border:1px solid var(--stroke-2);cursor:grab;touch-action:none;${round?'max-width:320px;margin:0 auto;':''}">
+      body: `<div id="cropStage" style="position:relative;width:100%;aspect-ratio:${round?'1/1':'16/7'};${round?'max-width:320px;margin:0 auto;border-radius:50%;':'border-radius:18px;'}overflow:hidden;background:#0b0b0b;border:1px solid var(--stroke-2);cursor:grab;touch-action:none">
           <img id="cropImg" alt="Предпросмотр" style="position:absolute;top:50%;left:50%;user-select:none;pointer-events:none;will-change:transform" />
           <div style="position:absolute;inset:0;box-shadow:0 0 0 999px rgba(0,0,0,0.55) inset;pointer-events:none"></div>
         </div>
@@ -751,7 +748,7 @@
     input.click();
   }
 
-  // ========== FRIENDS ==========
+  // FRIENDS
   let friendsState = { friends: [], incoming: [], outgoing: [], myId: null };
   let activeFTab = "friends";
 
@@ -822,6 +819,10 @@
   async function searchFriends(){
     const q = $("#friendSearch").value.trim();
     if(!q) return;
+    if(/^\d+$/.test(q) && q.length !== 7){
+      toast("ID должен быть 7-значным", "err");
+      return;
+    }
     try{
       const data = await api(EP.friendSearch + "?q=" + encodeURIComponent(q));
       const wrap = $("#friendSearchResults");
@@ -869,7 +870,7 @@
     });
   }
 
-  // ========== CHAT ==========
+  // CHAT
   let chatPollTimer = null;
 
   async function openChat(friendId){
@@ -891,7 +892,7 @@
           <div class="empty-state">Загрузка сообщений…</div>
         </div>
         <div class="chat-input">
-          <button class="chat-attach" id="chatAttach" title="Отправить фото или музыку">
+          <button class="chat-attach" id="chatAttach" title="Фото или музыка">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l8.57-8.57a4 4 0 1 1 5.66 5.66L9.17 17.66a2 2 0 1 1-2.83-2.83l8.49-8.49"/></svg>
           </button>
           <textarea id="chatText" placeholder="Сообщение…" rows="1"></textarea>
@@ -902,8 +903,7 @@
       onClose: ()=>{ if(chatPollTimer){ clearInterval(chatPollTimer); chatPollTimer=null; } }
     });
 
-    const head = $(".chat-head");
-    head.querySelector("#chatClose").addEventListener("click", closeModal);
+    $("#chatClose").addEventListener("click", closeModal);
     $("#chatSend").addEventListener("click", ()=> sendChatMessage(friendId));
     $("#chatAttach").addEventListener("click", ()=> pickChatFile(friendId));
     const ta = $("#chatText");
@@ -996,7 +996,7 @@
     input.click();
   }
 
-  // ========== LIGHTBOX ==========
+  // LIGHTBOX
   const lightbox = $("#lightbox"), lightboxImg = $("#lightboxImg"), lightboxDl = $("#lightboxDownload");
   function openLightbox(src, name){
     lightboxImg.src = src;
@@ -1009,7 +1009,7 @@
   $("#lightboxClose").addEventListener("click", closeLightbox);
   document.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && lightbox.classList.contains("open")) closeLightbox(); });
 
-  // ========== AUTH RETURN ==========
+  // OAUTH RETURN
   async function handleOAuthReturn(){
     const params = new URLSearchParams(location.search);
     const token = params.get("token");
@@ -1029,7 +1029,7 @@
     return false;
   }
 
-  // ========== BIND ==========
+  // BIND
   function bind(){
     $("#nickEditBtn").addEventListener("click", ()=>{
       const cur = (ensureUser(currentUser) || {}).nick || "";
