@@ -7,70 +7,42 @@
 <title>ProxyGem — Profile</title>
 <link rel="icon" href="logo.ico" type="image/x-icon" />
 <style>
-  :root{
-    --bg:#040404;--stroke:rgba(255,255,255,0.12);--stroke-2:rgba(255,255,255,0.24);
-    --text:#fff;--text-2:#a8a8a8;--text-3:#666;
-    --radius:26px;--radius-sm:16px;
-    --shadow-1:0 1px 0 rgba(255,255,255,0.07) inset,0 24px 60px -24px rgba(0,0,0,0.95);
-    --shadow-2:0 40px 100px -40px rgba(0,0,0,1);
-    --ease:cubic-bezier(.22,.61,.36,1);--ease-out:cubic-bezier(.16,1,.3,1);
-    --font:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;
-  }
-  @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;
-    src:url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2') format('woff2');}
+  :root{--bg:#040404;--stroke:rgba(255,255,255,0.12);--stroke-2:rgba(255,255,255,0.24);--text:#fff;--text-2:#a8a8a8;--text-3:#666;--radius:26px;--radius-sm:16px;--shadow-1:0 1px 0 rgba(255,255,255,0.07) inset,0 24px 60px -24px rgba(0,0,0,0.95);--shadow-2:0 40px 100px -40px rgba(0,0,0,1);--ease:cubic-bezier(.22,.61,.36,1);--ease-out:cubic-bezier(.16,1,.3,1);--font:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2') format('woff2');}
   *,*::before,*::after{box-sizing:border-box}
-  body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);
-    -webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5;min-height:100vh}
+  body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5;min-height:100vh}
   button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}
   input,textarea{font-family:inherit;color:inherit}
   :focus-visible{outline:2px solid rgba(255,255,255,0.6);outline-offset:2px;border-radius:10px}
   [hidden]{display:none !important}
-
-  .bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
-    background:radial-gradient(1200px 900px at 50% -20%,rgba(255,255,255,0.06),transparent 60%),var(--bg)}
+  .bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:radial-gradient(1200px 900px at 50% -20%,rgba(255,255,255,0.06),transparent 60%),var(--bg)}
   .orb{position:absolute;border-radius:50%;filter:blur(90px);background:rgba(255,255,255,0.055)}
   .orb.a{width:560px;height:560px;top:-180px;left:-140px}
   .orb.b{width:460px;height:460px;bottom:-180px;right:-120px}
-
   .wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:36px 24px 96px}
   header.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}
   .brand{display:flex;align-items:center;gap:12px;font-weight:650}
-  .brand .logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
-    background:linear-gradient(160deg,rgba(255,255,255,0.16),rgba(255,255,255,0.03));
-    border:1px solid var(--stroke-2);box-shadow:var(--shadow-1)}
+  .brand .logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(160deg,rgba(255,255,255,0.16),rgba(255,255,255,0.03));border:1px solid var(--stroke-2);box-shadow:var(--shadow-1)}
   .brand .logo img{width:22px;height:22px;object-fit:contain;filter:brightness(0) invert(1)}
   .brand small{display:block;font-size:10.5px;color:var(--text-3);letter-spacing:.16em;text-transform:uppercase;margin-top:2px}
-
   .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:start}
   @media (max-width:960px){.grid{grid-template-columns:1fr}}
-
-  .glass{position:relative;border-radius:var(--radius);
-    background:linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.028));
-    border:1px solid var(--stroke);backdrop-filter:blur(28px) saturate(130%);
-    -webkit-backdrop-filter:blur(28px) saturate(130%);box-shadow:var(--shadow-1);overflow:hidden}
-  .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-    background:linear-gradient(180deg,rgba(255,255,255,0.2),transparent 34%);opacity:.75;mix-blend-mode:screen}
+  .glass{position:relative;border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.028));border:1px solid var(--stroke);backdrop-filter:blur(28px) saturate(130%);-webkit-backdrop-filter:blur(28px) saturate(130%);box-shadow:var(--shadow-1);overflow:hidden}
+  .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0.2),transparent 34%);opacity:.75;mix-blend-mode:screen}
   .glass > *{position:relative;z-index:1}
-
   .profile{overflow:visible}
-  .banner{position:relative;height:250px;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;
-    background:repeating-linear-gradient(135deg,rgba(255,255,255,0.03) 0 1px,transparent 1px 16px),#0b0b0b}
+  .banner{position:relative;height:250px;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;background:repeating-linear-gradient(135deg,rgba(255,255,255,0.03) 0 1px,transparent 1px 16px),#0b0b0b}
   .banner img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .6s}
   .banner img.loaded{opacity:1}
   .banner .banner-empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--text-3);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase}
   .banner-actions{position:absolute;top:14px;right:14px;display:flex;gap:8px;z-index:3}
-
   .avatar-wrap{position:relative;margin:-66px 0 0 32px;width:136px;height:136px;z-index:4}
-  .avatar{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;
-    background:#131313;border:1px solid rgba(255,255,255,0.3);
-    box-shadow:0 0 0 7px rgba(4,4,4,0.95),0 22px 50px -14px rgba(0,0,0,0.95)}
+  .avatar{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;background:#131313;border:1px solid rgba(255,255,255,0.3);box-shadow:0 0 0 7px rgba(4,4,4,0.95),0 22px 50px -14px rgba(0,0,0,0.95)}
   .avatar img{width:100%;height:100%;object-fit:cover;display:block}
   .avatar .ph{position:absolute;inset:0;display:grid;place-items:center;color:#8d8d8d}
   .avatar .ph svg{width:54%;height:54%;stroke:currentColor;opacity:.85}
-  .avatar-edit{position:absolute;right:-4px;bottom:-2px;width:42px;height:42px;border-radius:50%;
-    display:grid;place-items:center;background:rgba(20,20,20,0.88);border:1px solid var(--stroke-2)}
+  .avatar-edit{position:absolute;right:-4px;bottom:-2px;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:rgba(20,20,20,0.88);border:1px solid var(--stroke-2)}
   .avatar-edit svg{width:18px;height:18px;stroke:#fff}
-
   .profile-body{padding:20px 32px 34px}
   .name-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .name{font-size:31px;font-weight:650;letter-spacing:-.035em;margin:0}
@@ -78,86 +50,53 @@
   .name-edit:hover{background:rgba(255,255,255,0.06);color:#fff}
   .name-edit svg{width:16px;height:16px;stroke:currentColor}
   .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-  .chip{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-2);padding:8px 13px;border-radius:999px;
-    background:rgba(255,255,255,0.045);border:1px solid var(--stroke)}
+  .chip{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-2);padding:8px 13px;border-radius:999px;background:rgba(255,255,255,0.045);border:1px solid var(--stroke)}
   .chip .dot{width:6px;height:6px;border-radius:50%;background:#fff}
-  .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.14),transparent);margin:24px 0}
-  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  @media (max-width:580px){.stat-grid{grid-template-columns:1fr}}
-  .stat{padding:15px 16px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.035);border:1px solid var(--stroke)}
-  .stat .k{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
-  .stat .v{margin-top:7px;font-size:14px;font-weight:550}
-
   .panel-head{padding:24px 24px 0}
   .panel-head h2{margin:0;font-size:16px;font-weight:600}
   .panel-head p{margin:5px 0 0;font-size:12.5px;color:var(--text-3)}
   .panel-body{padding:20px 24px 26px;display:flex;flex-direction:column;gap:14px}
-
-  .row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 16px;border-radius:var(--radius-sm);
-    background:rgba(255,255,255,0.03);border:1px solid var(--stroke)}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 16px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.03);border:1px solid var(--stroke)}
   .row .l{display:flex;align-items:center;gap:12px;min-width:0}
   .row .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:rgba(255,255,255,0.05);border:1px solid var(--stroke);flex:0 0 auto}
   .row .ic svg{width:17px;height:17px;stroke:#fff}
   .row .t b{display:block;font-size:13.5px;font-weight:550}
   .row .t span{display:block;font-size:12px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .row .r{display:flex;align-items:center;gap:8px;flex:0 0 auto}
-
-  .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;
-    border-radius:13px;font-size:13px;font-weight:550;border:1px solid var(--stroke);
-    background:rgba(255,255,255,0.05);color:#fff;white-space:nowrap;isolation:isolate}
+  .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:13px;font-size:13px;font-weight:550;border:1px solid var(--stroke);background:rgba(255,255,255,0.05);color:#fff;white-space:nowrap;isolation:isolate}
   .btn:hover{background:rgba(255,255,255,0.1)}
   .btn.primary{background:#fff;color:#040404;border-color:#fff}
   .btn.sm{height:34px;padding:0 13px;font-size:12px;border-radius:11px}
   .btn.danger{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.2)}
   .btn.loading{color:transparent !important;pointer-events:none}
-  .btn.loading::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;
-    border:2px solid rgba(255,255,255,0.35);border-top-color:#fff;animation:spin .8s linear infinite}
+  .btn.loading::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);border-top-color:#fff;animation:spin .8s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-
   .field{display:flex;flex-direction:column;gap:8px}
   .field label{font-size:12px;color:var(--text-2);font-weight:500}
-  .input{height:46px;width:100%;border-radius:13px;background:rgba(255,255,255,0.04);border:1px solid var(--stroke);
-    padding:0 15px;font-size:14px;color:#fff}
+  .input{height:46px;width:100%;border-radius:13px;background:rgba(255,255,255,0.04);border:1px solid var(--stroke);padding:0 15px;font-size:14px;color:#fff}
   .input:focus{outline:none;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.45)}
   .hint{font-size:11.5px;color:var(--text-3)}
-
   #authScreen{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;overflow:auto}
   .auth-shell{width:min(460px,100%)}
-  .auth-glass{border-radius:28px;padding:34px 30px 30px;
-    background:linear-gradient(180deg,rgba(255,255,255,0.09),rgba(255,255,255,0.025));
-    border:1px solid var(--stroke-2);backdrop-filter:blur(34px) saturate(140%);
-    -webkit-backdrop-filter:blur(34px) saturate(140%);
-    box-shadow:var(--shadow-2),inset 0 1px 0 rgba(255,255,255,0.22)}
+  .auth-glass{border-radius:28px;padding:34px 30px 30px;background:linear-gradient(180deg,rgba(255,255,255,0.09),rgba(255,255,255,0.025));border:1px solid var(--stroke-2);backdrop-filter:blur(34px) saturate(140%);-webkit-backdrop-filter:blur(34px) saturate(140%);box-shadow:var(--shadow-2),inset 0 1px 0 rgba(255,255,255,0.22)}
   .auth-brand{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:26px;text-align:center}
-  .auth-logo{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;overflow:hidden;
-    background:linear-gradient(160deg,rgba(255,255,255,0.22),rgba(255,255,255,0.05));
-    border:1px solid var(--stroke-2);box-shadow:0 20px 46px -18px rgba(0,0,0,1)}
+  .auth-logo{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(160deg,rgba(255,255,255,0.22),rgba(255,255,255,0.05));border:1px solid var(--stroke-2);box-shadow:0 20px 46px -18px rgba(0,0,0,1)}
   .auth-logo img{width:34px;height:34px;object-fit:contain;filter:brightness(0) invert(1)}
   .auth-brand h1{margin:0;font-size:22px;font-weight:650}
   .auth-brand p{margin:0;font-size:12.5px;color:var(--text-3);max-width:300px}
-
   .tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid var(--stroke);margin-bottom:20px}
   .tab{flex:1;height:38px;border-radius:10px;font-size:13px;font-weight:550;color:var(--text-2);display:grid;place-items:center;cursor:pointer}
   .tab.active{background:rgba(255,255,255,0.92);color:#040404}
-
   .auth-form{display:flex;flex-direction:column;gap:14px}
   .auth-sep{display:flex;align-items:center;gap:12px;margin:20px 0 16px;color:var(--text-3);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
   .auth-sep::before,.auth-sep::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)}
   .auth-btns{display:flex;flex-direction:column;gap:10px}
-  .auth-btn{display:flex;align-items:center;gap:12px;height:48px;padding:0 16px;border-radius:13px;
-    border:1px solid var(--stroke-2);background:rgba(255,255,255,0.05);
-    font-size:13.5px;font-weight:550;width:100%;color:#fff}
+  .auth-btn{display:flex;align-items:center;gap:12px;height:48px;padding:0 16px;border-radius:13px;border:1px solid var(--stroke-2);background:rgba(255,255,255,0.05);font-size:13.5px;font-weight:550;width:100%;color:#fff}
   .auth-btn:hover{background:rgba(255,255,255,0.1)}
   .auth-btn svg{width:20px;height:20px;flex:0 0 auto}
-
-  .overlay{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;
-    background:rgba(0,0,0,0.62);backdrop-filter:blur(12px);
-    opacity:0;pointer-events:none;transition:opacity .4s var(--ease)}
+  .overlay{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;background:rgba(0,0,0,0.62);backdrop-filter:blur(12px);opacity:0;pointer-events:none;transition:opacity .4s var(--ease)}
   .overlay.open{opacity:1;pointer-events:auto}
-  .modal{width:min(560px,100%);max-height:90vh;overflow:auto;
-    background:linear-gradient(180deg,rgba(30,30,30,0.94),rgba(14,14,14,0.96));
-    border:1px solid var(--stroke-2);border-radius:26px;
-    box-shadow:var(--shadow-2);transform:translateY(20px) scale(.97);opacity:0;transition:.5s var(--ease-out)}
+  .modal{width:min(560px,100%);max-height:90vh;overflow:auto;background:linear-gradient(180deg,rgba(30,30,30,0.94),rgba(14,14,14,0.96));border:1px solid var(--stroke-2);border-radius:26px;box-shadow:var(--shadow-2);transform:translateY(20px) scale(.97);opacity:0;transition:.5s var(--ease-out)}
   .overlay.open .modal{transform:none;opacity:1}
   .modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:24px 26px 0}
   .modal-head h3{margin:0;font-size:16px;font-weight:600}
@@ -167,24 +106,18 @@
   .x{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;color:var(--text-2)}
   .x:hover{background:rgba(255,255,255,0.08);color:#fff}
   .x svg{width:16px;height:16px;stroke:currentColor}
-
   .toasts{position:fixed;right:24px;bottom:24px;z-index:120;display:flex;flex-direction:column;gap:10px;max-width:calc(100% - 48px)}
-  .toast{display:flex;align-items:center;gap:12px;padding:13px 17px;border-radius:15px;
-    background:rgba(18,18,18,0.94);border:1px solid var(--stroke-2);
-    backdrop-filter:blur(22px);font-size:13px;color:#fff;transform:translateY(14px) scale(.98);opacity:0;transition:.5s var(--ease-out)}
+  .toast{display:flex;align-items:center;gap:12px;padding:13px 17px;border-radius:15px;background:rgba(18,18,18,0.94);border:1px solid var(--stroke-2);backdrop-filter:blur(22px);font-size:13px;color:#fff;transform:translateY(14px) scale(.98);opacity:0;transition:.5s var(--ease-out)}
   .toast.show{transform:none;opacity:1}
   .toast svg{width:18px;height:18px;stroke:#fff;flex:0 0 auto}
-
   .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
   .reveal.in{opacity:1;transform:none}
-
-  /* FRIENDS */
   .friends-panel{margin-top:24px}
   .friends-tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid var(--stroke);margin-bottom:16px}
   .ftab{flex:1;height:36px;border-radius:10px;font-size:12.5px;font-weight:550;color:var(--text-2);display:grid;place-items:center;cursor:pointer;transition:.3s var(--ease)}
   .ftab.active{background:rgba(255,255,255,0.92);color:#040404}
   .friends-list{display:flex;flex-direction:column;gap:8px}
-  .friend-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.03);border:1px solid var(--stroke);transition:.3s var(--ease)}
+  .friend-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.03);border:1px solid var(--stroke);transition:.3s var(--ease);cursor:pointer}
   .friend-row:hover{background:rgba(255,255,255,0.06);border-color:var(--stroke-2)}
   .friend-avatar{width:40px;height:40px;border-radius:50%;background:#141414;border:1px solid var(--stroke-2);overflow:hidden;display:grid;place-items:center;flex:0 0 auto;color:#8d8d8d;font-weight:650;font-size:14px}
   .friend-avatar img{width:100%;height:100%;object-fit:cover}
@@ -195,8 +128,6 @@
   .add-friend{display:flex;gap:8px;margin-bottom:10px}
   .add-friend .input{height:40px}
   .empty-state{padding:20px;text-align:center;color:var(--text-3);font-size:12.5px;border:1px dashed var(--stroke);border-radius:var(--radius-sm)}
-
-  /* CHAT */
   .chat-modal{width:min(720px,100%) !important;height:min(640px,90vh) !important;display:flex !important;flex-direction:column !important;padding:0 !important;overflow:hidden !important}
   .chat-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--stroke);flex:0 0 auto}
   .chat-head .friend-avatar{width:36px;height:36px}
@@ -219,150 +150,62 @@
   .chat-attach:hover{background:rgba(255,255,255,0.12)}
   .chat-attach svg{width:18px;height:18px;stroke:currentColor}
   .chat-send{height:40px;padding:0 16px;border-radius:12px;background:#fff;color:#040404;font-weight:600;font-size:13px;flex:0 0 auto}
-
   .lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.92);display:grid;place-items:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
   .lightbox.open{opacity:1;pointer-events:auto}
   .lightbox img{max-width:90vw;max-height:80vh;border-radius:12px;object-fit:contain}
   .lightbox-bar{position:absolute;top:20px;right:20px;display:flex;gap:8px}
   .lightbox-bar a,.lightbox-bar button{height:40px;padding:0 14px;border-radius:12px;background:rgba(255,255,255,0.1);border:1px solid var(--stroke-2);color:#fff;display:inline-flex;align-items:center;gap:6px;font-size:12.5px}
   .lightbox-bar a:hover,.lightbox-bar button:hover{background:rgba(255,255,255,0.2)}
-
-  @media (max-width:700px){
-    .wrap{padding:20px 14px 84px}
-    .banner{height:186px}
-    .avatar-wrap{width:110px;height:110px;margin:-56px 0 0 18px}
-    .profile-body{padding:16px 18px 24px}
-    .name{font-size:24px}
-    .panel-head{padding:20px 18px 0}
-    .panel-body{padding:16px 18px 20px}
-    .modal-foot{flex-direction:column-reverse}
-    .modal-foot .btn{width:100%}
-    .auth-glass{padding:28px 22px 24px}
-    .chat-modal{height:100vh !important;border-radius:0 !important;max-height:100vh !important}
-  }
+  @media (max-width:700px){.wrap{padding:20px 14px 84px}.banner{height:186px}.avatar-wrap{width:110px;height:110px;margin:-56px 0 0 18px}.profile-body{padding:16px 18px 24px}.name{font-size:24px}.panel-head{padding:20px 18px 0}.panel-body{padding:16px 18px 20px}.modal-foot{flex-direction:column-reverse}.modal-foot .btn{width:100%}.auth-glass{padding:28px 22px 24px}.chat-modal{height:100vh !important;border-radius:0 !important;max-height:100vh !important}}
 </style>
 </head>
 <body>
 
 <div class="bg-layer" aria-hidden="true"><div class="orb a"></div><div class="orb b"></div></div>
 
-<!-- AUTH -->
 <div id="authScreen">
   <div class="auth-shell reveal">
     <div class="auth-glass">
-      <div class="auth-brand">
-        <div class="auth-logo"><img src="logo.ico" alt="ProxyGem" /></div>
-        <h1>ProxyGem</h1>
-        <p>Войдите или создайте аккаунт.</p>
-      </div>
-      <div class="tabs">
-        <button class="tab active" id="tabLogin">Вход</button>
-        <button class="tab" id="tabRegister">Регистрация</button>
-      </div>
+      <div class="auth-brand"><div class="auth-logo"><img src="logo.ico" alt="ProxyGem" /></div><h1>ProxyGem</h1><p>Войдите или создайте аккаунт.</p></div>
+      <div class="tabs"><button class="tab active" id="tabLogin">Вход</button><button class="tab" id="tabRegister">Регистрация</button></div>
       <form class="auth-form" id="authForm" novalidate>
-        <div class="field">
-          <label for="authLogin">Логин</label>
-          <input class="input" id="authLogin" type="text" autocomplete="username" placeholder="Ваш логин" maxlength="24" />
-          <div class="hint" id="authLoginHint"></div>
-        </div>
-        <div class="field">
-          <label for="authPass">Пароль</label>
-          <input class="input" id="authPass" type="password" autocomplete="current-password" placeholder="Минимум 8 символов" />
-          <div class="hint" id="authPassHint"></div>
-        </div>
-        <div class="field" id="confirmField" hidden>
-          <label for="authPass2">Повторите пароль</label>
-          <input class="input" id="authPass2" type="password" autocomplete="new-password" placeholder="Повторите пароль" />
-          <div class="hint" id="authPass2Hint"></div>
-        </div>
-        <button type="submit" class="btn primary" id="authSubmit" style="width:100%;height:48px">
-          <span id="authSubmitLabel">Войти</span>
-        </button>
+        <div class="field"><label for="authLogin">Логин</label><input class="input" id="authLogin" type="text" autocomplete="username" placeholder="Ваш логин" maxlength="24" /><div class="hint" id="authLoginHint"></div></div>
+        <div class="field"><label for="authPass">Пароль</label><input class="input" id="authPass" type="password" autocomplete="current-password" placeholder="Минимум 8 символов" /><div class="hint" id="authPassHint"></div></div>
+        <div class="field" id="confirmField" hidden><label for="authPass2">Повторите пароль</label><input class="input" id="authPass2" type="password" autocomplete="new-password" placeholder="Повторите пароль" /><div class="hint" id="authPass2Hint"></div></div>
+        <button type="submit" class="btn primary" id="authSubmit" style="width:100%;height:48px"><span id="authSubmitLabel">Войти</span></button>
       </form>
       <div class="auth-sep">или через</div>
       <div class="auth-btns">
-        <button class="auth-btn" id="authTelegram" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21.5 4.3 2.8 11.2c-.9.3-.9 1.4.1 1.7l4.5 1.4 1.7 5.2c.2.7 1.1.9 1.6.3l2.3-2.4 4.6 3.4c.7.5 1.6.1 1.8-.7l3-14.2c.2-1-.8-1.8-1.9-1.6Z"/>
-            <path d="m9 14.3 8.5-6.2"/>
-          </svg>
-          Войти через Telegram
-        </button>
-        <button class="auth-btn" id="authGoogle" type="button">
-          <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true">
-            <path fill="#ffffff" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-            <path fill="#ffffff" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-            <path fill="#ffffff" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-            <path fill="#ffffff" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-          </svg>
-          Войти через Google
-        </button>
+        <button class="auth-btn" id="authTelegram" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.3 2.8 11.2c-.9.3-.9 1.4.1 1.7l4.5 1.4 1.7 5.2c.2.7 1.1.9 1.6.3l2.3-2.4 4.6 3.4c.7.5 1.6.1 1.8-.7l3-14.2c.2-1-.8-1.8-1.9-1.6Z"/><path d="m9 14.3 8.5-6.2"/></svg>Войти через Telegram</button>
+        <button class="auth-btn" id="authGoogle" type="button"><svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#ffffff" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#ffffff" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#ffffff" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#ffffff" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Войти через Google</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- APP -->
 <div class="wrap" id="app" hidden>
   <header class="topbar reveal">
-    <div class="brand">
-      <div class="logo"><img src="logo.ico" alt="ProxyGem" /></div>
-      <div><div>ProxyGem</div><small>Profile &amp; Friends</small></div>
-    </div>
+    <div class="brand"><div class="logo"><img src="logo.ico" alt="ProxyGem" /></div><div><div>ProxyGem</div><small>Profile &amp; Friends</small></div></div>
     <div><button class="btn sm" id="refreshBtn">Обновить</button></div>
   </header>
 
   <div class="grid">
     <section class="glass profile reveal">
-      <div class="banner" id="banner">
-        <img id="bannerImg" alt="Баннер" hidden />
-        <div class="banner-empty" id="bannerEmpty">Баннер не загружен</div>
-        <div class="banner-actions">
-          <button class="btn sm" id="bannerEditBtn">Изменить</button>
-          <button class="btn sm" id="bannerDelBtn">Удалить</button>
-        </div>
-      </div>
-      <div class="avatar-wrap">
-        <div class="avatar" id="avatar">
-          <div class="ph" id="avatarPh">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5S20 17 20 21"/></svg>
-          </div>
-          <img id="avatarImg" alt="Аватар" hidden />
-        </div>
-        <button class="avatar-edit" id="avatarEditBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16.5V20h3.5L18 9.5 14.5 6 4 16.5Z"/><path d="m13 7.5 3.5 3.5"/></svg>
-        </button>
-      </div>
+      <div class="banner" id="banner"><img id="bannerImg" alt="Баннер" hidden /><div class="banner-empty" id="bannerEmpty">Баннер не загружен</div><div class="banner-actions"><button class="btn sm" id="bannerEditBtn">Изменить</button><button class="btn sm" id="bannerDelBtn">Удалить</button></div></div>
+      <div class="avatar-wrap"><div class="avatar" id="avatar"><div class="ph" id="avatarPh"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5S20 17 20 21"/></svg></div><img id="avatarImg" alt="Аватар" hidden /></div><button class="avatar-edit" id="avatarEditBtn"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16.5V20h3.5L18 9.5 14.5 6 4 16.5Z"/><path d="m13 7.5 3.5 3.5"/></svg></button></div>
       <div class="profile-body">
-        <div class="name-row">
-          <h1 class="name" id="displayName">—</h1>
-          <button class="name-edit" id="nickEditBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16.5V20h3.5L18 9.5 14.5 6 4 16.5Z"/><path d="m13 7.5 3.5 3.5"/></svg>
-          </button>
-        </div>
-        <div class="meta">
-          <span class="chip"><span class="dot"></span><span id="statusChip">Аккаунт активен</span></span>
-          <span class="chip">ID: <span id="statId">—</span></span>
-          <span class="chip">Регистрация: <span id="regDate">—</span></span>
-          <span class="chip"><span id="authChip">Способы входа: —</span></span>
-        </div>
+        <div class="name-row"><h1 class="name" id="displayName">—</h1><button class="name-edit" id="nickEditBtn"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16.5V20h3.5L18 9.5 14.5 6 4 16.5Z"/><path d="m13 7.5 3.5 3.5"/></svg></button></div>
+        <div class="meta"><span class="chip"><span class="dot"></span><span id="statusChip">Аккаунт активен</span></span><span class="chip">ID: <span id="statId">—</span></span><span class="chip">Регистрация: <span id="regDate">—</span></span><span class="chip"><span id="authChip">Способы входа: —</span></span></div>
       </div>
     </section>
 
     <section class="glass reveal friends-panel">
       <div class="panel-head"><div><h2>Друзья</h2><p>Поиск по 7-значному ID, нику или логину</p></div></div>
       <div class="panel-body">
-        <div class="add-friend">
-          <input class="input" id="friendSearch" placeholder="7-значный ID, ник или логин" />
-          <button class="btn sm" id="friendSearchBtn">Найти</button>
-        </div>
+        <div class="add-friend"><input class="input" id="friendSearch" placeholder="7-значный ID, ник или логин" /><button class="btn sm" id="friendSearchBtn">Найти</button></div>
         <div class="hint" style="margin-bottom:10px">ID — 7 цифр, например <b>4821937</b>. Свой ID скопируйте из профиля.</div>
         <div id="friendSearchResults"></div>
-        <div class="friends-tabs">
-          <div class="ftab active" data-ftab="friends">Друзья <span id="friendsCount">0</span></div>
-          <div class="ftab" data-ftab="incoming">Заявки <span id="incomingCount">0</span></div>
-          <div class="ftab" data-ftab="outgoing">Отправлены <span id="outgoingCount">0</span></div>
-        </div>
+        <div class="friends-tabs"><div class="ftab active" data-ftab="friends">Друзья <span id="friendsCount">0</span></div><div class="ftab" data-ftab="incoming">Заявки <span id="incomingCount">0</span></div><div class="ftab" data-ftab="outgoing">Отправлены <span id="outgoingCount">0</span></div></div>
         <div id="friendsBody"></div>
       </div>
     </section>
@@ -370,30 +213,13 @@
 
   <section class="glass reveal" style="margin-top:24px">
     <div class="panel-head"><div><h2>Настройки аккаунта</h2><p>Выход и управление</p></div></div>
-    <div class="panel-body">
-      <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9"/><path d="M6 8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-2"/></svg></div><div class="t"><b>Управление</b><span>Выход и удаление</span></div></div><div class="r"><button class="btn sm" id="logoutBtn">Выйти</button><button class="btn sm danger" id="deleteBtn">Удалить</button></div></div>
-    </div>
+    <div class="panel-body"><div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9"/><path d="M6 8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-2"/></svg></div><div class="t"><b>Управление</b><span>Выход и удаление</span></div></div><div class="r"><button class="btn sm" id="logoutBtn">Выйти</button><button class="btn sm danger" id="deleteBtn">Удалить</button></div></div></div>
   </section>
 </div>
 
-<div class="overlay" id="overlay" aria-hidden="true">
-  <div class="modal" id="modal">
-    <div class="modal-head">
-      <div><h3 id="modalTitle">Заголовок</h3><p id="modalSub">Описание</p></div>
-      <button class="x" id="modalClose"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-    </div>
-    <div class="modal-body" id="modalBody"></div>
-    <div class="modal-foot" id="modalFoot"></div>
-  </div>
-</div>
+<div class="overlay" id="overlay" aria-hidden="true"><div class="modal" id="modal"><div class="modal-head"><div><h3 id="modalTitle">Заголовок</h3><p id="modalSub">Описание</p></div><button class="x" id="modalClose"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="modal-body" id="modalBody"></div><div class="modal-foot" id="modalFoot"></div></div></div>
 
-<div class="lightbox" id="lightbox">
-  <div class="lightbox-bar">
-    <a id="lightboxDownload" download>Скачать</a>
-    <button id="lightboxClose">Закрыть</button>
-  </div>
-  <img id="lightboxImg" alt="Просмотр" />
-</div>
+<div class="lightbox" id="lightbox"><div class="lightbox-bar"><a id="lightboxDownload" download>Скачать</a><button id="lightboxClose">Закрыть</button></div><img id="lightboxImg" alt="Просмотр" /></div>
 
 <div class="toasts" id="toasts"></div>
 <input type="file" id="fileAvatar" accept="image/png,image/jpeg,image/webp" hidden />
@@ -403,193 +229,102 @@
 <script>
 (function(){
   "use strict";
-
   const API = "https://proxygem-api.onrender.com";
   const SITE = "https://proxygem.github.io/site/profile";
   const EP = {
-    register: API + "/auth/register",
-    login:    API + "/auth/login",
-    me:       API + "/auth/me",
-    logout:   API + "/auth/logout",
-    profile:  API + "/profile",
-    upload:   API + "/profile/upload",
-    tgStart:  API + "/auth/telegram/start",
-    ggStart:  API + "/auth/google/start",
-    del:      API + "/account",
-    friends:  API + "/friends",
-    friendSearch: API + "/friends/search",
-    friendReq:    API + "/friends/request",
-    friendResp:   API + "/friends/respond",
-    friendRemove: API + "/friends/remove",
-    messages:     (id) => API + "/messages/" + id,
-    messagesUpload: (id) => API + "/messages/" + id + "/upload"
+    register: API + "/auth/register", login: API + "/auth/login", me: API + "/auth/me",
+    logout: API + "/auth/logout", profile: API + "/profile", upload: API + "/profile/upload",
+    tgStart: API + "/auth/telegram/start", ggStart: API + "/auth/google/start", del: API + "/account",
+    friends: API + "/friends", friendSearch: API + "/friends/search", friendReq: API + "/friends/request",
+    friendResp: API + "/friends/respond", friendRemove: API + "/friends/remove",
+    user: (id) => API + "/users/" + id,
+    messages: (id) => API + "/messages/" + id, messagesUpload: (id) => API + "/messages/" + id + "/upload"
   };
   const TOKEN_KEY = "proxygem_token";
   const NICK_RE = /^[A-Za-z0-9_.\-]{3,24}$/;
-
   const $ = (s,r=document)=>r.querySelector(s);
   const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
   const esc = (s)=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const fmtDate = (iso)=>{ try{ return new Date(iso).toLocaleDateString("ru-RU",{day:"2-digit",month:"short",year:"numeric"}); }catch(e){ return "—"; } };
   const fmtTime = (ts)=>{ try{ return new Date(ts).toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}); }catch(e){ return ""; } };
-
   function getToken(){ try{ return localStorage.getItem(TOKEN_KEY); }catch(e){ return null; } }
   function setToken(t){ try{ if(t) localStorage.setItem(TOKEN_KEY,t); else localStorage.removeItem(TOKEN_KEY); }catch(e){} }
-  function absUrl(u){
-    if(!u) return u;
-    if(/^https?:\/\//i.test(u) || u.startsWith("data:") || u.startsWith("blob:")) return u;
-    if(u.startsWith("/")) return API + u;
-    return u;
-  }
-
+  function absUrl(u){ if(!u) return u; if(/^https?:\/\//i.test(u) || u.startsWith("data:") || u.startsWith("blob:")) return u; if(u.startsWith("/")) return API + u; return u; }
   async function api(path, {method="GET", body=null, auth=true} = {}){
     const h = {};
     if(body && !(body instanceof FormData)) h["Content-Type"]="application/json";
-    if(auth){
-      const t = getToken();
-      if(t) h["Authorization"] = "Bearer " + t;
-    }
-    const res = await fetch(path, {
-      method, headers:h,
-      body: body ? (body instanceof FormData ? body : JSON.stringify(body)) : null
-    });
-    let data = null;
-    const ct = res.headers.get("content-type") || "";
+    if(auth){ const t = getToken(); if(t) h["Authorization"] = "Bearer " + t; }
+    const res = await fetch(path, { method, headers:h, body: body ? (body instanceof FormData ? body : JSON.stringify(body)) : null });
+    let data = null; const ct = res.headers.get("content-type") || "";
     if(ct.includes("application/json")){ try{ data = await res.json(); }catch(e){} }
-    if(!res.ok){
-      const msg = (data && (data.message || data.error)) || ("Ошибка " + res.status);
-      const err = new Error(msg); err.status = res.status; throw err;
-    }
+    if(!res.ok){ const msg = (data && (data.message || data.error)) || ("Ошибка " + res.status); const err = new Error(msg); err.status = res.status; throw err; }
     return data;
   }
-
   function toast(msg, type="ok"){
-    const wrap = $("#toasts");
-    const el = document.createElement("div");
-    el.className = "toast";
-    el.innerHTML = (type==="err"
-      ? '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>'
-      : '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>')
-      + '<span>' + esc(msg) + '</span>';
-    wrap.appendChild(el);
-    requestAnimationFrame(()=> el.classList.add("show"));
+    const wrap = $("#toasts"); const el = document.createElement("div"); el.className = "toast";
+    el.innerHTML = (type==="err" ? '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>') + '<span>' + esc(msg) + '</span>';
+    wrap.appendChild(el); requestAnimationFrame(()=> el.classList.add("show"));
     setTimeout(()=>{ el.classList.remove("show"); setTimeout(()=> el.remove(), 520); }, 3400);
   }
-
   function reveal(){
-    const els = $$(".reveal");
-    if(!("IntersectionObserver" in window)){ els.forEach(e=> e.classList.add("in")); return; }
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach((en,i)=>{
-        if(en.isIntersecting){ setTimeout(()=> en.target.classList.add("in"), i*100); io.unobserve(en.target); }
-      });
-    }, {threshold:0.08});
+    const els = $$(".reveal"); if(!("IntersectionObserver" in window)){ els.forEach(e=> e.classList.add("in")); return; }
+    const io = new IntersectionObserver((entries)=>{ entries.forEach((en,i)=>{ if(en.isIntersecting){ setTimeout(()=> en.target.classList.add("in"), i*100); io.unobserve(en.target); } }); }, {threshold:0.08});
     els.forEach(e=> io.observe(e));
   }
-
-  // MODAL
   const overlay = $("#overlay"), modal = $("#modal");
-  const modalTitle = $("#modalTitle"), modalSub = $("#modalSub");
-  const modalBody = $("#modalBody"), modalFoot = $("#modalFoot");
+  const modalTitle = $("#modalTitle"), modalSub = $("#modalSub"), modalBody = $("#modalBody"), modalFoot = $("#modalFoot");
   let lastFocus = null, onCloseFn = null, chatOpenForId = null;
-
   function openModal({title, sub="", body="", foot="", onClose=null, wide=false, className=""}){
-    lastFocus = document.activeElement;
-    modalTitle.textContent = title;
-    modalSub.textContent = sub;
-    modalBody.innerHTML = body;
-    modalFoot.innerHTML = foot;
-    modal.className = "modal" + (className ? " " + className : "");
-    modal.style.width = wide ? "min(720px,100%)" : "";
-    overlay.classList.add("open");
-    overlay.setAttribute("aria-hidden","false");
-    onCloseFn = onClose;
-    setTimeout(()=>{ const f = modalBody.querySelector("input,button,select,textarea,[tabindex]"); if(f) f.focus(); }, 60);
+    lastFocus = document.activeElement; modalTitle.textContent = title; modalSub.textContent = sub;
+    modalBody.innerHTML = body; modalFoot.innerHTML = foot; modal.className = "modal" + (className ? " " + className : "");
+    modal.style.width = wide ? "min(720px,100%)" : ""; overlay.classList.add("open"); overlay.setAttribute("aria-hidden","false");
+    onCloseFn = onClose; setTimeout(()=>{ const f = modalBody.querySelector("input,button,select,textarea,[tabindex]"); if(f) f.focus(); }, 60);
   }
-  function closeModal(){
-    overlay.classList.remove("open");
-    overlay.setAttribute("aria-hidden","true");
-    if(typeof onCloseFn === "function") onCloseFn();
-    onCloseFn = null;
-    chatOpenForId = null;
-    if(lastFocus && lastFocus.focus) lastFocus.focus();
-  }
+  function closeModal(){ overlay.classList.remove("open"); overlay.setAttribute("aria-hidden","true"); if(typeof onCloseFn === "function") onCloseFn(); onCloseFn = null; chatOpenForId = null; if(lastFocus && lastFocus.focus) lastFocus.focus(); }
   overlay.addEventListener("click", (e)=>{ if(e.target===overlay) closeModal(); });
   $("#modalClose").addEventListener("click", closeModal);
   document.addEventListener("keydown", (e)=>{ if(e.key==="Escape" && overlay.classList.contains("open")) closeModal(); });
-
   function confirmModal({title, sub, confirmText="Подтвердить", danger=false, onConfirm}){
-    openModal({
-      title, sub,
-      body: `<div class="hint">Это действие потребует подтверждения.</div>`,
-      foot: `<button class="btn" id="cfCancel">Отмена</button>
-             <button class="btn ${danger?'danger':'primary'}" id="cfOk">${esc(confirmText)}</button>`
-    });
+    openModal({ title, sub, body: `<div class="hint">Это действие потребует подтверждения.</div>`,
+      foot: `<button class="btn" id="cfCancel">Отмена</button><button class="btn ${danger?'danger':'primary'}" id="cfOk">${esc(confirmText)}</button>` });
     $("#cfCancel").addEventListener("click", closeModal);
     $("#cfOk").addEventListener("click", ()=>{ closeModal(); onConfirm && onConfirm(); });
   }
 
-  // AUTH
-  let currentUser = null;
-  let pendingRegister = false;
-
+  let currentUser = null, pendingRegister = false;
   function showAuth(){ $("#authScreen").hidden = false; $("#app").hidden = true; }
   function showApp(){ $("#authScreen").hidden = true; $("#app").hidden = false; reveal(); }
-
   const tabs = { login: $("#tabLogin"), register: $("#tabRegister") };
   const authLogin = $("#authLogin"), authPass = $("#authPass"), authPass2 = $("#authPass2");
-  const confirmField = $("#confirmField");
-  const authSubmit = $("#authSubmit"), authSubmitLabel = $("#authSubmitLabel");
+  const confirmField = $("#confirmField"), authSubmit = $("#authSubmit"), authSubmitLabel = $("#authSubmitLabel");
   const authLoginHint = $("#authLoginHint"), authPassHint = $("#authPassHint"), authPass2Hint = $("#authPass2Hint");
-
-  function setMode(mode){
-    pendingRegister = (mode === "register");
-    tabs.login.classList.toggle("active", !pendingRegister);
-    tabs.register.classList.toggle("active", pendingRegister);
-    confirmField.hidden = !pendingRegister;
-    authSubmitLabel.textContent = pendingRegister ? "Создать аккаунт" : "Войти";
-    validateAuth();
-  }
+  function setMode(mode){ pendingRegister = (mode === "register"); tabs.login.classList.toggle("active", !pendingRegister); tabs.register.classList.toggle("active", pendingRegister); confirmField.hidden = !pendingRegister; authSubmitLabel.textContent = pendingRegister ? "Создать аккаунт" : "Войти"; validateAuth(); }
   tabs.login.addEventListener("click", ()=> setMode("login"));
   tabs.register.addEventListener("click", ()=> setMode("register"));
-
   function validateAuth(){
-    const login = authLogin.value.trim();
-    const pass = authPass.value;
-    const pass2 = authPass2.value;
-    let loginOk = NICK_RE.test(login);
-    authLogin.classList.toggle("error", !!login && !loginOk);
-    let passOk = pass.length >= 8 && pass.length <= 72;
-    authPass.classList.toggle("error", !!pass && !passOk);
+    const login = authLogin.value.trim(), pass = authPass.value, pass2 = authPass2.value;
+    let loginOk = NICK_RE.test(login); authLogin.classList.toggle("error", !!login && !loginOk);
+    let passOk = pass.length >= 8 && pass.length <= 72; authPass.classList.toggle("error", !!pass && !passOk);
     let pass2Ok = !pendingRegister || (pass2.length >= 8 && pass2 === pass);
-    authSubmit.disabled = !(loginOk && passOk && pass2Ok);
-    return loginOk && passOk && pass2Ok;
+    authSubmit.disabled = !(loginOk && passOk && pass2Ok); return loginOk && passOk && pass2Ok;
   }
   [authLogin, authPass, authPass2].forEach(el=> el.addEventListener("input", validateAuth));
-
   $("#authForm").addEventListener("submit", async (e)=>{
-    e.preventDefault();
-    if(!validateAuth()) return;
+    e.preventDefault(); if(!validateAuth()) return;
     authSubmit.classList.add("loading"); authSubmit.disabled = true;
     try{
-      const login = authLogin.value.trim();
-      const password = authPass.value;
-      const data = pendingRegister
-        ? await api(EP.register, {method:"POST", auth:false, body:{login, password}})
-        : await api(EP.login, {method:"POST", auth:false, body:{login, password}});
+      const login = authLogin.value.trim(), password = authPass.value;
+      const data = pendingRegister ? await api(EP.register, {method:"POST", auth:false, body:{login, password}}) : await api(EP.login, {method:"POST", auth:false, body:{login, password}});
       if(data && data.token) setToken(data.token);
       currentUser = (data && data.user) || await fetchMe();
-      authLogin.value = authPass.value = authPass2.value = "";
-      validateAuth();
-      renderProfile(); showApp(); loadFriends();
-      toast(pendingRegister ? "Аккаунт создан" : "Добро пожаловать");
+      authLogin.value = authPass.value = authPass2.value = ""; validateAuth();
+      renderProfile(); showApp(); loadFriends(); toast(pendingRegister ? "Аккаунт создан" : "Добро пожаловать");
     }catch(err){
       toast(err.message || "Ошибка авторизации", "err");
       if(err.status === 409){ authLoginHint.textContent = "Логин занят"; authLogin.classList.add("error"); }
       if(err.status === 401){ authPassHint.textContent = "Неверный логин или пароль"; authPass.classList.add("error"); }
     }finally{ authSubmit.classList.remove("loading"); authSubmit.disabled = false; }
   });
-
   function startTelegram(){ window.location.href = EP.tgStart + "?redirect=" + encodeURIComponent(SITE); }
   function startGoogle(){ window.location.href = EP.ggStart + "?redirect=" + encodeURIComponent(SITE); }
   $("#authTelegram").addEventListener("click", startTelegram);
@@ -597,94 +332,37 @@
 
   async function fetchMe(retries=3){
     for(let i=0; i<retries; i++){
-      try{
-        const data = await api(EP.me);
-        currentUser = (data && data.user) || data || null;
-        return currentUser;
-      }catch(err){
-        if(err.status === 401){ setToken(null); currentUser = null; return null; }
-        if(i < retries - 1) await new Promise(r=>setTimeout(r, 400));
-        else throw err;
-      }
+      try{ const data = await api(EP.me); currentUser = (data && data.user) || data || null; return currentUser; }
+      catch(err){ if(err.status === 401){ setToken(null); currentUser = null; return null; } if(i < retries - 1) await new Promise(r=>setTimeout(r, 400)); else throw err; }
     }
     return null;
   }
-
-  // PROFILE
-  function ensureUser(u){
-    if(!u) return null;
-    const out = {...u};
-    out.nick = out.nick || out.login || "user";
-    out.id = out.id || "—";
-    out.regDate = out.regDate || new Date().toISOString();
-    out.avatar = absUrl(out.avatar);
-    out.banner = absUrl(out.banner);
-    return out;
-  }
+  function ensureUser(u){ if(!u) return null; const out = {...u}; out.nick = out.nick || out.login || "user"; out.id = out.id || "—"; out.regDate = out.regDate || new Date().toISOString(); out.avatar = absUrl(out.avatar); out.banner = absUrl(out.banner); return out; }
   function renderProfile(){
     const u = ensureUser(currentUser) || {};
-    $("#displayName").textContent = u.nick || "—";
-    $("#statId").textContent = u.id || "—";
-    $("#regDate").textContent = fmtDate(u.regDate);
+    $("#displayName").textContent = u.nick || "—"; $("#statId").textContent = u.id || "—"; $("#regDate").textContent = fmtDate(u.regDate);
     const av = $("#avatarImg"), ph = $("#avatarPh");
-    if(u.avatar){ av.src = u.avatar; av.hidden=false; ph.style.display="none"; }
-    else { av.hidden=true; ph.style.display=""; }
+    if(u.avatar){ av.src = u.avatar; av.hidden=false; ph.style.display="none"; } else { av.hidden=true; ph.style.display=""; }
     const bi = $("#bannerImg"), be = $("#bannerEmpty");
-    if(u.banner){ bi.src = u.banner; bi.hidden=false; be.style.display="none"; bi.onload = ()=> bi.classList.add("loaded"); }
-    else { bi.hidden=true; be.style.display=""; bi.classList.remove("loaded"); }
-    const methods = [];
-    if(u.telegram) methods.push("Telegram");
-    if(u.google) methods.push("Google");
-    if(u.login) methods.push("Пароль");
+    if(u.banner){ bi.src = u.banner; bi.hidden=false; be.style.display="none"; bi.onload = ()=> bi.classList.add("loaded"); } else { bi.hidden=true; be.style.display=""; bi.classList.remove("loaded"); }
+    const methods = []; if(u.telegram) methods.push("Telegram"); if(u.google) methods.push("Google"); if(u.login) methods.push("Пароль");
     $("#authChip").textContent = "Способы входа: " + (methods.length ? methods.join(" · ") : "—");
   }
-  async function patchProfile(patch){
-    const data = await api(EP.profile, {method:"PATCH", body:patch});
-    const u = (data && (data.user || data)) || {};
-    currentUser = {...ensureUser(currentUser), ...ensureUser(u)};
-    renderProfile();
-  }
+  async function patchProfile(patch){ const data = await api(EP.profile, {method:"PATCH", body:patch}); const u = (data && (data.user || data)) || {}; currentUser = {...ensureUser(currentUser), ...ensureUser(u)}; renderProfile(); }
 
-  // IMAGE
-  function readFile(file){
-    return new Promise((resolve,reject)=>{
-      if(!file) return reject(new Error("Файл не выбран"));
-      const fr = new FileReader();
-      fr.onload = ()=> resolve(fr.result);
-      fr.onerror = ()=> reject(new Error("Не удалось прочитать"));
-      fr.readAsDataURL(file);
-    });
-  }
+  function readFile(file){ return new Promise((resolve,reject)=>{ if(!file) return reject(new Error("Файл не выбран")); const fr = new FileReader(); fr.onload = ()=> resolve(fr.result); fr.onerror = ()=> reject(new Error("Не удалось прочитать")); fr.readAsDataURL(file); }); }
   function openCropper({dataUrl, round=false, title, sub, onApply}){
     openModal({
       title, sub, wide:true,
-      body: `<div id="cropStage" style="position:relative;width:100%;aspect-ratio:${round?'1/1':'16/7'};${round?'max-width:320px;margin:0 auto;border-radius:50%;':'border-radius:18px;'}overflow:hidden;background:#0b0b0b;border:1px solid var(--stroke-2);cursor:grab;touch-action:none">
-          <img id="cropImg" alt="Предпросмотр" style="position:absolute;top:50%;left:50%;user-select:none;pointer-events:none;will-change:transform" />
-          <div style="position:absolute;inset:0;box-shadow:0 0 0 999px rgba(0,0,0,0.55) inset;pointer-events:none"></div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;margin-top:16px">
-          <input type="range" id="cropZoom" min="1" max="2.6" step="0.01" value="1" style="flex:1" />
-        </div>`,
-      foot: `<button class="btn" id="cropCancel">Отмена</button>
-             <button class="btn primary" id="cropApply">Применить</button>`
+      body: `<div id="cropStage" style="position:relative;width:100%;aspect-ratio:${round?'1/1':'16/7'};${round?'max-width:320px;margin:0 auto;border-radius:50%;':'border-radius:18px;'}overflow:hidden;background:#0b0b0b;border:1px solid var(--stroke-2);cursor:grab;touch-action:none"><img id="cropImg" alt="Предпросмотр" style="position:absolute;top:50%;left:50%;user-select:none;pointer-events:none;will-change:transform" /><div style="position:absolute;inset:0;box-shadow:0 0 0 999px rgba(0,0,0,0.55) inset;pointer-events:none"></div></div><div style="display:flex;align-items:center;gap:12px;margin-top:16px"><input type="range" id="cropZoom" min="1" max="2.6" step="0.01" value="1" style="flex:1" /></div>`,
+      foot: `<button class="btn" id="cropCancel">Отмена</button><button class="btn primary" id="cropApply">Применить</button>`
     });
     const stage = $("#cropStage"), img = $("#cropImg"), zoom = $("#cropZoom");
     let scale=1, baseW=0, baseH=0, tx=0, ty=0, dragging=false, lx=0, ly=0, nW=0, nH=0;
     function stageSize(){ const r = stage.getBoundingClientRect(); return {w:r.width, h:r.height}; }
     function apply(){ img.style.transform = `translate(-50%,-50%) translate(${tx}px,${ty}px) scale(${scale})`; }
-    function clampPan(){
-      const s = stageSize(); const w = baseW*scale, h = baseH*scale;
-      const mx = Math.max(0,(w - s.w)/2), my = Math.max(0,(h - s.h)/2);
-      tx = Math.min(mx, Math.max(-mx, tx)); ty = Math.min(my, Math.max(-my, ty));
-    }
-    img.onload = ()=>{
-      nW = img.naturalWidth; nH = img.naturalHeight;
-      const s = stageSize();
-      const cover = Math.max(s.w/nW, s.h/nH);
-      baseW = nW*cover; baseH = nH*cover;
-      img.style.width = baseW + "px"; img.style.height = baseH + "px";
-      tx=0; ty=0; apply();
-    };
+    function clampPan(){ const s = stageSize(); const w = baseW*scale, h = baseH*scale; const mx = Math.max(0,(w - s.w)/2), my = Math.max(0,(h - s.h)/2); tx = Math.min(mx, Math.max(-mx, tx)); ty = Math.min(my, Math.max(-my, ty)); }
+    img.onload = ()=>{ nW = img.naturalWidth; nH = img.naturalHeight; const s = stageSize(); const cover = Math.max(s.w/nW, s.h/nH); baseW = nW*cover; baseH = nH*cover; img.style.width = baseW + "px"; img.style.height = baseH + "px"; tx=0; ty=0; apply(); };
     img.src = dataUrl;
     zoom.addEventListener("input", ()=>{ scale = parseFloat(zoom.value); clampPan(); apply(); });
     stage.addEventListener("pointerdown", (e)=>{ dragging=true; stage.setPointerCapture(e.pointerId); lx=e.clientX; ly=e.clientY; });
@@ -693,53 +371,29 @@
     stage.addEventListener("pointerup", end); stage.addEventListener("pointercancel", end);
     $("#cropCancel").addEventListener("click", closeModal);
     $("#cropApply").addEventListener("click", ()=>{
-      const s = stageSize();
-      const tW = round ? 512 : 1600;
-      const tH = round ? 512 : Math.round(tW * (s.h/s.w));
-      const c = document.createElement("canvas"); c.width=tW; c.height=tH;
-      const ctx = c.getContext("2d");
-      ctx.fillStyle = "#0b0b0b"; ctx.fillRect(0,0,tW,tH);
-      const rx = nW/baseW, ry = nH/baseH;
-      const vW = s.w/scale, vH = s.h/scale;
-      const sx = (nW/2) - (vW*rx)/2 - (tx/scale)*rx;
-      const sy = (nH/2) - (vH*ry)/2 - (ty/scale)*ry;
+      const s = stageSize(); const tW = round ? 512 : 1600; const tH = round ? 512 : Math.round(tW * (s.h/s.w));
+      const c = document.createElement("canvas"); c.width=tW; c.height=tH; const ctx = c.getContext("2d"); ctx.fillStyle = "#0b0b0b"; ctx.fillRect(0,0,tW,tH);
+      const rx = nW/baseW, ry = nH/baseH; const vW = s.w/scale, vH = s.h/scale;
+      const sx = (nW/2) - (vW*rx)/2 - (tx/scale)*rx; const sy = (nH/2) - (vH*ry)/2 - (ty/scale)*ry;
       ctx.drawImage(img, sx, sy, vW*rx, vH*ry, 0, 0, tW, tH);
       let out = c.toDataURL("image/jpeg", 0.9);
-      if(round){
-        const o = document.createElement("canvas"); o.width=tW; o.height=tH;
-        const oc = o.getContext("2d");
-        oc.save(); oc.beginPath(); oc.arc(tW/2,tH/2,tW/2,0,Math.PI*2); oc.closePath(); oc.clip();
-        oc.drawImage(c,0,0); oc.restore();
-        out = o.toDataURL("image/png", 0.92);
-      }
+      if(round){ const o = document.createElement("canvas"); o.width=tW; o.height=tH; const oc = o.getContext("2d"); oc.save(); oc.beginPath(); oc.arc(tW/2,tH/2,tW/2,0,Math.PI*2); oc.closePath(); oc.clip(); oc.drawImage(c,0,0); oc.restore(); out = o.toDataURL("image/png", 0.92); }
       onApply(out); closeModal();
     });
   }
   function pickImage(kind){
-    const input = kind === "avatar" ? $("#fileAvatar") : $("#fileBanner");
-    input.value = "";
+    const input = kind === "avatar" ? $("#fileAvatar") : $("#fileBanner"); input.value = "";
     input.onchange = async ()=>{
-      const file = input.files && input.files[0];
-      if(!file) return;
+      const file = input.files && input.files[0]; if(!file) return;
       try{
         const dataUrl = await readFile(file);
-        openCropper({
-          dataUrl, round: kind==="avatar",
-          title: kind==="avatar" ? "Аватар" : "Баннер",
-          sub: "Настройте кадрирование и масштаб.",
+        openCropper({ dataUrl, round: kind==="avatar", title: kind==="avatar" ? "Аватар" : "Баннер", sub: "Настройте кадрирование и масштаб.",
           onApply: async (result)=>{
             try{
-              const res = await fetch(result);
-              const blob = await res.blob();
-              const fd = new FormData();
-              fd.append("file", blob, kind + "." + (blob.type.split("/")[1] || "png"));
-              fd.append("kind", kind);
+              const res = await fetch(result); const blob = await res.blob();
+              const fd = new FormData(); fd.append("file", blob, kind + "." + (blob.type.split("/")[1] || "png")); fd.append("kind", kind);
               const data = await api(EP.upload, {method:"POST", body:fd});
-              if(data && data.url){
-                currentUser = {...ensureUser(currentUser), [kind]: absUrl(data.url)};
-                renderProfile();
-                toast(kind==="avatar" ? "Аватар обновлён" : "Баннер обновлён");
-              }
+              if(data && data.url){ currentUser = {...ensureUser(currentUser), [kind]: absUrl(data.url)}; renderProfile(); toast(kind==="avatar" ? "Аватар обновлён" : "Баннер обновлён"); }
             }catch(err){ toast(err.message||"Ошибка", "err"); }
           }
         });
@@ -748,377 +402,184 @@
     input.click();
   }
 
-  // FRIENDS
   let friendsState = { friends: [], incoming: [], outgoing: [], myId: null };
   let activeFTab = "friends";
-
-  async function loadFriends(){
-    try{
-      const data = await api(EP.friends);
-      friendsState = data;
-      renderFriends();
-    }catch(err){
-      if(err.status !== 401) toast("Друзья: " + err.message, "err");
-    }
-  }
+  async function loadFriends(){ try{ const data = await api(EP.friends); friendsState = data; renderFriends(); }catch(err){ if(err.status !== 401) toast("Друзья: " + err.message, "err"); } }
   function renderFriends(){
-    $("#friendsCount").textContent = friendsState.friends.length;
-    $("#incomingCount").textContent = friendsState.incoming.length;
-    $("#outgoingCount").textContent = friendsState.outgoing.length;
-
-    const body = $("#friendsBody");
-    let list = [];
-    if(activeFTab === "friends") list = friendsState.friends;
-    if(activeFTab === "incoming") list = friendsState.incoming;
-    if(activeFTab === "outgoing") list = friendsState.outgoing;
-
-    if(!list.length){
-      body.innerHTML = `<div class="empty-state">${
-        activeFTab === "friends" ? "Пока нет друзей. Найдите по ID ниже." :
-        activeFTab === "incoming" ? "Нет входящих заявок." : "Нет отправленных заявок."
-      }</div>`;
-      return;
-    }
-
+    $("#friendsCount").textContent = friendsState.friends.length; $("#incomingCount").textContent = friendsState.incoming.length; $("#outgoingCount").textContent = friendsState.outgoing.length;
+    const body = $("#friendsBody"); let list = [];
+    if(activeFTab === "friends") list = friendsState.friends; if(activeFTab === "incoming") list = friendsState.incoming; if(activeFTab === "outgoing") list = friendsState.outgoing;
+    if(!list.length){ body.innerHTML = `<div class="empty-state">${activeFTab === "friends" ? "Пока нет друзей. Найдите по ID ниже." : activeFTab === "incoming" ? "Нет входящих заявок." : "Нет отправленных заявок."}</div>`; return; }
     body.innerHTML = `<div class="friends-list">` + list.map(f => {
-      const avatarHtml = f.avatar
-        ? `<img src="${esc(absUrl(f.avatar))}" alt="" />`
-        : esc((f.nick || "?").slice(0,2).toUpperCase());
+      const avatarHtml = f.avatar ? `<img src="${esc(absUrl(f.avatar))}" alt="" />` : esc((f.nick || "?").slice(0,2).toUpperCase());
       let actions = "";
-      if(activeFTab === "friends"){
-        actions = `<button class="btn sm" data-chat="${f.id}">Чат</button>
-                   <button class="btn sm danger" data-remove="${f.id}">Удалить</button>`;
-      } else if(activeFTab === "incoming"){
-        actions = `<button class="btn sm primary" data-accept="${f.id}">Принять</button>
-                   <button class="btn sm danger" data-decline="${f.id}">Отклонить</button>`;
-      } else {
-        actions = `<button class="btn sm" disabled>Ожидание</button>`;
-      }
-      return `<div class="friend-row">
-        <div class="friend-avatar">${avatarHtml}</div>
-        <div class="friend-info">
-          <b>${esc(f.nick)}</b>
-          <span>ID: ${f.id} · @${esc(f.login)}</span>
-        </div>
-        <div class="friend-actions">${actions}</div>
-      </div>`;
+      if(activeFTab === "friends"){ actions = `<button class="btn sm" data-chat="${f.id}">Чат</button><button class="btn sm danger" data-remove="${f.id}">Удалить</button>`; }
+      else if(activeFTab === "incoming"){ actions = `<button class="btn sm primary" data-accept="${f.id}">Принять</button><button class="btn sm danger" data-decline="${f.id}">Отклонить</button>`; }
+      else { actions = `<button class="btn sm" disabled>Ожидание</button>`; }
+      return `<div class="friend-row" data-view="${f.id}"><div class="friend-avatar">${avatarHtml}</div><div class="friend-info"><b>${esc(f.nick)}</b><span>ID: ${f.id} · @${esc(f.login)}</span></div><div class="friend-actions">${actions}</div></div>`;
     }).join("") + `</div>`;
-
+    body.querySelectorAll("[data-view]").forEach(el => el.addEventListener("click", (e)=>{ if(e.target.closest("button")) return; openUserProfile(parseInt(el.getAttribute("data-view"),10)); }));
     body.querySelectorAll("[data-chat]").forEach(b => b.addEventListener("click", ()=> openChat(parseInt(b.getAttribute("data-chat"),10))));
     body.querySelectorAll("[data-remove]").forEach(b => b.addEventListener("click", ()=> removeFriend(parseInt(b.getAttribute("data-remove"),10))));
     body.querySelectorAll("[data-accept]").forEach(b => b.addEventListener("click", ()=> respondRequest(parseInt(b.getAttribute("data-accept"),10), true)));
     body.querySelectorAll("[data-decline]").forEach(b => b.addEventListener("click", ()=> respondRequest(parseInt(b.getAttribute("data-decline"),10), false)));
   }
-  $$(".ftab").forEach(t => t.addEventListener("click", ()=>{
-    $$(".ftab").forEach(x => x.classList.remove("active"));
-    t.classList.add("active");
-    activeFTab = t.getAttribute("data-ftab");
-    renderFriends();
-  }));
-
+  $$(".ftab").forEach(t => t.addEventListener("click", ()=>{ $$(".ftab").forEach(x => x.classList.remove("active")); t.classList.add("active"); activeFTab = t.getAttribute("data-ftab"); renderFriends(); }));
   async function searchFriends(){
-    const q = $("#friendSearch").value.trim();
-    if(!q) return;
-    if(/^\d+$/.test(q) && q.length !== 7){
-      toast("ID должен быть 7-значным", "err");
-      return;
-    }
+    const q = $("#friendSearch").value.trim(); if(!q) return;
+    if(/^\d+$/.test(q) && q.length !== 7){ toast("ID должен быть 7-значным", "err"); return; }
     try{
       const data = await api(EP.friendSearch + "?q=" + encodeURIComponent(q));
       const wrap = $("#friendSearchResults");
-      if(!data.users || !data.users.length){
-        wrap.innerHTML = `<div class="empty-state" style="margin-bottom:14px">Никого не найдено.</div>`;
-        return;
-      }
+      if(!data.users || !data.users.length){ wrap.innerHTML = `<div class="empty-state" style="margin-bottom:14px">Никого не найдено.</div>`; return; }
       wrap.innerHTML = `<div class="friends-list" style="margin-bottom:14px">` + data.users.map(u => {
         const avatarHtml = u.avatar ? `<img src="${esc(absUrl(u.avatar))}" alt="" />` : esc((u.nick || "?").slice(0,2).toUpperCase());
-        return `<div class="friend-row">
-          <div class="friend-avatar">${avatarHtml}</div>
-          <div class="friend-info"><b>${esc(u.nick)}</b><span>ID: ${u.id} · @${esc(u.login)}</span></div>
-          <div class="friend-actions"><button class="btn sm primary" data-add="${u.id}">Добавить</button></div>
-        </div>`;
+        return `<div class="friend-row"><div class="friend-avatar">${avatarHtml}</div><div class="friend-info"><b>${esc(u.nick)}</b><span>ID: ${u.id} · @${esc(u.login)}</span></div><div class="friend-actions"><button class="btn sm primary" data-add="${u.id}">Добавить</button></div></div>`;
       }).join("") + `</div>`;
       wrap.querySelectorAll("[data-add]").forEach(b => b.addEventListener("click", ()=> sendFriendRequest(parseInt(b.getAttribute("data-add"),10))));
     }catch(err){ toast(err.message||"Ошибка поиска", "err"); }
   }
   $("#friendSearchBtn").addEventListener("click", searchFriends);
   $("#friendSearch").addEventListener("keydown", (e)=>{ if(e.key === "Enter") searchFriends(); });
+  async function sendFriendRequest(id){ try{ await api(EP.friendReq, {method:"POST", body:{id}}); toast("Заявка отправлена"); $("#friendSearchResults").innerHTML = ""; loadFriends(); }catch(err){ toast(err.message||"Ошибка", "err"); } }
+  async function respondRequest(id, accept){ try{ await api(EP.friendResp, {method:"POST", body:{id, accept}}); toast(accept ? "Заявка принята" : "Заявка отклонена"); loadFriends(); }catch(err){ toast(err.message||"Ошибка", "err"); } }
+  async function removeFriend(id){ confirmModal({ title: "Удалить друга?", sub: "Переписка останется, но отправлять сообщения будет нельзя.", confirmText: "Удалить", danger: true, onConfirm: async ()=>{ try{ await api(EP.friendRemove, {method:"POST", body:{id}}); toast("Удалён"); loadFriends(); }catch(err){ toast(err.message||"Ошибка", "err"); } } }); }
 
-  async function sendFriendRequest(id){
+  async function openUserProfile(id){
     try{
-      await api(EP.friendReq, {method:"POST", body:{id}});
-      toast("Заявка отправлена");
-      $("#friendSearchResults").innerHTML = "";
-      loadFriends();
+      const data = await api(EP.user(id));
+      const u = ensureUser(data.user) || {};
+      const avatarHtml = u.avatar ? `<img src="${esc(u.avatar)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%" />` : esc((u.nick || "?").slice(0,2).toUpperCase());
+      openModal({
+        title: u.nick || "Профиль", sub: "ID: " + u.id,
+        body: `
+          <div style="display:flex;gap:16px;align-items:center;margin-bottom:18px">
+            <div class="friend-avatar" style="width:64px;height:64px;font-size:22px">${avatarHtml}</div>
+            <div><div style="font-size:18px;font-weight:650">${esc(u.nick)}</div><div class="hint">@${esc(u.login)}</div></div>
+          </div>
+          <div class="hint" style="line-height:1.8">
+            ID: <b>${u.id}</b><br/>
+            Регистрация: ${fmtDate(u.regDate)}<br/>
+            Последний вход: ${fmtDate(u.lastLogin)}<br/>
+            Аватар: ${u.avatar ? "загружен" : "нет"}<br/>
+            Баннер: ${u.banner ? "загружен" : "нет"}
+          </div>
+          ${u.banner ? `<img src="${esc(u.banner)}" alt="Баннер" style="width:100%;border-radius:14px;margin-top:14px;display:block" />` : ""}
+        `,
+        foot: `<button class="btn" id="userClose">Закрыть</button>`
+      });
+      $("#userClose").addEventListener("click", closeModal);
     }catch(err){ toast(err.message||"Ошибка", "err"); }
   }
-  async function respondRequest(id, accept){
-    try{
-      await api(EP.friendResp, {method:"POST", body:{id, accept}});
-      toast(accept ? "Заявка принята" : "Заявка отклонена");
-      loadFriends();
-    }catch(err){ toast(err.message||"Ошибка", "err"); }
-  }
-  async function removeFriend(id){
-    confirmModal({
-      title: "Удалить друга?", sub: "Переписка останется, но отправлять сообщения будет нельзя.",
-      confirmText: "Удалить", danger: true,
-      onConfirm: async ()=>{
-        try{ await api(EP.friendRemove, {method:"POST", body:{id}}); toast("Удалён"); loadFriends(); }
-        catch(err){ toast(err.message||"Ошибка", "err"); }
-      }
-    });
-  }
 
-  // CHAT
   let chatPollTimer = null;
-
   async function openChat(friendId){
-    const friend = friendsState.friends.find(f => f.id === friendId);
-    if(!friend){ toast("Друг не найден", "err"); return; }
-
+    const friend = friendsState.friends.find(f => f.id === friendId); if(!friend){ toast("Друг не найден", "err"); return; }
     chatOpenForId = friendId;
     const avatarHtml = friend.avatar ? `<img src="${esc(absUrl(friend.avatar))}" alt="" />` : esc((friend.nick || "?").slice(0,2).toUpperCase());
     openModal({
-      title: "",
-      className: "chat-modal",
-      body: `
-        <div class="chat-head">
-          <div class="friend-avatar">${avatarHtml}</div>
-          <div class="t"><b>${esc(friend.nick)}</b><span>ID: ${friend.id}</span></div>
-          <button class="btn sm" id="chatClose">Закрыть</button>
-        </div>
-        <div class="chat-body" id="chatBody">
-          <div class="empty-state">Загрузка сообщений…</div>
-        </div>
-        <div class="chat-input">
-          <button class="chat-attach" id="chatAttach" title="Фото или музыка">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l8.57-8.57a4 4 0 1 1 5.66 5.66L9.17 17.66a2 2 0 1 1-2.83-2.83l8.49-8.49"/></svg>
-          </button>
-          <textarea id="chatText" placeholder="Сообщение…" rows="1"></textarea>
-          <button class="chat-send" id="chatSend">Отправить</button>
-        </div>
-      `,
+      title: "", className: "chat-modal",
+      body: `<div class="chat-head"><div class="friend-avatar">${avatarHtml}</div><div class="t"><b>${esc(friend.nick)}</b><span>ID: ${friend.id}</span></div><button class="btn sm danger" id="chatClear" title="Очистить чат">Очистить</button><button class="btn sm" id="chatClose">Закрыть</button></div>
+        <div class="chat-body" id="chatBody"><div class="empty-state">Загрузка сообщений…</div></div>
+        <div class="chat-input"><button class="chat-attach" id="chatAttach" title="Фото или музыка"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l8.57-8.57a4 4 0 1 1 5.66 5.66L9.17 17.66a2 2 0 1 1-2.83-2.83l8.49-8.49"/></svg></button>
+        <textarea id="chatText" placeholder="Сообщение…" rows="1"></textarea><button class="chat-send" id="chatSend">Отправить</button></div>`,
       foot: "",
       onClose: ()=>{ if(chatPollTimer){ clearInterval(chatPollTimer); chatPollTimer=null; } }
     });
-
     $("#chatClose").addEventListener("click", closeModal);
     $("#chatSend").addEventListener("click", ()=> sendChatMessage(friendId));
     $("#chatAttach").addEventListener("click", ()=> pickChatFile(friendId));
+    $("#chatClear").addEventListener("click", ()=> clearChat(friendId));
     const ta = $("#chatText");
-    ta.addEventListener("keydown", (e)=>{
-      if(e.key === "Enter" && !e.shiftKey){ e.preventDefault(); sendChatMessage(friendId); }
-    });
-    ta.addEventListener("input", ()=>{
-      ta.style.height = "auto";
-      ta.style.height = Math.min(120, ta.scrollHeight) + "px";
-    });
-
+    ta.addEventListener("keydown", (e)=>{ if(e.key === "Enter" && !e.shiftKey){ e.preventDefault(); sendChatMessage(friendId); } });
+    ta.addEventListener("input", ()=>{ ta.style.height = "auto"; ta.style.height = Math.min(120, ta.scrollHeight) + "px"; });
     await loadMessages(friendId);
     chatPollTimer = setInterval(()=> loadMessages(friendId, true), 4000);
   }
-
+  async function clearChat(friendId){
+    confirmModal({ title: "Очистить чат?", sub: "Все сообщения между вами будут удалены безвозвратно.", confirmText: "Очистить", danger: true,
+      onConfirm: async ()=>{ try{ await api(EP.messages(friendId), {method:"DELETE"}); toast("Чат очищен"); await loadMessages(friendId); }catch(err){ toast(err.message||"Ошибка", "err"); } }
+    });
+  }
   async function loadMessages(friendId, silent=false){
     if(chatOpenForId !== friendId) return;
     try{
       const data = await api(EP.messages(friendId));
-      const body = $("#chatBody");
-      if(!body) return;
+      const body = $("#chatBody"); if(!body) return;
       const msgs = data.messages || [];
-      if(!msgs.length){
-        body.innerHTML = `<div class="empty-state">Пока нет сообщений.</div>`;
-        return;
-      }
+      if(!msgs.length){ body.innerHTML = `<div class="empty-state">Пока нет сообщений.</div>`; return; }
       body.innerHTML = msgs.map(m => renderMessage(m)).join("");
-      body.querySelectorAll("img[data-src]").forEach(img => {
-        img.addEventListener("click", ()=> openLightbox(img.getAttribute("data-src"), img.getAttribute("data-name") || "image.jpg"));
-      });
+      body.querySelectorAll("img[data-src]").forEach(img => { img.addEventListener("click", ()=> openLightbox(img.getAttribute("data-src"), img.getAttribute("data-name") || "image.jpg")); });
       body.scrollTop = body.scrollHeight;
-    }catch(err){
-      if(!silent) toast(err.message||"Ошибка загрузки", "err");
-    }
+    }catch(err){ if(!silent) toast(err.message||"Ошибка загрузки", "err"); }
   }
-
   function renderMessage(m){
-    const me = currentUser && m.from === currentUser.id;
-    const cls = me ? "me" : "them";
-    const time = fmtTime(m.createdAt);
-    if(m.type === "image"){
-      const src = esc(absUrl(m.url));
-      return `<div class="msg ${cls}">
-        <a href="${src}" target="_blank" rel="noopener">
-          <img src="${src}" data-src="${src}" data-name="${esc(m.filename || 'image.jpg')}" alt="" loading="lazy" />
-        </a>
-        <time>${time}</time>
-      </div>`;
-    }
-    if(m.type === "audio"){
-      const src = esc(absUrl(m.url));
-      return `<div class="msg ${cls}">
-        <audio controls preload="metadata" src="${src}"></audio>
-        <span class="file-name">${esc(m.filename || 'audio')} · <a href="${src}" download style="color:inherit;text-decoration:underline">Скачать</a></span>
-        <time>${time}</time>
-      </div>`;
-    }
+    const me = currentUser && m.from === currentUser.id; const cls = me ? "me" : "them"; const time = fmtTime(m.createdAt);
+    if(m.type === "image"){ const src = esc(absUrl(m.url)); return `<div class="msg ${cls}"><a href="${src}" target="_blank" rel="noopener"><img src="${src}" data-src="${src}" data-name="${esc(m.filename || 'image.jpg')}" alt="" loading="lazy" /></a><time>${time}</time></div>`; }
+    if(m.type === "audio"){ const src = esc(absUrl(m.url)); return `<div class="msg ${cls}"><audio controls preload="metadata" src="${src}"></audio><span class="file-name">${esc(m.filename || 'audio')} · <a href="${src}" download style="color:inherit;text-decoration:underline">Скачать</a></span><time>${time}</time></div>`; }
     return `<div class="msg ${cls}">${esc(m.content || "")}<time>${time}</time></div>`;
   }
-
   async function sendChatMessage(friendId){
-    const ta = $("#chatText");
-    if(!ta) return;
-    const text = ta.value.trim();
-    if(!text) return;
+    const ta = $("#chatText"); if(!ta) return; const text = ta.value.trim(); if(!text) return;
     ta.value = ""; ta.style.height = "auto";
-    try{
-      await api(EP.messages(friendId), {method:"POST", body:{type:"text", content:text}});
-      await loadMessages(friendId);
-    }catch(err){ toast(err.message||"Ошибка отправки", "err"); }
+    try{ await api(EP.messages(friendId), {method:"POST", body:{type:"text", content:text}}); await loadMessages(friendId); }catch(err){ toast(err.message||"Ошибка отправки", "err"); }
   }
-
   function pickChatFile(friendId){
-    const input = $("#chatFile");
-    input.value = "";
+    const input = $("#chatFile"); input.value = "";
     input.onchange = async ()=>{
-      const file = input.files && input.files[0];
-      if(!file) return;
+      const file = input.files && input.files[0]; if(!file) return;
       if(file.size > 25 * 1024 * 1024){ toast("Файл больше 25 МБ", "err"); return; }
       try{
-        const fd = new FormData();
-        fd.append("file", file, file.name);
+        const fd = new FormData(); fd.append("file", file, file.name);
         const data = await api(EP.messagesUpload(friendId), {method:"POST", body:fd});
-        if(data && data.url){
-          await loadMessages(friendId);
-          toast(data.type === "audio" ? "Музыка отправлена" : "Фото отправлено");
-        }
+        if(data && data.url){ await loadMessages(friendId); toast(data.type === "audio" ? "Музыка отправлена" : "Фото отправлено"); }
       }catch(err){ toast(err.message||"Ошибка загрузки", "err"); }
     };
     input.click();
   }
 
-  // LIGHTBOX
   const lightbox = $("#lightbox"), lightboxImg = $("#lightboxImg"), lightboxDl = $("#lightboxDownload");
-  function openLightbox(src, name){
-    lightboxImg.src = src;
-    lightboxDl.href = src;
-    lightboxDl.setAttribute("download", name || "image.jpg");
-    lightbox.classList.add("open");
-  }
+  function openLightbox(src, name){ lightboxImg.src = src; lightboxDl.href = src; lightboxDl.setAttribute("download", name || "image.jpg"); lightbox.classList.add("open"); }
   function closeLightbox(){ lightbox.classList.remove("open"); lightboxImg.src = ""; }
   lightbox.addEventListener("click", (e)=>{ if(e.target === lightbox) closeLightbox(); });
   $("#lightboxClose").addEventListener("click", closeLightbox);
   document.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && lightbox.classList.contains("open")) closeLightbox(); });
 
-  // OAUTH RETURN
   async function handleOAuthReturn(){
-    const params = new URLSearchParams(location.search);
-    const token = params.get("token");
-    const error = params.get("error");
-    if(token){
-      setToken(token);
-      history.replaceState({}, "", location.origin + location.pathname);
-      try{
-        currentUser = await fetchMe();
-        if(currentUser){ renderProfile(); showApp(); loadFriends(); toast("Вход выполнен"); return true; }
-      }catch(e){ console.error(e); }
-    }
-    if(error){
-      history.replaceState({}, "", location.origin + location.pathname);
-      toast("Ошибка входа: " + error, "err");
-    }
+    const params = new URLSearchParams(location.search); const token = params.get("token"); const error = params.get("error");
+    if(token){ setToken(token); history.replaceState({}, "", location.origin + location.pathname); try{ currentUser = await fetchMe(); if(currentUser){ renderProfile(); showApp(); loadFriends(); toast("Вход выполнен"); return true; } }catch(e){} }
+    if(error){ history.replaceState({}, "", location.origin + location.pathname); toast("Ошибка входа: " + error, "err"); }
     return false;
   }
 
-  // BIND
   function bind(){
     $("#nickEditBtn").addEventListener("click", ()=>{
       const cur = (ensureUser(currentUser) || {}).nick || "";
-      openModal({
-        title: "Редактирование никнейма",
-        sub: "3–24 символа. Латиница, цифры, точка, дефис, подчёркивание.",
-        body: `<div class="field"><label for="nickInput">Никнейм</label>
-          <input class="input" id="nickInput" type="text" maxlength="24" value="${esc(cur)}" />
-          <div class="hint" id="nickHint">Введите никнейм.</div></div>`,
-        foot: `<button class="btn" id="nickCancel">Отмена</button>
-               <button class="btn primary" id="nickSave" disabled>Сохранить</button>`
-      });
+      openModal({ title: "Редактирование никнейма", sub: "3–24 символа. Латиница, цифры, точка, дефис, подчёркивание.",
+        body: `<div class="field"><label for="nickInput">Никнейм</label><input class="input" id="nickInput" type="text" maxlength="24" value="${esc(cur)}" /><div class="hint" id="nickHint">Введите никнейм.</div></div>`,
+        foot: `<button class="btn" id="nickCancel">Отмена</button><button class="btn primary" id="nickSave" disabled>Сохранить</button>` });
       const input = $("#nickInput"), hint = $("#nickHint"), saveBtn = $("#nickSave");
-      function validate(){
-        const v = input.value.trim();
-        const ok = NICK_RE.test(v);
-        hint.textContent = !v ? "Поле пустое." : (!ok ? "3–24 символа" : "Отлично.");
-        saveBtn.disabled = !ok || v === cur;
-        return ok;
-      }
-      input.addEventListener("input", validate);
-      validate();
+      function validate(){ const v = input.value.trim(); const ok = NICK_RE.test(v); hint.textContent = !v ? "Поле пустое." : (!ok ? "3–24 символа" : "Отлично."); saveBtn.disabled = !ok || v === cur; return ok; }
+      input.addEventListener("input", validate); validate();
       $("#nickCancel").addEventListener("click", closeModal);
-      saveBtn.addEventListener("click", async ()=>{
-        if(!validate()) return;
-        saveBtn.classList.add("loading"); saveBtn.disabled = true;
-        try{ await patchProfile({nick: input.value.trim()}); closeModal(); toast("Никнейм сохранён"); }
-        catch(err){ toast(err.message||"Ошибка", "err"); }
-        finally{ saveBtn.classList.remove("loading"); saveBtn.disabled=false; }
-      });
+      saveBtn.addEventListener("click", async ()=>{ if(!validate()) return; saveBtn.classList.add("loading"); saveBtn.disabled = true; try{ await patchProfile({nick: input.value.trim()}); closeModal(); toast("Никнейм сохранён"); }catch(err){ toast(err.message||"Ошибка", "err"); } finally{ saveBtn.classList.remove("loading"); saveBtn.disabled=false; } });
     });
     $("#avatarEditBtn").addEventListener("click", ()=> pickImage("avatar"));
     $("#bannerEditBtn").addEventListener("click", ()=> pickImage("banner"));
-    $("#bannerDelBtn").addEventListener("click", ()=>{
-      confirmModal({
-        title: "Удалить баннер?", sub: "Обложка будет заменена на нейтральный фон.",
-        confirmText: "Удалить",
-        onConfirm: async ()=>{ try{ await patchProfile({banner: null}); toast("Баннер удалён"); }catch(err){ toast(err.message||"Ошибка", "err"); } }
-      });
-    });
-    $("#logoutBtn").addEventListener("click", ()=>{
-      confirmModal({
-        title: "Выйти из аккаунта?", sub: "Сессия будет завершена.",
-        confirmText: "Выйти",
-        onConfirm: async ()=>{
-          try{ await api(EP.logout, {method:"POST"}); }catch(e){}
-          setToken(null); currentUser = null; showAuth(); toast("Вы вышли");
-        }
-      });
-    });
-    $("#deleteBtn").addEventListener("click", ()=>{
-      confirmModal({
-        title: "Удалить аккаунт?", sub: "Действие необратимо. Друзья и переписка будут удалены.",
-        confirmText: "Удалить аккаунт", danger: true,
-        onConfirm: async ()=>{
-          try{ await api(EP.del, {method:"DELETE"}); setToken(null); currentUser=null; showAuth(); toast("Аккаунт удалён"); }
-          catch(err){ toast(err.message||"Не удалось удалить", "err"); }
-        }
-      });
-    });
-    $("#refreshBtn").addEventListener("click", async ()=>{
-      const btn = $("#refreshBtn");
-      btn.classList.add("loading");
-      try{ currentUser = await fetchMe(); renderProfile(); await loadFriends(); toast("Обновлено"); }
-      catch(err){ toast(err.message||"Ошибка", "err"); }
-      finally{ btn.classList.remove("loading"); }
-    });
+    $("#bannerDelBtn").addEventListener("click", ()=>{ confirmModal({ title: "Удалить баннер?", sub: "Обложка будет заменена на нейтральный фон.", confirmText: "Удалить", onConfirm: async ()=>{ try{ await patchProfile({banner: null}); toast("Баннер удалён"); }catch(err){ toast(err.message||"Ошибка", "err"); } } }); });
+    $("#logoutBtn").addEventListener("click", ()=>{ confirmModal({ title: "Выйти из аккаунта?", sub: "Сессия будет завершена.", confirmText: "Выйти", onConfirm: async ()=>{ try{ await api(EP.logout, {method:"POST"}); }catch(e){} setToken(null); currentUser = null; showAuth(); toast("Вы вышли"); } }); });
+    $("#deleteBtn").addEventListener("click", ()=>{ confirmModal({ title: "Удалить аккаунт?", sub: "Действие необратимо. Друзья и переписка будут удалены.", confirmText: "Удалить аккаунт", danger: true, onConfirm: async ()=>{ try{ await api(EP.del, {method:"DELETE"}); setToken(null); currentUser=null; showAuth(); toast("Аккаунт удалён"); }catch(err){ toast(err.message||"Не удалось удалить", "err"); } } }); });
+    $("#refreshBtn").addEventListener("click", async ()=>{ const btn = $("#refreshBtn"); btn.classList.add("loading"); try{ currentUser = await fetchMe(); renderProfile(); await loadFriends(); toast("Обновлено"); }catch(err){ toast(err.message||"Ошибка", "err"); } finally{ btn.classList.remove("loading"); } });
   }
 
   async function boot(){
     bind(); setMode("login");
-    const handled = await handleOAuthReturn();
-    if(handled) return;
-    if(getToken()){
-      try{
-        currentUser = await fetchMe();
-        if(currentUser){ renderProfile(); showApp(); loadFriends(); return; }
-      }catch(e){}
-    }
-    showAuth();
-    reveal();
+    const handled = await handleOAuthReturn(); if(handled) return;
+    if(getToken()){ try{ currentUser = await fetchMe(); if(currentUser){ renderProfile(); showApp(); loadFriends(); return; } }catch(e){} }
+    showAuth(); reveal();
   }
-  window.addEventListener("pageshow", (e)=>{
-    if(e.persisted) handleOAuthReturn().then(ok=>{
-      if(!ok && getToken()) fetchMe().then(u=>{ if(u){ renderProfile(); showApp(); loadFriends(); } });
-    });
-  });
+  window.addEventListener("pageshow", (e)=>{ if(e.persisted) handleOAuthReturn().then(ok=>{ if(!ok && getToken()) fetchMe().then(u=>{ if(u){ renderProfile(); showApp(); loadFriends(); } }); }); });
   window.addEventListener("popstate", ()=>{ handleOAuthReturn(); });
-
   boot();
 })();
 </script>
