@@ -80,8 +80,8 @@
   .auth-shell{width:min(460px,100%)}
   .auth-glass{border-radius:28px;padding:34px 30px 30px;background:linear-gradient(180deg,rgba(255,255,255,0.09),rgba(255,255,255,0.025));border:1px solid var(--stroke-2);backdrop-filter:blur(34px) saturate(140%);-webkit-backdrop-filter:blur(34px) saturate(140%);box-shadow:var(--shadow-2),inset 0 1px 0 rgba(255,255,255,0.22)}
   .auth-brand{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:26px;text-align:center}
-  .auth-logo{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(160deg,rgba(255,255,255,0.22),rgba(255,255,255,0.05));border:1px solid var(--stroke-2);box-shadow:0 20px 46px -18px rgba(0,0,0,1)}
-  .auth-logo img{width:34px;height:34px;object-fit:contain;filter:brightness(0) invert(1)}
+  .auth-logo{ background-clip: padding-box; }
+  .auth-logo img{ display:block; }
   .auth-brand h1{margin:0;font-size:22px;font-weight:650}
   .auth-brand p{margin:0;font-size:12.5px;color:var(--text-3);max-width:300px}
   .tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid var(--stroke);margin-bottom:20px}
