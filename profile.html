@@ -8,80 +8,62 @@
 <link rel="icon" href="logo.ico" type="image/x-icon" />
 <style>
   :root{
-    --bg:#040404;--surface:#101010;
-    --stroke:rgba(255,255,255,0.12);--stroke-2:rgba(255,255,255,0.24);
+    --bg:#040404;--stroke:rgba(255,255,255,0.12);--stroke-2:rgba(255,255,255,0.24);
     --text:#fff;--text-2:#a8a8a8;--text-3:#666;
     --radius:26px;--radius-sm:16px;
     --shadow-1:0 1px 0 rgba(255,255,255,0.07) inset,0 24px 60px -24px rgba(0,0,0,0.95);
     --shadow-2:0 40px 100px -40px rgba(0,0,0,1);
     --ease:cubic-bezier(.22,.61,.36,1);--ease-out:cubic-bezier(.16,1,.3,1);
-    --font:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Manrope,sans-serif;
+    --font:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;
   }
   @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;
     src:url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2') format('woff2');}
   *,*::before,*::after{box-sizing:border-box}
-  html,body{height:100%}
   body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);
     -webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5;min-height:100vh}
   button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}
   input{font-family:inherit;color:inherit}
-  a{color:inherit;text-decoration:none}
   :focus-visible{outline:2px solid rgba(255,255,255,0.6);outline-offset:2px;border-radius:10px}
   [hidden]{display:none !important}
 
   .bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
-    background:radial-gradient(1200px 900px at 50% -20%,rgba(255,255,255,0.06),transparent 60%),
-      radial-gradient(900px 700px at 90% 110%,rgba(255,255,255,0.035),transparent 60%),var(--bg)}
-  .bg-layer::before{content:"";position:absolute;inset:0;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/></svg>");
-    mix-blend-mode:screen;opacity:.9}
-  .bg-grid{position:absolute;inset:0;opacity:.35;
-    background-image:linear-gradient(rgba(255,255,255,0.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.028) 1px,transparent 1px);
-    background-size:64px 64px;
-    mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,#000 30%,transparent 80%);
-    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,#000 30%,transparent 80%)}
-  .orb{position:absolute;border-radius:50%;filter:blur(90px);background:rgba(255,255,255,0.055);will-change:transform}
-  .orb.a{width:560px;height:560px;top:-180px;left:-140px;animation:float1 26s var(--ease) infinite alternate}
-  .orb.b{width:460px;height:460px;bottom:-180px;right:-120px;background:rgba(255,255,255,0.04);animation:float2 30s var(--ease) infinite alternate-reverse}
-  @keyframes float1{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(60px,40px,0) scale(1.12)}}
-  @keyframes float2{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-50px,-30px,0) scale(1.1)}}
+    background:radial-gradient(1200px 900px at 50% -20%,rgba(255,255,255,0.06),transparent 60%),var(--bg)}
+  .orb{position:absolute;border-radius:50%;filter:blur(90px);background:rgba(255,255,255,0.055)}
+  .orb.a{width:560px;height:560px;top:-180px;left:-140px}
+  .orb.b{width:460px;height:460px;bottom:-180px;right:-120px}
 
   .wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:36px 24px 96px}
   header.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}
-  .brand{display:flex;align-items:center;gap:12px;font-weight:650;letter-spacing:-.02em}
-  .brand .logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;position:relative;
+  .brand{display:flex;align-items:center;gap:12px;font-weight:650}
+  .brand .logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
     background:linear-gradient(160deg,rgba(255,255,255,0.16),rgba(255,255,255,0.03));
-    border:1px solid var(--stroke-2);box-shadow:var(--shadow-1);overflow:hidden}
+    border:1px solid var(--stroke-2);box-shadow:var(--shadow-1)}
   .brand .logo img{width:22px;height:22px;object-fit:contain;filter:brightness(0) invert(1)}
-  .brand small{display:block;font-weight:400;font-size:10.5px;color:var(--text-3);letter-spacing:.16em;text-transform:uppercase;margin-top:2px}
+  .brand small{display:block;font-size:10.5px;color:var(--text-3);letter-spacing:.16em;text-transform:uppercase;margin-top:2px}
 
   .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:start}
   @media (max-width:960px){.grid{grid-template-columns:1fr}}
 
-  .glass{position:relative;isolation:isolate;border-radius:var(--radius);
+  .glass{position:relative;border-radius:var(--radius);
     background:linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.028));
     border:1px solid var(--stroke);backdrop-filter:blur(28px) saturate(130%);
     -webkit-backdrop-filter:blur(28px) saturate(130%);box-shadow:var(--shadow-1);overflow:hidden}
-  .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
-    background:linear-gradient(180deg,rgba(255,255,255,0.2),transparent 34%),radial-gradient(120% 80% at 50% -20%,rgba(255,255,255,0.14),transparent 60%);
-    opacity:.75;mix-blend-mode:screen}
+  .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:linear-gradient(180deg,rgba(255,255,255,0.2),transparent 34%);opacity:.75;mix-blend-mode:screen}
   .glass > *{position:relative;z-index:1}
 
   .profile{overflow:visible}
   .banner{position:relative;height:250px;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;
-    background:radial-gradient(120% 120% at 20% 0%,rgba(255,255,255,0.10),transparent 55%),
-      radial-gradient(80% 80% at 90% 100%,rgba(255,255,255,0.06),transparent 60%),
-      repeating-linear-gradient(135deg,rgba(255,255,255,0.03) 0 1px,transparent 1px 16px),#0b0b0b}
-  .banner img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .6s var(--ease)}
+    background:repeating-linear-gradient(135deg,rgba(255,255,255,0.03) 0 1px,transparent 1px 16px),#0b0b0b}
+  .banner img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .6s}
   .banner img.loaded{opacity:1}
   .banner .banner-empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--text-3);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase}
   .banner-actions{position:absolute;top:14px;right:14px;display:flex;gap:8px;z-index:3}
 
   .avatar-wrap{position:relative;margin:-66px 0 0 32px;width:136px;height:136px;z-index:4}
   .avatar{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;
-    background:linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0.03)),#131313;
-    border:1px solid rgba(255,255,255,0.3);
-    box-shadow:0 0 0 7px rgba(4,4,4,0.95),0 22px 50px -14px rgba(0,0,0,0.95),inset 0 1px 0 rgba(255,255,255,0.28)}
+    background:#131313;border:1px solid rgba(255,255,255,0.3);
+    box-shadow:0 0 0 7px rgba(4,4,4,0.95),0 22px 50px -14px rgba(0,0,0,0.95)}
   .avatar img{width:100%;height:100%;object-fit:cover;display:block}
   .avatar .ph{position:absolute;inset:0;display:grid;place-items:center;color:#8d8d8d}
   .avatar .ph svg{width:54%;height:54%;stroke:currentColor;opacity:.85}
@@ -91,15 +73,14 @@
 
   .profile-body{padding:20px 32px 34px}
   .name-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  .name{font-size:31px;font-weight:650;letter-spacing:-.035em;line-height:1.1;margin:0}
-  .name-edit{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;border:1px solid transparent;color:var(--text-2)}
-  .name-edit:hover{background:rgba(255,255,255,0.06);border-color:var(--stroke);color:#fff}
+  .name{font-size:31px;font-weight:650;letter-spacing:-.035em;margin:0}
+  .name-edit{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;color:var(--text-2)}
+  .name-edit:hover{background:rgba(255,255,255,0.06);color:#fff}
   .name-edit svg{width:16px;height:16px;stroke:currentColor}
   .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
   .chip{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-2);padding:8px 13px;border-radius:999px;
     background:rgba(255,255,255,0.045);border:1px solid var(--stroke)}
-  .chip svg{width:14px;height:14px;stroke:currentColor;opacity:.85}
-  .chip .dot{width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,0.14)}
+  .chip .dot{width:6px;height:6px;border-radius:50%;background:#fff}
   .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.14),transparent);margin:24px 0}
   .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
   @media (max-width:580px){.stat-grid{grid-template-columns:1fr}}
@@ -107,14 +88,13 @@
   .stat .k{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
   .stat .v{margin-top:7px;font-size:14px;font-weight:550}
 
-  .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:24px 24px 0}
+  .panel-head{padding:24px 24px 0}
   .panel-head h2{margin:0;font-size:16px;font-weight:600}
   .panel-head p{margin:5px 0 0;font-size:12.5px;color:var(--text-3)}
   .panel-body{padding:20px 24px 26px;display:flex;flex-direction:column;gap:14px}
 
   .row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 16px;border-radius:var(--radius-sm);
-    background:rgba(255,255,255,0.03);border:1px solid var(--stroke);transition:.4s var(--ease)}
-  .row:hover{background:rgba(255,255,255,0.06);border-color:var(--stroke-2)}
+    background:rgba(255,255,255,0.03);border:1px solid var(--stroke)}
   .row .l{display:flex;align-items:center;gap:12px;min-width:0}
   .row .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:rgba(255,255,255,0.05);border:1px solid var(--stroke);flex:0 0 auto}
   .row .ic svg{width:17px;height:17px;stroke:#fff}
@@ -124,9 +104,8 @@
 
   .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;
     border-radius:13px;font-size:13px;font-weight:550;border:1px solid var(--stroke);
-    background:rgba(255,255,255,0.05);color:#fff;white-space:nowrap;overflow:hidden;isolation:isolate}
-  .btn:hover{background:rgba(255,255,255,0.1);border-color:var(--stroke-2)}
-  .btn:disabled{opacity:.4;cursor:not-allowed}
+    background:rgba(255,255,255,0.05);color:#fff;white-space:nowrap;isolation:isolate}
+  .btn:hover{background:rgba(255,255,255,0.1)}
   .btn.primary{background:#fff;color:#040404;border-color:#fff}
   .btn.sm{height:34px;padding:0 13px;font-size:12px;border-radius:11px}
   .btn.danger{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.2)}
@@ -139,27 +118,27 @@
   .field label{font-size:12px;color:var(--text-2);font-weight:500}
   .input{height:46px;width:100%;border-radius:13px;background:rgba(255,255,255,0.04);border:1px solid var(--stroke);
     padding:0 15px;font-size:14px;color:#fff}
-  .input:focus{outline:none;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.45);box-shadow:0 0 0 4px rgba(255,255,255,0.07)}
+  .input:focus{outline:none;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.45)}
   .input.error{border-color:rgba(255,255,255,0.6)}
   .hint{font-size:11.5px;color:var(--text-3)}
 
   #authScreen{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;overflow:auto}
-  .auth-shell{width:min(460px,100%);position:relative}
+  .auth-shell{width:min(460px,100%)}
   .auth-glass{border-radius:28px;padding:34px 30px 30px;
     background:linear-gradient(180deg,rgba(255,255,255,0.09),rgba(255,255,255,0.025));
     border:1px solid var(--stroke-2);backdrop-filter:blur(34px) saturate(140%);
     -webkit-backdrop-filter:blur(34px) saturate(140%);
     box-shadow:var(--shadow-2),inset 0 1px 0 rgba(255,255,255,0.22)}
   .auth-brand{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:26px;text-align:center}
-  .auth-logo{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;position:relative;
+  .auth-logo{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;overflow:hidden;
     background:linear-gradient(160deg,rgba(255,255,255,0.22),rgba(255,255,255,0.05));
-    border:1px solid var(--stroke-2);box-shadow:0 1px 0 rgba(255,255,255,0.35) inset,0 20px 46px -18px rgba(0,0,0,1);overflow:hidden}
+    border:1px solid var(--stroke-2);box-shadow:0 20px 46px -18px rgba(0,0,0,1)}
   .auth-logo img{width:34px;height:34px;object-fit:contain;filter:brightness(0) invert(1)}
   .auth-brand h1{margin:0;font-size:22px;font-weight:650;letter-spacing:-.03em}
   .auth-brand p{margin:0;font-size:12.5px;color:var(--text-3);max-width:300px}
 
   .tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid var(--stroke);margin-bottom:20px}
-  .tab{flex:1;height:38px;border-radius:10px;font-size:13px;font-weight:550;color:var(--text-2);transition:.3s var(--ease);display:grid;place-items:center}
+  .tab{flex:1;height:38px;border-radius:10px;font-size:13px;font-weight:550;color:var(--text-2);display:grid;place-items:center}
   .tab.active{background:rgba(255,255,255,0.92);color:#040404}
 
   .auth-form{display:flex;flex-direction:column;gap:14px}
@@ -168,21 +147,19 @@
   .auth-btns{display:flex;flex-direction:column;gap:10px}
   .auth-btn{display:flex;align-items:center;gap:12px;height:48px;padding:0 16px;border-radius:13px;
     border:1px solid var(--stroke-2);background:rgba(255,255,255,0.05);
-    font-size:13.5px;font-weight:550;width:100%}
+    font-size:13.5px;font-weight:550;width:100%;color:#fff}
   .auth-btn:hover{background:rgba(255,255,255,0.1)}
   .auth-btn svg{width:20px;height:20px;flex:0 0 auto}
   .auth-btn .arrow{margin-left:auto;opacity:.5;width:16px;height:16px;stroke:currentColor}
-  .auth-note{margin-top:18px;font-size:11px;color:var(--text-3);text-align:center;line-height:1.6}
 
   .overlay{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;
-    background:rgba(0,0,0,0.62);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    background:rgba(0,0,0,0.62);backdrop-filter:blur(12px);
     opacity:0;pointer-events:none;transition:opacity .4s var(--ease)}
   .overlay.open{opacity:1;pointer-events:auto}
   .modal{width:min(560px,100%);max-height:90vh;overflow:auto;
     background:linear-gradient(180deg,rgba(30,30,30,0.94),rgba(14,14,14,0.96));
     border:1px solid var(--stroke-2);border-radius:26px;
-    box-shadow:var(--shadow-2),inset 0 1px 0 rgba(255,255,255,0.16);
-    transform:translateY(20px) scale(.97);opacity:0;transition:.5s var(--ease-out)}
+    box-shadow:var(--shadow-2);transform:translateY(20px) scale(.97);opacity:0;transition:.5s var(--ease-out)}
   .overlay.open .modal{transform:none;opacity:1}
   .modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:24px 26px 0}
   .modal-head h3{margin:0;font-size:16px;font-weight:600}
@@ -200,19 +177,16 @@
   .zoom{display:flex;align-items:center;gap:12px;margin-top:16px}
   .zoom input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:999px;background:rgba(255,255,255,0.14);outline:none}
   .zoom input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;cursor:pointer}
-  .zoom input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:none;cursor:pointer}
 
   .toasts{position:fixed;right:24px;bottom:24px;z-index:120;display:flex;flex-direction:column;gap:10px;max-width:calc(100% - 48px)}
   .toast{display:flex;align-items:center;gap:12px;padding:13px 17px;border-radius:15px;
     background:rgba(18,18,18,0.94);border:1px solid var(--stroke-2);
-    backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-    box-shadow:0 24px 54px -22px rgba(0,0,0,1),inset 0 1px 0 rgba(255,255,255,0.12);
-    font-size:13px;color:#fff;transform:translateY(14px) scale(.98);opacity:0;transition:.5s var(--ease-out)}
+    backdrop-filter:blur(22px);font-size:13px;color:#fff;transform:translateY(14px) scale(.98);opacity:0;transition:.5s var(--ease-out)}
   .toast.show{transform:none;opacity:1}
   .toast svg{width:18px;height:18px;stroke:#fff;flex:0 0 auto}
 
-  .reveal{opacity:0;transform:translateY(22px);filter:blur(8px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out),filter .9s var(--ease-out)}
-  .reveal.in{opacity:1;transform:none;filter:none}
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+  .reveal.in{opacity:1;transform:none}
 
   @media (max-width:700px){
     .wrap{padding:20px 14px 84px}
@@ -222,42 +196,28 @@
     .name{font-size:24px}
     .panel-head{padding:20px 18px 0}
     .panel-body{padding:16px 18px 20px}
-    .row{padding:13px;gap:10px}
     .modal-foot{flex-direction:column-reverse}
     .modal-foot .btn{width:100%}
-    .btn{height:44px}
     .auth-glass{padding:28px 22px 24px}
-  }
-  @media (prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}
-    .reveal{opacity:1;transform:none;filter:none}
   }
 </style>
 </head>
 <body>
 
-<div class="bg-layer" aria-hidden="true">
-  <div class="bg-grid"></div>
-  <div class="orb a"></div><div class="orb b"></div>
-</div>
+<div class="bg-layer" aria-hidden="true"><div class="orb a"></div><div class="orb b"></div></div>
 
-<!-- AUTH SCREEN -->
 <div id="authScreen">
   <div class="auth-shell reveal">
     <div class="auth-glass">
       <div class="auth-brand">
-        <div class="auth-logo">
-          <img src="logo.ico" alt="ProxyGem" />
-        </div>
+        <div class="auth-logo"><img src="logo.ico" alt="ProxyGem" /></div>
         <h1>ProxyGem</h1>
-        <p>Войдите или создайте аккаунт, чтобы получить доступ к профилю.</p>
+        <p>Войдите или создайте аккаунт.</p>
       </div>
-
       <div class="tabs" role="tablist">
         <button class="tab active" id="tabLogin" role="tab" aria-selected="true">Вход</button>
         <button class="tab" id="tabRegister" role="tab" aria-selected="false">Регистрация</button>
       </div>
-
       <form class="auth-form" id="authForm" novalidate>
         <div class="field">
           <label for="authLogin">Логин</label>
@@ -278,9 +238,7 @@
           <span id="authSubmitLabel">Войти</span>
         </button>
       </form>
-
       <div class="auth-sep">или через</div>
-
       <div class="auth-btns">
         <button class="auth-btn" id="authTelegram" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -291,7 +249,6 @@
           <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
         <button class="auth-btn" id="authGoogle" type="button">
-          <!-- FIX: официальная "G" Google, белая -->
           <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true">
             <path fill="#ffffff" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
             <path fill="#ffffff" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
@@ -302,24 +259,18 @@
           <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
       </div>
-
-      <div class="auth-note">Пароль обрабатывается сервером.<br/>Клиент хранит только сессионный токен.</div>
     </div>
   </div>
 </div>
 
-<!-- APP -->
 <div class="wrap" id="app" hidden>
   <header class="topbar reveal">
     <div class="brand">
       <div class="logo"><img src="logo.ico" alt="ProxyGem" /></div>
       <div><div>ProxyGem</div><small>Profile &amp; Settings</small></div>
     </div>
-    <div class="top-actions">
-      <button class="btn ghost sm" id="refreshBtn">Обновить</button>
-    </div>
+    <div><button class="btn sm" id="refreshBtn">Обновить</button></div>
   </header>
-
   <div class="grid">
     <section class="glass profile reveal">
       <div class="banner" id="banner">
@@ -337,7 +288,7 @@
           </div>
           <img id="avatarImg" alt="Аватар" hidden />
         </div>
-        <button class="avatar-edit" id="avatarEditBtn" title="Изменить аватар">
+        <button class="avatar-edit" id="avatarEditBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16.5V20h3.5L18 9.5 14.5 6 4 16.5Z"/><path d="m13 7.5 3.5 3.5"/></svg>
         </button>
       </div>
@@ -361,25 +312,22 @@
         </div>
       </div>
     </section>
-
     <section class="glass reveal">
-      <div class="panel-head">
-        <div><h2>Настройки аккаунта</h2><p>Персональные данные и безопасность</p></div>
-      </div>
+      <div class="panel-head"><div><h2>Настройки аккаунта</h2><p>Персональные данные</p></div></div>
       <div class="panel-body">
         <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5S20 17 20 21"/></svg></div><div class="t"><b>Аватар</b><span>Изображение профиля</span></div></div><div class="r"><button class="btn sm" data-action="avatar">Изменить</button></div></div>
         <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 8 9 6 9-6"/></svg></div><div class="t"><b>Баннер</b><span>Обложка профиля</span></div></div><div class="r"><button class="btn sm" data-action="banner">Изменить</button></div></div>
         <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16.5V20h3.5L18 9.5 14.5 6 4 16.5Z"/><path d="m13 7.5 3.5 3.5"/></svg></div><div class="t"><b>Никнейм</b><span id="nickPreview">—</span></div></div><div class="r"><button class="btn sm" data-action="nick">Изменить</button></div></div>
         <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 3 10.5l7 2.5 2.5 7L21 3Z"/></svg></div><div class="t"><b>Telegram</b><span id="tgStatus">Не подключён</span></div></div><div class="r"><button class="btn sm" id="tgLinkBtn">Подключить</button></div></div>
         <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M21 12h-9"/><path d="M12 21a9 9 0 0 1 0-18"/></svg></div><div class="t"><b>Google</b><span id="ggStatus">Не подключён</span></div></div><div class="r"><button class="btn sm" id="ggLinkBtn">Подключить</button></div></div>
-        <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9"/><path d="M6 8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-2"/></svg></div><div class="t"><b>Управление аккаунтом</b><span>Выход и удаление</span></div></div><div class="r"><button class="btn sm" id="logoutBtn">Выйти</button><button class="btn sm danger" id="deleteBtn">Удалить</button></div></div>
+        <div class="row"><div class="l"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9"/><path d="M6 8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-2"/></svg></div><div class="t"><b>Управление</b><span>Выход и удаление</span></div></div><div class="r"><button class="btn sm" id="logoutBtn">Выйти</button><button class="btn sm danger" id="deleteBtn">Удалить</button></div></div>
       </div>
     </section>
   </div>
 </div>
 
 <div class="overlay" id="overlay" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" id="modal">
+  <div class="modal" id="modal">
     <div class="modal-head">
       <div><h3 id="modalTitle">Заголовок</h3><p id="modalSub">Описание</p></div>
       <button class="x" id="modalClose"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
@@ -436,17 +384,14 @@
     }
     const res = await fetch(path, {
       method, headers:h,
-      body: body ? (body instanceof FormData ? body : JSON.stringify(body)) : null,
-      credentials: "include"
+      body: body ? (body instanceof FormData ? body : JSON.stringify(body)) : null
     });
     let data = null;
     const ct = res.headers.get("content-type") || "";
     if(ct.includes("application/json")){ try{ data = await res.json(); }catch(e){} }
-    else { try{ data = await res.text(); }catch(e){} }
     if(!res.ok){
-      const msg = (data && (data.message || data.error || data.detail)) || ("Ошибка " + res.status);
-      const err = new Error(msg); err.status = res.status; err.data = data;
-      throw err;
+      const msg = (data && (data.message || data.error)) || ("Ошибка " + res.status);
+      const err = new Error(msg); err.status = res.status; throw err;
     }
     return data;
   }
@@ -541,29 +486,14 @@
     const login = authLogin.value.trim();
     const pass = authPass.value;
     const pass2 = authPass2.value;
-
-    let loginOk = false;
-    if(!login){ authLoginHint.textContent=""; }
-    else if(!NICK_RE.test(login)){ authLoginHint.textContent="3–24 символа: латиница, цифры, . _ -"; }
-    else { loginOk = true; authLoginHint.textContent=""; }
+    let loginOk = NICK_RE.test(login);
     authLogin.classList.toggle("error", !!login && !loginOk);
-
-    let passOk = false;
-    if(!pass){ authPassHint.textContent=""; }
-    else if(pass.length < 8){ authPassHint.textContent="Минимум 8 символов"; }
-    else { passOk = true; authPassHint.textContent=""; }
+    let passOk = pass.length >= 8 && pass.length <= 72;
     authPass.classList.toggle("error", !!pass && !passOk);
-
-    let pass2Ok = true;
-    if(pendingRegister){
-      pass2Ok = pass2.length >= 8 && pass2 === pass;
-      if(pass2 && pass2 !== pass){ authPass2Hint.textContent="Пароли не совпадают"; }
-      else { authPass2Hint.textContent=""; }
-      authPass2.classList.toggle("error", !!pass2 && !pass2Ok);
-    }
-
-    authSubmit.disabled = !(loginOk && passOk && (!pendingRegister || pass2Ok));
-    return loginOk && passOk && (!pendingRegister || pass2Ok);
+    let pass2Ok = !pendingRegister || (pass2.length >= 8 && pass2 === pass);
+    if(pendingRegister) authPass2.classList.toggle("error", !!pass2 && !pass2Ok);
+    authSubmit.disabled = !(loginOk && passOk && pass2Ok);
+    return loginOk && passOk && pass2Ok;
   }
   [authLogin, authPass, authPass2].forEach(el=> el.addEventListener("input", validateAuth));
 
@@ -590,25 +520,24 @@
     }finally{ authSubmit.classList.remove("loading"); authSubmit.disabled = false; }
   });
 
-  function startTelegram(){
-    // FIX: всегда возвращаемся на SITE
-    window.location.href = EP.tgStart + "?redirect=" + encodeURIComponent(SITE);
-  }
-  function startGoogle(){
-    window.location.href = EP.ggStart + "?redirect=" + encodeURIComponent(SITE);
-  }
+  function startTelegram(){ window.location.href = EP.tgStart + "?redirect=" + encodeURIComponent(SITE); }
+  function startGoogle(){ window.location.href = EP.ggStart + "?redirect=" + encodeURIComponent(SITE); }
   $("#authTelegram").addEventListener("click", startTelegram);
   $("#authGoogle").addEventListener("click", startGoogle);
 
-  async function fetchMe(){
-    try{
-      const data = await api(EP.me);
-      currentUser = (data && data.user) || data || null;
-      return currentUser;
-    }catch(err){
-      if(err.status === 401){ setToken(null); currentUser = null; return null; }
-      throw err;
+  async function fetchMe(retries=3){
+    for(let i=0; i<retries; i++){
+      try{
+        const data = await api(EP.me);
+        currentUser = (data && data.user) || data || null;
+        return currentUser;
+      }catch(err){
+        if(err.status === 401){ setToken(null); currentUser = null; return null; }
+        if(i < retries - 1) await new Promise(r=>setTimeout(r, 400));
+        else throw err;
+      }
     }
+    return null;
   }
 
   function ensureUser(u){
@@ -630,15 +559,12 @@
     $("#regDate").textContent = fmtDate(u.regDate);
     $("#statLogin").textContent = fmtDate(u.lastLogin);
     $("#statId").textContent = u.id || "—";
-
     const av = $("#avatarImg"), ph = $("#avatarPh");
     if(u.avatar){ av.src = u.avatar; av.hidden=false; ph.style.display="none"; }
     else { av.hidden=true; ph.style.display=""; }
-
     const bi = $("#bannerImg"), be = $("#bannerEmpty");
     if(u.banner){ bi.src = u.banner; bi.hidden=false; be.style.display="none"; bi.onload = ()=> bi.classList.add("loaded"); }
     else { bi.hidden=true; be.style.display=""; bi.classList.remove("loaded"); }
-
     const methods = [];
     if(u.telegram) methods.push("Telegram");
     if(u.google) methods.push("Google");
@@ -648,7 +574,6 @@
     $("#ggStatus").textContent = u.google ? "Подключён" : "Не подключён";
     $("#tgLinkBtn").textContent = u.telegram ? "Отключить" : "Подключить";
     $("#ggLinkBtn").textContent = u.google ? "Отключить" : "Подключить";
-
     let c = 0;
     if(u.nick) c++;
     if(u.avatar) c++;
@@ -684,7 +609,7 @@
       sub: "3–24 символа. Латиница, цифры, точка, дефис, подчёркивание.",
       body: `<div class="field"><label for="nickInput">Никнейм</label>
         <input class="input" id="nickInput" type="text" maxlength="24" value="${esc(cur)}" placeholder="username" />
-        <div class="hint" id="nickHint">Введите желаемый никнейм.</div></div>`,
+        <div class="hint" id="nickHint">Введите никнейм.</div></div>`,
       foot: `<button class="btn" id="nickCancel">Отмена</button>
              <button class="btn primary" id="nickSave" disabled>Сохранить</button>`
     });
@@ -692,7 +617,7 @@
     function validate(){
       const v = input.value.trim();
       const ok = NICK_RE.test(v);
-      hint.textContent = !v ? "Поле не может быть пустым." : (!ok ? "3–24 символа: латиница, цифры, . _ -" : "Отлично.");
+      hint.textContent = !v ? "Поле пустое." : (!ok ? "3–24 символа" : "Отлично.");
       input.classList.toggle("error", !!v && !ok);
       saveBtn.disabled = !ok || v === cur;
       return ok;
@@ -714,11 +639,11 @@
     return new Promise((resolve,reject)=>{
       if(!file) return reject(new Error("Файл не выбран"));
       const ok = ["image/png","image/jpeg","image/webp"];
-      if(!ok.includes(file.type)) return reject(new Error("PNG, JPG, JPEG, WEBP"));
+      if(!ok.includes(file.type)) return reject(new Error("PNG, JPG, WEBP"));
       if(file.size > MAX_MB*1024*1024) return reject(new Error("Файл больше " + MAX_MB + " МБ"));
       const fr = new FileReader();
       fr.onload = ()=> resolve(fr.result);
-      fr.onerror = ()=> reject(new Error("Не удалось прочитать файл"));
+      fr.onerror = ()=> reject(new Error("Не удалось прочитать"));
       fr.readAsDataURL(file);
     });
   }
@@ -728,9 +653,7 @@
       title, sub, wide:true,
       body: `<div class="crop-stage ${round?'round':''}" id="cropStage">
           <img id="cropImg" alt="Предпросмотр" /><div class="mask"></div></div>
-        <div class="zoom">
-          <input type="range" id="cropZoom" min="1" max="2.6" step="0.01" value="1" aria-label="Масштаб" />
-        </div>
+        <div class="zoom"><input type="range" id="cropZoom" min="1" max="2.6" step="0.01" value="1" /></div>
         <div class="hint" style="margin-top:12px">Перетаскивайте изображение. Ползунок — масштаб.</div>`,
       foot: `<button class="btn" id="cropCancel">Отмена</button>
              <button class="btn primary" id="cropApply">Применить</button>`
@@ -797,10 +720,10 @@
           sub: "Настройте кадрирование и масштаб.",
           onApply: async (result)=>{
             try{ await uploadImage(kind, result); toast(kind==="avatar" ? "Аватар обновлён" : "Баннер обновлён"); }
-            catch(err){ toast(err.message||"Ошибка загрузки", "err"); }
+            catch(err){ toast(err.message||"Ошибка", "err"); }
           }
         });
-      }catch(err){ toast(err.message||"Ошибка загрузки", "err"); }
+      }catch(err){ toast(err.message||"Ошибка", "err"); }
     };
     input.click();
   }
@@ -886,21 +809,19 @@
     });
   }
 
-  // FIX: обработка ?token= и ?error= из OAuth-редиректа
+  // FIX: обработка возврата с OAuth
   async function handleOAuthReturn(){
     const params = new URLSearchParams(location.search);
     const token = params.get("token");
     const error = params.get("error");
-    const provider = params.get("provider");
 
     if(token){
       setToken(token);
-      // очищаем URL, чтобы токен не оставался в истории
       history.replaceState({}, "", location.origin + location.pathname);
       try{
         currentUser = await fetchMe();
-        if(currentUser){ renderProfile(); showApp(); toast("Вход через " + (provider === "telegram" ? "Telegram" : "Google")); return true; }
-      }catch(e){ /* fallthrough */ }
+        if(currentUser){ renderProfile(); showApp(); toast("Вход выполнен"); return true; }
+      }catch(e){ console.error("fetchMe after OAuth:", e); }
     }
     if(error){
       history.replaceState({}, "", location.origin + location.pathname);
@@ -910,31 +831,37 @@
   }
 
   async function boot(){
-    bind(); reveal(); setMode("login");
+    bind(); setMode("login");
 
-    // 1) Если вернулись с OAuth — обрабатываем token из URL
+    // 1) Если вернулись с OAuth — обрабатываем токен
     const handled = await handleOAuthReturn();
     if(handled) return;
 
-    // 2) Если токен уже есть — проверяем сессию
+    // 2) Если токен уже есть — проверяем
     if(getToken()){
       try{
         currentUser = await fetchMe();
         if(currentUser){ renderProfile(); showApp(); return; }
-      }catch(e){ /* ignore */ }
+      }catch(e){}
     }
 
     // 3) Иначе — экран входа
     showAuth();
+    reveal();
   }
 
-  // FIX: повторная обработка после bfcache (Safari), popstate и visibilitychange
+  // FIX: возврат из bfcache (Safari), popstate, visibilitychange
   window.addEventListener("pageshow", (e)=>{
-    if(e.persisted){
-      handleOAuthReturn().then((ok)=>{ if(!ok && getToken()){ fetchMe().then(u=>{ if(u){ renderProfile(); showApp(); } }); } });
-    }
+    if(e.persisted) handleOAuthReturn().then(ok=>{
+      if(!ok && getToken()) fetchMe().then(u=>{ if(u){ renderProfile(); showApp(); } });
+    });
   });
   window.addEventListener("popstate", ()=>{ handleOAuthReturn(); });
+  document.addEventListener("visibilitychange", ()=>{
+    if(document.visibilityState === "visible" && getToken() && !currentUser){
+      handleOAuthReturn();
+    }
+  });
 
   boot();
 })();
