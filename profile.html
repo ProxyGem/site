@@ -166,7 +166,13 @@
 <div id="authScreen">
   <div class="auth-shell reveal">
     <div class="auth-glass">
-      <div class="auth-brand"><div class="auth-logo"><img src="logo.ico" alt="ProxyGem" /></div><h1>ProxyGem</h1><p>Войдите или создайте аккаунт.</p></div>
+      <div class="auth-brand">
+  <div class="auth-logo">
+    <img src="logo.ico" alt="ProxyGem" style="width: 98px; height: 98px;" />
+  </div>
+  <h1>ProxyGem</h1>
+  <p>Войдите или создайте аккаунт.</p>
+</div>
       <div class="tabs"><button class="tab active" id="tabLogin">Вход</button><button class="tab" id="tabRegister">Регистрация</button></div>
       <form class="auth-form" id="authForm" novalidate>
         <div class="field"><label for="authLogin">Логин</label><input class="input" id="authLogin" type="text" autocomplete="username" placeholder="Ваш логин" maxlength="24" /><div class="hint" id="authLoginHint"></div></div>
@@ -183,12 +189,6 @@
   </div>
 </div>
 
-<div class="wrap" id="app" hidden>
-  <header class="topbar reveal">
-    <div class="brand"><div class="logo"><img src="logo.ico" alt="ProxyGem" /></div><div><div>ProxyGem</div><small>Profile &amp; Friends</small></div></div>
-    <div><button class="btn sm" id="refreshBtn">Обновить</button></div>
-  </header>
-
   <div class="grid">
     <section class="glass profile reveal">
       <div class="banner" id="banner"><img id="bannerImg" alt="Баннер" hidden /><div class="banner-empty" id="bannerEmpty">Баннер не загружен</div><div class="banner-actions"><button class="btn sm" id="bannerEditBtn">Изменить</button><button class="btn sm" id="bannerDelBtn">Удалить</button></div></div>
@@ -200,6 +200,7 @@
     </section>
 
     <section class="glass reveal friends-panel">
+      <div><button class="btn sm" id="refreshBtn">Обновить</button></div>
       <div class="panel-head"><div><h2>Друзья</h2><p>Поиск по 7-значному ID, нику или логину</p></div></div>
       <div class="panel-body">
         <div class="add-friend"><input class="input" id="friendSearch" placeholder="7-значный ID, ник или логин" /><button class="btn sm" id="friendSearchBtn">Найти</button></div>
